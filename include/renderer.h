@@ -11,9 +11,9 @@ namespace gl {
         virtual ~Renderer();
 
         virtual void run();
+    protected:
         virtual void render(double current_time);
 
-    protected:
         Window &window;
     };
 }
