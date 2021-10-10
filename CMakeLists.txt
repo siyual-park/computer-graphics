@@ -67,7 +67,6 @@ set(
 		APPLICATION_LIB
 		)
 
-
 add_executable(
 		assignment_1
 		assignment_1/main.cpp assignment_1/callback.cpp assignment_1/renderer.cpp)
@@ -76,3 +75,10 @@ target_link_libraries(
 		${ALL_LIBS})
 
 set_target_properties(assignment_1 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_1/")
+
+add_custom_command(
+		TARGET assignment_1 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)

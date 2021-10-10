@@ -7,8 +7,8 @@
 class Renderer: public gl::Renderer {
 public:
     explicit Renderer(gl::Window &window): gl::Renderer{window}, program{} {
-        gl::VertexShader vertex_shader{"./shader/vertex-shader.glsl"};
-        gl::FragmentShader fragment_shader{"./shader/fragment-shader.glsl"};
+        gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
+        gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
 
         vertex_shader.compile();
         fragment_shader.compile();
