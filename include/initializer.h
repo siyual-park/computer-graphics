@@ -7,21 +7,15 @@ namespace gl {
         int minor;
     };
 
-    class Initializer {
-    public:
-        Initializer(Version& version);
-        Initializer(Version&& version);
-        virtual ~Initializer();
 
-        void init();
-        void load();
+    extern Version version;
 
-    protected:
-        Version version;
+    void setVersion(Version new_version);
+    void initWindowSystem();
+    void initGLLoader();
 
-        bool inited;
-        bool loaded;
-    };
+    extern bool inited_window_system;
+    extern bool inited_gl_loader;
 }
 
 #endif //OPENGLBOILERPLATE_INITIALIZER_H

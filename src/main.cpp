@@ -36,10 +36,9 @@ protected:
 
 int main(int argc, char *argv[])
 {
-    gl::Initializer initializer{{ .major = 3, .minor =  3 }};
-    initializer.init();
+    gl::setVersion(gl::Version{ .major = 3, .minor =  3 });
 
-    gl::Window window{initializer, "OpenGL", { .width = 1024, .height = 768 }};
+    gl::Window window{"OpenGL", { .width = 1024, .height = 768 }};
 
     auto &mouse_control = window.getMousePositionControl();
 

@@ -13,18 +13,16 @@ void glfwErrorHandle(int error, const char *description) {
     gl::errorHandle(gl::Error::GLFW, stringStream.str());
 }
 
-gl::Initializer::Initializer(gl::Version &version): version{version}, inited{false}, loaded{false} {
-}
-gl::Initializer::Initializer(gl::Version &&version): version{version}, inited{false}, loaded{false} {
+gl::Version gl::version{};
+bool gl::inited_window_system = false;
+bool gl::inited_gl_loader = false;
+
+void gl::setVersion(Version new_version) {
+    gl::version = new_version;
 }
 
-gl::Initializer::~Initializer() {
-    if (inited)
-        glfwTerminate();
-}
-
-void gl::Initializer::init() {
-    if (inited)
+void gl::initWindowSystem() {
+    if (inited_window_system)
         return;
 
     if (!glfwInit()) {
@@ -36,19 +34,18 @@ void gl::Initializer::init() {
 
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, version.major);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, version.minor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl::version.major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl::version.minor);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 #ifndef NDEBUG
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 #endif
 
-    inited = true;
+    inited_window_system = true;
 }
-
-void gl::Initializer::load() {
-    if (loaded)
+void gl::initGLLoader() {
+    if (inited_gl_loader)
         return;
 
     if (gl3wInit()) {
@@ -60,5 +57,5 @@ void gl::Initializer::load() {
         return;
     }
 
-    loaded = true;
+    inited_gl_loader = true;
 }

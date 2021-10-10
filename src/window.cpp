@@ -3,6 +3,7 @@
 #include <set>
 #include <GLFW/glfw3.h>
 
+#include "initializer.h"
 #include "error.h"
 
 std::set<gl::Window*> windows{};
@@ -19,33 +20,29 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     }
 }
 
-gl::Window::Window(Initializer &initializer, std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
-    initializer.load();
 }
-gl::Window::Window(Initializer &initializer, std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
-    initializer.load();
 }
-gl::Window::Window(Initializer &initializer, std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
-    initializer.load();
 }
-gl::Window::Window(Initializer &initializer, std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
-    initializer.load();
 }
 
 gl::Window::~Window() {
@@ -79,6 +76,8 @@ gl::Control<gl::MousePosition> &gl::Window::getMousePositionControl() {
 }
 
 void gl::Window::init() {
+    gl::initWindowSystem();
+
     context = glfwCreateWindow(size.width, size.height, title.c_str(), nullptr, nullptr);
     if (context == nullptr) {
         errorHandle(Error::GLFW, "Failed to open GLFW window.");
@@ -95,4 +94,6 @@ void gl::Window::init() {
     );
 
     windows.insert(this);
+
+    gl::initGLLoader();
 }
