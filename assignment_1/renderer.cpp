@@ -3,10 +3,13 @@
 #include "renderer.h"
 #include "program.h"
 #include "shader.h"
+#include "camera.h"
 
-class D: public gl::Renderer {
+#include "./scene.cpp"
+
+class Renderer: public gl::Renderer {
 public:
-    explicit Renderer(gl::Window &window): gl::Renderer{window}, program{} {
+    explicit Renderer(gl::Window &window): gl::Renderer{window}, scene{camera} {
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
         gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
 
@@ -21,11 +24,14 @@ public:
 
 private:
     void render(double delta_time) override {
-        program.use();
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        static const GLfloat BLACK[] = {0.0f, 0.0f, 0.0f, 0.0f};
-        glClearBufferfv(GL_COLOR, 0, BLACK);
+        program.use();
+        scene.draw(*this, program);
     }
 
     gl::Program program;
+    gl::Camera camera;
+    Scene scene;
 };
