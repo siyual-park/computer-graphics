@@ -6,6 +6,7 @@ gl::Program::Program(): BaseObject{} {
     name = static_cast<unsigned int>(glCreateProgram());
 }
 gl::Program::~Program() {
+    unuse();
     glDeleteProgram(getGLuint(name));
 }
 
