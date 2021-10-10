@@ -31,17 +31,15 @@ namespace gl {
         virtual void update();
         bool isClose();
 
-        Control<MousePosition> &getMousePositionControl();
-
         void* context;
 
         std::string title;
         Size size;
 
+        Control<MousePosition> mouse_position_control;
+
     protected:
         void init();
-
-        Control<MousePosition> mouse_position_control;
     };
 }
 

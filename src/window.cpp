@@ -11,9 +11,9 @@ std::set<gl::Window*> windows{};
 void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     gl::MousePosition position{ .x = x, .y = y };
 
-    for (auto window: windows) {
+    for (auto &window: windows) {
         if (window->context == glfw_window) {
-            for (auto callback: window->getMousePositionControl().callbacks) {
+            for (auto &callback: window->mouse_position_control.callbacks) {
                 callback->run(position);
             }
         }
@@ -69,10 +69,6 @@ void gl::Window::update() {
 bool gl::Window::isClose() {
     return glfwGetKey(static_cast<GLFWwindow *>(context), GLFW_KEY_ESCAPE) != GLFW_PRESS &&
            glfwWindowShouldClose(static_cast<GLFWwindow *>(context)) == 0;
-}
-
-gl::Control<gl::MousePosition> &gl::Window::getMousePositionControl() {
-    return mouse_position_control;
 }
 
 void gl::Window::init() {
