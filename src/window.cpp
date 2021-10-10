@@ -4,26 +4,26 @@
 #include "error.h"
 
 gl::Window::Window(std::string& title, Size &size): size{}, context{} {
-    title = title;
-    size = size;
+    this->title = title;
+    this->size = size;
 
     init();
 }
 gl::Window::Window(std::string&& title, Size &size): size{}, context{} {
-    title = title;
-    size = size;
+    this->title = title;
+    this->size = size;
 
     init();
 }
 gl::Window::Window(std::string& title, Size &&size): size{}, context{} {
-    title = title;
-    size = size;
+    this->title = title;
+    this->size = size;
 
     init();
 }
 gl::Window::Window(std::string&& title, Size &&size): size{}, context{} {
-    title = title;
-    size = size;
+    this->title = title;
+    this->size = size;
 
     init();
 }

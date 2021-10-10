@@ -46,8 +46,8 @@ target_link_libraries(
 
 set(
 		ALL_LIBS
-		${OPENGL_LIBRARY}
-		glfw)
+		APPLICATION_FILES
+		)
 
 
 add_executable(
