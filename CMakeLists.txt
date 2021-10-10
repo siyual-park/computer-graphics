@@ -30,7 +30,8 @@ set(
 		src/window.cpp
 		src/renderer.cpp
 		src/base-object.cpp
-		src/program.cpp)
+		src/program.cpp
+		src/mouse.cpp)
 
 set(
 		APPLICATION_HEADERS
