@@ -1,7 +1,3 @@
-//
-// Created by Kakao_Ent on 2021/10/10.
-//
-
 #ifndef OPENGLBOILERPLATE_ERROR_H
 #define OPENGLBOILERPLATE_ERROR_H
 
