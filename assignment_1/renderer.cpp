@@ -10,12 +10,13 @@ public:
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
         gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
 
+        program.attach(vertex_shader);
+        program.attach(fragment_shader);
+
         vertex_shader.compile();
         fragment_shader.compile();
 
-        program.attach(vertex_shader)
-                .attach(fragment_shader)
-                .link();
+        program.link();
     }
 
 private:
