@@ -23,6 +23,11 @@ namespace gl {
     protected:
         bool is_compiled{};
     };
+
+    using VertexShader = Shader<GL_VERTEX_SHADER>;
+    using FragmentShader = Shader<GL_FRAGMENT_SHADER>;
+    using TessellationControlShader = Shader<GL_TESS_CONTROL_SHADER>;
+    using TessellationEvaluationShader = Shader<GL_TESS_EVALUATION_SHADER>;
 }
 
 #include "shader-inc.h"
