@@ -24,6 +24,9 @@ public:
 };
 
 class Renderer: public gl::Renderer {
+public:
+    explicit Renderer(gl::Window &window): gl::Renderer{window} {}
+
     void render(double current_time) override {
         static const GLfloat RED[] = {1.0f, .0f, .0f, 1.0f};
         glClearBufferfv(GL_COLOR, 0, RED);
@@ -42,14 +45,9 @@ int main(int argc, char *argv[])
     PositionPrintCallback position_print_callback{};
     mouse_control.registerCallback(reinterpret_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
 
-    // Dark blue background
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    Renderer renderer{window};
 
-    do {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        window.update();
-    } while (window.isClose());
+    renderer.run();
 
     return 0;
 }
