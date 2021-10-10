@@ -68,8 +68,10 @@ set(
 
 
 add_executable(
-		application
-		src/main.cpp)
+		assignment_1
+		assignment_1/main.cpp)
 target_link_libraries(
-		application
+		assignment_1
 		${ALL_LIBS})
+
+set_target_properties(assignment_1 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_1/")
