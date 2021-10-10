@@ -12,11 +12,9 @@ namespace gl {
 
         virtual void run();
     protected:
-        virtual void render(double current_time);
+        virtual void render(double delta_time);
 
         Window &window;
-
-        unsigned int fps;
     };
 }
 

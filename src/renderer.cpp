@@ -3,34 +3,22 @@
 #include <chrono>
 
 gl::Renderer::Renderer(Window &window)
-        : window{window}, fps{0} {
+        : window{window} {
 }
 
 gl::Renderer::~Renderer() = default;
 
 void gl::Renderer::run() {
-    auto start_time = std::chrono::system_clock::now();
-    auto frame_start_time = std::chrono::system_clock::now();
-    
-    std::chrono::duration<double> current_time{};
-    std::chrono::duration<double> frame_current_time{};
-
-    unsigned int fps = 0;
+    auto last_frame_time = std::chrono::system_clock::now();
     do {
         auto now = std::chrono::system_clock::now();
 
-        current_time = now - start_time;
-        frame_current_time = now - frame_start_time;
+        std::chrono::duration<double> delta_time = now - last_frame_time;
 
-        fps++;
-        if (frame_current_time.count() >= 1.0) {
-            this->fps = fps;
-            frame_start_time = now;
-            fps = 0;
-        }
-
-        render(current_time.count());
+        render(delta_time.count());
         window.update();
+
+        last_frame_time = now;
 
     } while (window.isClose());
 }

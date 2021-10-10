@@ -37,3 +37,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 ### GL3W ###
 
 add_subdirectory(gl3w)
+
+### GLM ###
+
+add_subdirectory(glm)

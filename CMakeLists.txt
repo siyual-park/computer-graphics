@@ -60,6 +60,7 @@ target_link_libraries(
 		${OPENGL_LIBRARY}
 		gl3w
 		glfw
+		glm
 		)
 
 set(

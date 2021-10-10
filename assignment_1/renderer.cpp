@@ -20,13 +20,11 @@ public:
     }
 
 private:
-    void render(double current_time) override {
+    void render(double delta_time) override {
         program.use();
 
-        static const GLfloat RED[] = {1.0f, .0f, .0f, 1.0f};
-        glClearBufferfv(GL_COLOR, 0, RED);
-
-        program.unuse();
+        static const GLfloat BLACK[] = {0.0f, 0.0f, 0.0f, 0.0f};
+        glClearBufferfv(GL_COLOR, 0, BLACK);
     }
 
     gl::Program program;
