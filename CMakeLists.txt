@@ -41,7 +41,7 @@ set(
 		include/mouse.h
 		include/window.h
 		include/renderer.h
-)
+		include/base-object.h src/base-object.cpp)
 
 add_library(
 		APPLICATION_LIB STATIC
