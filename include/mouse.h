@@ -15,12 +15,13 @@ namespace gl {
         double y;
     };
 
-    class MousePositionOffsetControl: public Callback<MousePosition>, Control<MousePositionOffset> {
+    class MousePositionOffsetControl: public Callback<MousePosition>, public Control<MousePositionOffset> {
     public:
         void run(MousePosition value) override;
 
     protected:
         MousePosition last;
+        bool first = true;
     };
 }
 

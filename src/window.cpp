@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <set>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
 #include "initializer.h"
@@ -22,34 +23,42 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
 }
 
 void framebufferSizeCallback(GLFWwindow* glfw_window, int width, int height) {
+    gl::WindowSize size{ .width = width, .height = height };
+
     for (auto &window: windows) {
         if (window->context == glfw_window) {
             window->size.height = height;
             window->size.width = width;
+
+            glViewport(0, 0, width, height);
+
+            for (auto &callback: window->window_size_control.callbacks) {
+                callback->run(size);
+            }
         }
     }
 }
 
 
-gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string& title, WindowSize &size): size{}, context{}, mouse_position_control{}, window_size_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string&& title, WindowSize &size): size{}, context{}, mouse_position_control{}, window_size_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string& title, WindowSize &&size): size{}, context{}, mouse_position_control{}, window_size_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(std::string&& title, WindowSize &&size): size{}, context{}, mouse_position_control{}, window_size_control{} {
     this->title = title;
     this->size = size;
 
@@ -61,13 +70,13 @@ gl::Window::~Window() {
     windows.erase(this);
 }
 
-gl::Size gl::Window::getSize() const noexcept {
+gl::WindowSize gl::Window::getSize() const noexcept {
     return size;
 }
-void gl::Window::resize(gl::Size &size) {
+void gl::Window::resize(gl::WindowSize &size) {
     this->size = size;
 }
-void gl::Window::resize(gl::Size &&size) {
+void gl::Window::resize(gl::WindowSize &&size) {
     this->size = size;
 }
 

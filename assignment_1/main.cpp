@@ -16,12 +16,15 @@ int main() {
 
     Renderer renderer{window, scene};
 
-    PositionPrintCallback position_print_callback{};
     gl::MousePositionOffsetControl  mouse_position_offset_control{};
 
+    PositionPrintCallback position_print_callback{};
+    OffsetPrintCallback offset_print_callback{};
+
     auto &mouse_control = window.mouse_position_control;
-    mouse_control.registerCallback(static_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
-    mouse_control.registerCallback(static_cast<gl::Callback<gl::MousePosition>*>(&mouse_position_offset_control));
+    mouse_control.registerCallback(&mouse_position_offset_control);
+    mouse_control.registerCallback(&position_print_callback);
+    mouse_position_offset_control.registerCallback(&offset_print_callback);
 
     renderer.run();
 

@@ -9,7 +9,7 @@
 #include "mouse.h"
 
 namespace gl {
-    struct Size
+    struct WindowSize
     {
         int width;
         int height;
@@ -17,16 +17,16 @@ namespace gl {
 
     class Window {
     public:
-        Window(std::string& title, Size &size);
-        Window(std::string&& title, Size &size);
-        Window(std::string& title, Size &&size);
-        Window(std::string&& title, Size &&size);
+        Window(std::string& title, WindowSize &size);
+        Window(std::string&& title, WindowSize &size);
+        Window(std::string& title, WindowSize &&size);
+        Window(std::string&& title, WindowSize &&size);
 
         virtual ~Window();
 
-        Size getSize() const noexcept;
-        void resize(Size &size);
-        void resize(Size &&size);
+        WindowSize getSize() const noexcept;
+        void resize(WindowSize &size);
+        void resize(WindowSize &&size);
 
         virtual void update();
         bool isClose();
@@ -34,10 +34,10 @@ namespace gl {
         void* context;
 
         std::string title;
-        Size size;
+        WindowSize size;
 
         Control<MousePosition> mouse_position_control;
-
+        Control<WindowSize> window_size_control;
     protected:
         void init();
     };
