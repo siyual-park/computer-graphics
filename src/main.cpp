@@ -1,10 +1,10 @@
 #ifdef __APPLE__
 /* Defined before OpenGL and GLUT includes to avoid deprecation messages */
 #define GL_SILENCE_DEPRECATION
-#include <OpenGL/gl.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #else
-#include <GL/gl.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #endif
 
@@ -14,6 +14,7 @@
 #include "window.h"
 #include "callback.h"
 #include "mouse.h"
+#include "renderer.h"
 
 class PositionPrintCallback: public gl::Callback<gl::MousePosition> {
 public:
@@ -22,12 +23,19 @@ public:
     }
 };
 
+class Renderer: public gl::Renderer {
+    void render(double current_time) override {
+        static const GLfloat RED[] = {1.0f, .0f, .0f, 1.0f};
+        glClearBufferfv(GL_COLOR, 0, RED);
+    }
+};
+
 int main(int argc, char *argv[])
 {
     gl::Initializer initializer{{ .major = 3, .minor =  3 }};
     initializer.init();
 
-    gl::Window window{"OpenGL", { .width = 1024, .height = 768 }};
+    gl::Window window{initializer, "OpenGL", { .width = 1024, .height = 768 }};
 
     auto &mouse_control = window.getMousePositionControl();
 

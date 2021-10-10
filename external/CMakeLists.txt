@@ -1,3 +1,16 @@
+if(MSVC AND NOT "${MSVC_VERSION}" LESS 1400)
+	add_definitions( "/MP" )
+endif()
+
+
+add_definitions(
+		-DTW_STATIC
+		-DTW_NO_LIB_PRAGMA
+		-DTW_NO_DIRECT3D
+		-DGLEW_STATIC
+		-D_CRT_SECURE_NO_WARNINGS
+)
+
 ### GLFW ###
 
 add_subdirectory (glfw-3.3.4)
@@ -20,3 +33,7 @@ set(OPENGL_LIBRARY
 	${GLFW_LIBRARIES}
 )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+### GL3W ###
+
+add_subdirectory(gl3w)

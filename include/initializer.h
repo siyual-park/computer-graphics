@@ -14,11 +14,13 @@ namespace gl {
         virtual ~Initializer();
 
         void init();
+        void load();
 
     protected:
         Version version;
 
         bool inited;
+        bool loaded;
     };
 }
 

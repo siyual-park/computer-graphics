@@ -6,6 +6,7 @@
 namespace gl {
     enum Error {
         GLFW,
+        GL3W,
         GL,
     };
 

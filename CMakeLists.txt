@@ -18,7 +18,6 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(external)
 include_directories(
-		external/glfw-3.3.4/include
 		include
 		.)
 
@@ -28,7 +27,8 @@ set(
 		APPLICATION_SOURCES
 		src/error.cpp
 		src/initializer.cpp
-		src/window.cpp src/renderer.cpp)
+		src/window.cpp
+		src/renderer.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -39,7 +39,9 @@ set(
 		include/error.h
 		include/initializer.h
 		include/mouse.h
-		include/window.h include/renderer.h)
+		include/window.h
+		include/renderer.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC
@@ -49,7 +51,9 @@ add_library(
 target_link_libraries(
 		APPLICATION_LIB
 		${OPENGL_LIBRARY}
-		glfw)
+		gl3w
+		glfw
+		)
 
 set(
 		ALL_LIBS

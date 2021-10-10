@@ -4,18 +4,18 @@
 
 namespace gl {
     void errorHandle(int error, const std::string &description) {
-        std::string errorDescription{"Error["};
+        std::string error_description{"Error["};
         switch (error) {
-            case Error::GL:errorDescription.append("GL");
+            case Error::GL:error_description.append("GL");
                 break;
-            case Error::GLFW:errorDescription.append("GLFW");
+            case Error::GLFW:error_description.append("GLFW");
                 break;
-            default:errorDescription.append("Undefined");
+            default:error_description.append("Undefined");
                 break;
         }
-        errorDescription.append("]: ");
-        errorDescription.append(description);
+        error_description.append("]: ");
+        error_description.append(description);
 
-        throw std::runtime_error{errorDescription};
+        throw std::runtime_error{error_description};
     }
 }

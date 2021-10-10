@@ -1,7 +1,9 @@
 #include "initializer.h"
 
 #include <sstream>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+
 #include "error.h"
 
 void glfwErrorHandle(int error, const char *description) {
@@ -11,9 +13,9 @@ void glfwErrorHandle(int error, const char *description) {
     gl::errorHandle(gl::Error::GLFW, stringStream.str());
 }
 
-gl::Initializer::Initializer(gl::Version &version): version{version}, inited{false} {
+gl::Initializer::Initializer(gl::Version &version): version{version}, inited{false}, loaded{false} {
 }
-gl::Initializer::Initializer(gl::Version &&version): version{version}, inited{false} {
+gl::Initializer::Initializer(gl::Version &&version): version{version}, inited{false}, loaded{false} {
 }
 
 gl::Initializer::~Initializer() {
@@ -43,4 +45,20 @@ void gl::Initializer::init() {
 #endif
 
     inited = true;
+}
+
+void gl::Initializer::load() {
+    if (loaded)
+        return;
+
+    if (gl3wInit()) {
+        errorHandle(Error::GL3W, "Failed to initialize gl3w.");
+        return;
+    }
+    if (!gl3wIsSupported(version.major, version.minor)) {
+        errorHandle(Error::GL3W, "This version not supported.");
+        return;
+    }
+
+    loaded = true;
 }

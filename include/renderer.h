@@ -1,7 +1,6 @@
 #ifndef OPENGLBOILERPLATE_RENDERER_H
 #define OPENGLBOILERPLATE_RENDERER_H
 
-
 #include "window.h"
 
 namespace gl {

@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "initializer.h"
 #include "callback.h"
 #include "control.h"
 #include "mouse.h"
@@ -17,10 +18,10 @@ namespace gl {
 
     class Window {
     public:
-        Window(std::string& title, Size &size);
-        Window(std::string&& title, Size &size);
-        Window(std::string& title, Size &&size);
-        Window(std::string&& title, Size &&size);
+        Window(Initializer &initializer, std::string& title, Size &size);
+        Window(Initializer &initializer, std::string&& title, Size &size);
+        Window(Initializer &initializer, std::string& title, Size &&size);
+        Window(Initializer &initializer, std::string&& title, Size &&size);
 
         virtual ~Window();
 

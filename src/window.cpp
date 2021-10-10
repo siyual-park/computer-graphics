@@ -2,6 +2,7 @@
 
 #include <set>
 #include <GLFW/glfw3.h>
+
 #include "error.h"
 
 std::set<gl::Window*> windows{};
@@ -18,29 +19,33 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     }
 }
 
-gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(Initializer &initializer, std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
+    initializer.load();
 }
-gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(Initializer &initializer, std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
+    initializer.load();
 }
-gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(Initializer &initializer, std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
+    initializer.load();
 }
-gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
+gl::Window::Window(Initializer &initializer, std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
+    initializer.load();
 }
 
 gl::Window::~Window() {
