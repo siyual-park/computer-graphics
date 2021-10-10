@@ -3,6 +3,6 @@
 #include "initializer.h"
 
 gl::BaseObject::BaseObject()
-        : name{} {
+        : id{} {
     initGLLoader();
 }

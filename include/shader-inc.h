@@ -33,11 +33,11 @@ std::string getShaderSource(gl::Shader<T> &shader) {
 
 template <unsigned int T>
 void init(gl::Shader<T> &shader, std::string &path) {
-    shader.name = glCreateShader(shader.Type);
+    shader.id = glCreateShader(shader.Type);
 
     const std::string& shader_source{getShaderSource(shader)};
     const char *p_shader_source = shader_source.data();
-    glShaderSource(gl::getGLuint(shader.name), 1, &p_shader_source, nullptr);
+    glShaderSource(gl::getGLuint(shader.id), 1, &p_shader_source, nullptr);
 }
 
 template<unsigned int T>
@@ -52,7 +52,7 @@ gl::Shader<T>::Shader(std::string &&path): path{path}, BaseObject{} {
 
 template<unsigned int T>
 gl::Shader<T>::~Shader() {
-    glDeleteShader(getGLuint(name));
+    glDeleteShader(getGLuint(id));
 }
 
 template<unsigned int T>
@@ -61,19 +61,19 @@ void gl::Shader<T>::compile() {
         return;
     }
 
-    glCompileShader(getGLuint(name));
+    glCompileShader(getGLuint(id));
 
     int result;
     int log_length;
 
-    glGetShaderiv(getGLuint(name), GL_COMPILE_STATUS, &result);
-    glGetShaderiv(getGLuint(name), GL_INFO_LOG_LENGTH, &log_length);
+    glGetShaderiv(getGLuint(id), GL_COMPILE_STATUS, &result);
+    glGetShaderiv(getGLuint(id), GL_INFO_LOG_LENGTH, &log_length);
 
     if (log_length > 0) {
         std::string error_message{};
         error_message.resize(log_length + 1);
 
-        glGetShaderInfoLog(getGLuint(name),
+        glGetShaderInfoLog(getGLuint(id),
                            log_length,
                            nullptr,
                            const_cast<GLchar *>(error_message.c_str()));

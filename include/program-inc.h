@@ -11,7 +11,7 @@
 
 template<unsigned int T>
 gl::Program &gl::Program::attach(gl::Shader<T> &shader) {
-    glAttachShader(getGLuint(name), getGLuint(shader.name));
+    glAttachShader(getGLuint(id), getGLuint(shader.id));
 
     return *this;
 }

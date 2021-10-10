@@ -9,7 +9,7 @@ namespace gl {
         BaseObject();
         ~BaseObject() = default;
 
-        GLuint name;
+        GLuint id;
     };
 }
 
