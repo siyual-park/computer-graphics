@@ -1,8 +1,8 @@
 #ifndef OPENGLBOILERPLATE_WINDOW_H
 #define OPENGLBOILERPLATE_WINDOW_H
 
-#include <string>
 #include <set>
+#include <string>
 
 #include "mouse.h"
 #include "callback.h"
@@ -30,7 +30,7 @@ namespace gl {
         virtual void update();
         bool isClose();
 
-        Control<MouseCallback> mouse_control;
+        Control<MousePosition> mouse_control;
 
         void* context;
 

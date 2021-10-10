@@ -8,8 +8,17 @@
 #include <GLFW/glfw3.h>
 #endif
 
+#include <iostream>
+
 #include "initializer.h"
 #include "window.h"
+
+class PositionPrintCallback: public gl::MouseCallback {
+public:
+    void run(gl::MousePosition position) override {
+        std::cout << "X: " << position.x << ", Y: " << position.y << std::endl;
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +27,11 @@ int main(int argc, char *argv[])
     initializer.init();
 
     gl::Window window{"OpenGL", { .width = 1024, .height = 768 }};
+
+    auto mouse_control = window.mouse_control;
+
+    PositionPrintCallback position_print_callback{};
+    mouse_control.registerCallback(reinterpret_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);

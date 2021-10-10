@@ -4,12 +4,12 @@
 #include "callback.h"
 
 namespace gl {
-    struct Position {
+    struct MousePosition {
         double x;
         double y;
     };
 
-    class MouseCallback : public Callback<Position>{
+    class MouseCallback : public Callback<MousePosition>{
     };
 }
 

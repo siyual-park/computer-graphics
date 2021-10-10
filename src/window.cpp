@@ -6,16 +6,16 @@
 
 std::set<gl::Window*> windows{};
 
-void cursorPosCallback(GLFWwindow *window, double x, double y) {
-    gl::Position position{ .x = x, .y = y };
+void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
+    gl::MousePosition position{ .x = x, .y = y };
 
-    std::for_each(windows.begin(), windows.end(), [&position](gl::Window *window) {
-        if (window->context == window) {
-            std::for_each(window->mouse_control.callbacks.begin(), window->mouse_control.callbacks.end(), [&position](gl::MouseCallback *callback) {
+    for (auto window: windows) {
+        if (window->context == glfw_window) {
+            for (auto callback: window->mouse_control.callbacks) {
                 callback->run(position);
-            });
+            }
         }
-    });
+    }
 }
 
 gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_control{} {
