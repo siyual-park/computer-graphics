@@ -29,7 +29,8 @@ set(
 		src/initializer.cpp
 		src/window.cpp
 		src/renderer.cpp
-		src/base-object.cpp)
+		src/base-object.cpp
+		src/program.cpp)
 
 set(
 		APPLICATION_HEADERS

@@ -12,8 +12,8 @@ namespace gl {
             Type = T
         };
 
-        explicit Shader(std::string& path);
-        explicit Shader(std::string&& path);
+        Shader(std::string& path);
+        Shader(std::string&& path);
         virtual ~Shader();
 
         virtual void compile();
