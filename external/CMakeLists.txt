@@ -41,3 +41,7 @@ add_subdirectory(gl3w)
 ### GLM ###
 
 add_subdirectory(glm)
+
+### assimp ###
+
+add_subdirectory(assimp)

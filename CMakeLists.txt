@@ -32,7 +32,7 @@ set(
 		src/base-object.cpp
 		src/program.cpp
 		src/mouse.cpp
-		src/camera.cpp src/scene.cpp)
+		src/camera.cpp src/scene.cpp src/mesh.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -52,7 +52,9 @@ set(
 		include/program.h
 		include/program-inc.h
 		include/drawable.h
-		include/camera.h include/scene.h)
+		include/camera.h
+		include/scene.h
+		include/mesh.h)
 
 add_library(
 		APPLICATION_LIB STATIC
@@ -65,6 +67,7 @@ target_link_libraries(
 		gl3w
 		glfw
 		glm
+		assimp
 		)
 
 set(
