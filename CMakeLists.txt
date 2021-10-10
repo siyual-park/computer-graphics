@@ -31,7 +31,8 @@ set(
 		src/renderer.cpp
 		src/base-object.cpp
 		src/program.cpp
-		src/mouse.cpp)
+		src/mouse.cpp
+		src/camera.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -50,7 +51,8 @@ set(
 		include/cast.h
 		include/program.h
 		include/program-inc.h
-		include/drawable.h)
+		include/drawable.h
+		include/camera.h)
 
 add_library(
 		APPLICATION_LIB STATIC
