@@ -69,7 +69,7 @@ set(
 
 add_executable(
 		assignment_1
-		assignment_1/main.cpp)
+		assignment_1/main.cpp assignment_1/callback.cpp assignment_1/renderer.cpp)
 target_link_libraries(
 		assignment_1
 		${ALL_LIBS})
