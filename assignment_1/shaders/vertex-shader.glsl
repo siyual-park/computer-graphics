@@ -1,9 +1,11 @@
 #version 330 core
 
-void main() {
-  const vec4 vertices[] = vec4[](vec4(0.25, -0.25, 0.5, 1.0),
-                                 vec4(-0.25, 0.25, 0.5, 1.0),
-                                 vec4(0.25, 0.25, 0.5, 1.0));
+layout (location = 0) in vec3 aPos;
 
-  gl_Position = vertices[gl_VertexID];
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main() {
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
 }

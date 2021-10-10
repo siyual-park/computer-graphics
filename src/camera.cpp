@@ -1,5 +1,4 @@
 #include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/matrix_clip_space.hpp>
 #include "camera.h"
 
 gl::Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch): front{glm::vec3(0.0f, 0.0f, -1.0f)}, movement_speed{SPEED}, mouse_sensitivity{SENSITIVITY}, zoom{ZOOM} {
