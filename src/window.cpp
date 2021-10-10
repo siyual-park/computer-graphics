@@ -8,6 +8,7 @@
 
 std::set<gl::Window*> windows{};
 
+
 void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     gl::MousePosition position{ .x = x, .y = y };
 
@@ -19,6 +20,16 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
         }
     }
 }
+
+void framebufferSizeCallback(GLFWwindow* glfw_window, int width, int height) {
+    for (auto &window: windows) {
+        if (window->context == glfw_window) {
+            window->size.height = height;
+            window->size.width = width;
+        }
+    }
+}
+
 
 gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
@@ -87,6 +98,10 @@ void gl::Window::init() {
     glfwSetCursorPosCallback(
             static_cast<GLFWwindow *>(context),
             static_cast<GLFWcursorposfun>(cursorPosCallback)
+    );
+    glfwSetFramebufferSizeCallback(
+            static_cast<GLFWwindow *>(context),
+            framebufferSizeCallback
     );
 
     windows.insert(this);

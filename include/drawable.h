@@ -6,7 +6,7 @@
 namespace gl {
     class Drawable {
     public:
-        virtual void draw(Program &program) = 0;
+        virtual void draw(Program &program) {};
     };
 }
 

@@ -4,7 +4,7 @@
 #include "program.h"
 #include "shader.h"
 
-class Renderer: public gl::Renderer {
+class D: public gl::Renderer {
 public:
     explicit Renderer(gl::Window &window): gl::Renderer{window}, program{} {
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};

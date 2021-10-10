@@ -11,10 +11,10 @@ namespace gl {
         virtual ~Renderer();
 
         virtual void run();
-    protected:
-        virtual void render(double delta_time);
 
         Window &window;
+    protected:
+        virtual void render(double delta_time);
     };
 }
 

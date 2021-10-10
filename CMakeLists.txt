@@ -32,7 +32,7 @@ set(
 		src/base-object.cpp
 		src/program.cpp
 		src/mouse.cpp
-		src/camera.cpp)
+		src/camera.cpp src/scene.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -52,7 +52,7 @@ set(
 		include/program.h
 		include/program-inc.h
 		include/drawable.h
-		include/camera.h)
+		include/camera.h include/scene.h)
 
 add_library(
 		APPLICATION_LIB STATIC
