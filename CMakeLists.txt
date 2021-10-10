@@ -28,7 +28,8 @@ set(
 		src/error.cpp
 		src/initializer.cpp
 		src/window.cpp
-		src/renderer.cpp)
+		src/renderer.cpp
+		src/base-object.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -41,7 +42,9 @@ set(
 		include/mouse.h
 		include/window.h
 		include/renderer.h
-		include/base-object.h src/base-object.cpp)
+		include/base-object.h
+		include/shader.h
+		include/shader-inc.h include/cast.h)
 
 add_library(
 		APPLICATION_LIB STATIC

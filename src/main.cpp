@@ -15,6 +15,7 @@
 #include "callback.h"
 #include "mouse.h"
 #include "renderer.h"
+#include "shader.h"
 
 class PositionPrintCallback: public gl::Callback<gl::MousePosition> {
 public:

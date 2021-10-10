@@ -9,9 +9,6 @@ namespace gl {
         BaseObject();
         ~BaseObject() = default;
 
-        unsigned int getName() const;
-
-    protected:
         GLuint name;
     };
 }
