@@ -4,8 +4,8 @@
 #include <set>
 #include <string>
 
-#include "mouse.h"
 #include "callback.h"
+#include "mouse.h"
 
 namespace gl {
     struct Size

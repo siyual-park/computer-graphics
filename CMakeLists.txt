@@ -24,32 +24,34 @@ include_directories(
 
 set(
 		APPLICATION_SOURCES
+		src/callback.cpp
 		src/window.cpp
 		src/initializer.cpp
 		src/error.cpp
-		src/callback.cpp)
+		)
 
 set(
 		APPLICATION_HEADERS
+		include/callback.h
+		include/mouse.h
 		include/window.h
 		include/initializer.h
 		include/error.h
-		include/mouse.h
-		include/callback.h)
+		)
 
 add_library(
-		APPLICATION_FILES STATIC
-		${APPLICATION_SOURCES}
-		${APPLICATION_HEADERS})
+		APPLICATION_LIB STATIC
+		${APPLICATION_HEADERS}
+		${APPLICATION_SOURCES})
 
 target_link_libraries(
-		APPLICATION_FILES
+		APPLICATION_LIB
 		${OPENGL_LIBRARY}
 		glfw)
 
 set(
 		ALL_LIBS
-		APPLICATION_FILES
+		APPLICATION_LIB
 		)
 
 

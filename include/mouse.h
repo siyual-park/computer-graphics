@@ -8,9 +8,6 @@ namespace gl {
         double x;
         double y;
     };
-
-    class MouseCallback : public Callback<MousePosition>{
-    };
 }
 
 #endif //OPENGLBOILERPLATE_MOUSE_H
