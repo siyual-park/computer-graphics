@@ -20,8 +20,12 @@ public:
 
 private:
     void render(double current_time) override {
+        program.use();
+
         static const GLfloat RED[] = {1.0f, .0f, .0f, 1.0f};
         glClearBufferfv(GL_COLOR, 0, RED);
+
+        program.unuse();
     }
 
     gl::Program program;

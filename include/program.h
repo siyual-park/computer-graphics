@@ -13,8 +13,10 @@ namespace gl {
 
         template <unsigned int T>
         Program& attach(Shader<T>& shader);
+
         void link();
         void use();
+        void unuse();
     };
 }
 

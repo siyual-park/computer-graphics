@@ -15,3 +15,6 @@ void gl::Program::link() {
 void gl::Program::use() {
     glUseProgram(getGLuint(name));
 }
+void gl::Program::unuse() {
+    glUseProgram(0);
+}
