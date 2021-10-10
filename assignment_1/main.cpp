@@ -11,6 +11,11 @@ int main() {
 
     gl::Window window{"Assignment 1", { .width = 1024, .height = 768 }};
 
+    gl::Camera camera{};
+    Scene scene{camera};
+
+    Renderer renderer{window, scene};
+
     PositionPrintCallback position_print_callback{};
     gl::MousePositionOffsetControl  mouse_position_offset_control{};
 
@@ -18,10 +23,6 @@ int main() {
     mouse_control.registerCallback(static_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
     mouse_control.registerCallback(static_cast<gl::Callback<gl::MousePosition>*>(&mouse_position_offset_control));
 
-    gl::Camera camera{};
-    Scene scene{camera};
-
-    Renderer renderer{window, scene};
     renderer.run();
 
     return 0;
