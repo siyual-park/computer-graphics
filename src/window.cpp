@@ -11,32 +11,32 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
 
     for (auto window: windows) {
         if (window->context == glfw_window) {
-            for (auto callback: window->mouse_control.callbacks) {
+            for (auto callback: window->getMousePositionControl().callbacks) {
                 callback->run(position);
             }
         }
     }
 }
 
-gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_control{} {
+gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_control{} {
+gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_control{} {
+gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_control{} {
+gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_position_control{} {
     this->title = title;
     this->size = size;
 
@@ -69,6 +69,10 @@ bool gl::Window::isClose() {
            glfwWindowShouldClose(static_cast<GLFWwindow *>(context)) == 0;
 }
 
+gl::Control<gl::MousePosition> &gl::Window::getMousePositionControl() {
+    return mouse_position_control;
+}
+
 void gl::Window::init() {
     context = glfwCreateWindow(size.width, size.height, title.c_str(), nullptr, nullptr);
     if (context == nullptr) {
@@ -87,4 +91,3 @@ void gl::Window::init() {
 
     windows.insert(this);
 }
-

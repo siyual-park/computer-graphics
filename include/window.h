@@ -31,7 +31,7 @@ namespace gl {
         virtual void update();
         bool isClose();
 
-        Control<MousePosition> mouse_control;
+        Control<MousePosition> &getMousePositionControl();
 
         void* context;
 
@@ -40,6 +40,8 @@ namespace gl {
 
     protected:
         void init();
+
+        Control<MousePosition> mouse_position_control;
     };
 }
 
