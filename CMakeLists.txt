@@ -44,7 +44,10 @@ set(
 		include/renderer.h
 		include/base-object.h
 		include/shader.h
-		include/shader-inc.h include/cast.h)
+		include/shader-inc.h
+		include/cast.h
+		include/program.h
+		include/program-inc.h)
 
 add_library(
 		APPLICATION_LIB STATIC
