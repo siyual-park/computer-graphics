@@ -48,7 +48,8 @@ set(
 		include/shader-inc.h
 		include/cast.h
 		include/program.h
-		include/program-inc.h)
+		include/program-inc.h
+		include/drawable.h)
 
 add_library(
 		APPLICATION_LIB STATIC
