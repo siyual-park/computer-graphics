@@ -5,6 +5,7 @@
 #include <string>
 
 #include "callback.h"
+#include "control.h"
 #include "mouse.h"
 
 namespace gl {

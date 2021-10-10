@@ -22,22 +22,24 @@ include_directories(
 		include
 		.)
 
+# Compile internal dependencies
+
 set(
 		APPLICATION_SOURCES
-		src/callback.cpp
-		src/window.cpp
-		src/initializer.cpp
 		src/error.cpp
-		)
+		src/initializer.cpp
+		src/window.cpp)
 
 set(
 		APPLICATION_HEADERS
 		include/callback.h
-		include/mouse.h
-		include/window.h
-		include/initializer.h
+		include/callback-inc.h
+		include/control.h
+		include/control-inc.h
 		include/error.h
-		)
+		include/initializer.h
+		include/mouse.h
+		include/window.h)
 
 add_library(
 		APPLICATION_LIB STATIC
