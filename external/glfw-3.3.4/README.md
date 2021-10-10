@@ -77,7 +77,7 @@ more information.
 GLFW supports Windows XP and later and macOS 10.8 and later.  Linux and other
 Unix-like systems running the X Window System are supported even without
 a desktop environment or modern extensions, although some features require
-a running window or clipboard manager.  The OSMesa backend requires Mesa 6.3.
+a running window or clipboard control.  The OSMesa backend requires Mesa 6.3.
 
 See the [compatibility guide](http://www.glfw.org/docs/latest/compat.html)
 in the documentation for more information.

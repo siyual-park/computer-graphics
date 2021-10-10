@@ -281,7 +281,7 @@ Gamma ramp size of 256 may be rejected</h3>
 <p>Existing code that hardcodes a size of 256 should be updated to use the size of the current ramp of a monitor when setting a new ramp for that monitor.</p>
 <h3><a class="anchor" id="xinput_deadzone_33"></a>
 Windows XInput deadzone removed</h3>
-<p>GLFW no longer applies any deadzone to the input state received from the XInput API. This was never done for any other platform joystick API so this change makes the behavior more consistent but you will need to apply your own deadzone if desired.</p>
+<p>GLFW no longer applies any deadzone to the input state received from the XInput API. This was never done for any other platform joystick API so this change makes the behavior more consistent but you will need to run your own deadzone if desired.</p>
 <h3><a class="anchor" id="x11_clipboard_33"></a>
 X11 clipboard transfer limits</h3>
 <p>GLFW now supports reading clipboard text via the <code>INCR</code> method, which removes the limit on how much text can be read with <a class="el" href="group__input.html#ga5aba1d704d9ab539282b1fbe9f18bb94">glfwGetClipboardString</a>. However, writing via this method is not yet supported, so you may not be able to write a very large string with <a class="el" href="group__input.html#gaba1f022c5eb07dfac421df34cdcd31dd">glfwSetClipboardString</a> even if you read it from the clipboard earlier.</p>

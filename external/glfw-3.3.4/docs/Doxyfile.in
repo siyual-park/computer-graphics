@@ -758,7 +758,7 @@ INPUT_FILTER           =
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
 # basis.
-# Doxygen will compare the file name with each pattern and apply the
+# Doxygen will compare the file name with each pattern and run the
 # filter if there is a match.
 # The filters are a list of the form:
 # pattern=filter (like *.cpp=my_cpp_filter). See INPUT_FILTER for further

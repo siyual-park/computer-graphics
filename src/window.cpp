@@ -1,27 +1,42 @@
 #include "window.h"
 
+#include <set>
 #include <GLFW/glfw3.h>
 #include "error.h"
 
-gl::Window::Window(std::string& title, Size &size): size{}, context{} {
+std::set<gl::Window*> windows{};
+
+void cursorPosCallback(GLFWwindow *window, double x, double y) {
+    gl::Position position{ .x = x, .y = y };
+
+    std::for_each(windows.begin(), windows.end(), [&position](gl::Window *window) {
+        if (window->context == window) {
+            std::for_each(window->mouse_control.callbacks.begin(), window->mouse_control.callbacks.end(), [&position](gl::MouseCallback *callback) {
+                callback->run(position);
+            });
+        }
+    });
+}
+
+gl::Window::Window(std::string& title, Size &size): size{}, context{}, mouse_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &size): size{}, context{} {
+gl::Window::Window(std::string&& title, Size &size): size{}, context{}, mouse_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string& title, Size &&size): size{}, context{} {
+gl::Window::Window(std::string& title, Size &&size): size{}, context{}, mouse_control{} {
     this->title = title;
     this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, Size &&size): size{}, context{} {
+gl::Window::Window(std::string&& title, Size &&size): size{}, context{}, mouse_control{} {
     this->title = title;
     this->size = size;
 
@@ -30,6 +45,7 @@ gl::Window::Window(std::string&& title, Size &&size): size{}, context{} {
 
 gl::Window::~Window() {
     glfwDestroyWindow(static_cast<GLFWwindow *>(context));
+    windows.erase(this);
 }
 
 gl::Size gl::Window::getSize() const noexcept {
@@ -63,5 +79,12 @@ void gl::Window::init() {
 
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(static_cast<GLFWwindow *>(context), GLFW_STICKY_KEYS, GL_TRUE);
+
+    glfwSetCursorPosCallback(
+            static_cast<GLFWwindow *>(context),
+            static_cast<GLFWcursorposfun>(cursorPosCallback)
+    );
+
+    windows.insert(this);
 }
 

@@ -26,13 +26,14 @@ set(
 		APPLICATION_SOURCES
 		src/window.cpp
 		src/initializer.cpp
-		src/error.cpp)
+		src/error.cpp src/callback.cpp)
 
 set(
 		APPLICATION_HEADERS
 		include/window.h
 		include/initializer.h
-		include/error.h)
+		include/error.h
+		include/mouse.h include/callback.h)
 
 add_library(
 		APPLICATION_FILES STATIC

@@ -252,7 +252,7 @@ if relevant, the __output of `events`__ when reporting this kind of bug.  If
 this tool doesn't run on the machine, mention this instead.
 
 __X11:__ If possible, please include what desktop environment (e.g. GNOME,
-Unity, KDE) and/or window manager (e.g. Openbox, dwm, Window Maker) you are
+Unity, KDE) and/or window control (e.g. Openbox, dwm, Window Maker) you are
 running.  If the bug is related to keyboard input, please include any input
 method (e.g. ibus, SCIM) you are using.
 

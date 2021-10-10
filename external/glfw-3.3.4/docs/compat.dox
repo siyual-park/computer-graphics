@@ -29,33 +29,33 @@ X11 API; most importantly the
 (EWMH) standards.
 
 GLFW uses the `_MOTIF_WM_HINTS` window property to support borderless windows.
-If the running window manager does not support this property, the
+If the running window control does not support this property, the
 `GLFW_DECORATED` hint will have no effect.
 
 GLFW uses the ICCCM `WM_DELETE_WINDOW` protocol to intercept the user
-attempting to close the GLFW window.  If the running window manager does not
+attempting to close the GLFW window.  If the running window control does not
 support this protocol, the close callback will never be called.
 
-GLFW uses the EWMH `_NET_WM_PING` protocol, allowing the window manager notify
+GLFW uses the EWMH `_NET_WM_PING` protocol, allowing the window control notify
 the user when the application has stopped responding, i.e. when it has ceased to
-process events.  If the running window manager does not support this protocol,
+process events.  If the running window control does not support this protocol,
 the user will not be notified if the application locks up.
 
 GLFW uses the EWMH `_NET_WM_STATE_FULLSCREEN` window state to tell the window
-manager to make the GLFW window full screen.  If the running window manager does
+control to make the GLFW window full screen.  If the running window control does
 not support this state, full screen windows may not work properly.  GLFW has
-a fallback code path in case this state is unavailable, but every window manager
+a fallback code path in case this state is unavailable, but every window control
 behaves slightly differently in this regard.
 
 GLFW uses the EWMH `_NET_WM_BYPASS_COMPOSITOR` window property to tell a
-compositing window manager to un-redirect full screen GLFW windows.  If the
-running window manager uses compositing but does not support this property then
+compositing window control to un-redirect full screen GLFW windows.  If the
+running window control uses compositing but does not support this property then
 additional copying may be performed for each buffer swap of full screen windows.
 
 GLFW uses the
-[clipboard manager protocol](https://www.freedesktop.org/wiki/ClipboardManager/)
+[clipboard control protocol](https://www.freedesktop.org/wiki/ClipboardManager/)
 to push a clipboard string (i.e. selection) owned by a GLFW window about to be
-destroyed to the clipboard manager.  If there is no running clipboard manager,
+destroyed to the clipboard control.  If there is no running clipboard control,
 the clipboard string will be unavailable once the window has been destroyed.
 
 GLFW uses the
@@ -80,9 +80,9 @@ GLFW uses the XInput2 extension to provide raw, non-accelerated mouse motion
 when the cursor is disabled.  If the running X server does not support this
 extension, regular accelerated mouse motion will be used.
 
-GLFW uses both the XRender extension and the compositing manager to support
+GLFW uses both the XRender extension and the compositing control to support
 transparent window framebuffers.  If the running X server does not support this
-extension or there is no running compositing manager, the
+extension or there is no running compositing control, the
 `GLFW_TRANSPARENT_FRAMEBUFFER` framebuffer hint will have no effect.
 
 

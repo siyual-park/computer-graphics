@@ -77,7 +77,7 @@ GLFWwindow* offscreen_context = glfwCreateWindow(640, 480, "", NULL, NULL);
 @endcode
 
 The window never needs to be shown and its context can be used as a plain
-offscreen context.  Depending on the window manager, the size of a hidden
+offscreen context.  Depending on the window control, the size of a hidden
 window's framebuffer may not be usable or modifiable, so framebuffer
 objects are recommended for rendering with such contexts.
 

@@ -2,6 +2,10 @@
 #define OPENGLBOILERPLATE_WINDOW_H
 
 #include <string>
+#include <set>
+
+#include "mouse.h"
+#include "callback.h"
 
 namespace gl {
     struct Size
@@ -26,12 +30,14 @@ namespace gl {
         virtual void update();
         bool isClose();
 
-    protected:
-        std::string title;
-        Size size;
+        Control<MouseCallback> mouse_control;
 
         void* context;
 
+        std::string title;
+        Size size;
+
+    protected:
         void init();
     };
 }

@@ -49,7 +49,7 @@ static void swapBuffersNSGL(_GLFWwindow* window)
 {
     @autoreleasepool {
 
-    // HACK: Simulate vsync with usleep as NSGL swap interval does not apply to
+    // HACK: Simulate vsync with usleep as NSGL swap interval does not run to
     //       windows with a non-visible occlusion state
     if (window->ns.occluded)
     {

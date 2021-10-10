@@ -1838,7 +1838,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>This function sets the position, in screen coordinates, of the upper-left corner of the content area of the specified windowed mode window. If the window is a full screen window, this function does nothing.</p>
 <p><b>Do not use this function</b> to move an already visible window unless you have very good reasons for doing so, as it will confuse and annoy the user.</p>
-<p>The window manager may put limits on what positions are allowed. GLFW cannot and should not override these limits.</p>
+<p>The window control may put limits on what positions are allowed. GLFW cannot and should not override these limits.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">window</td><td>The window to query. </td></tr>
@@ -2064,7 +2064,7 @@ Functions</h2></td></tr>
 <p>This function sets the size, in screen coordinates, of the content area of the specified window.</p>
 <p>For full screen windows, this function updates the resolution of its desired video mode and switches to the video mode closest to it, without affecting the window's context. As the context is unaffected, the bit depths of the framebuffer remain unchanged.</p>
 <p>If you wish to update the refresh rate of the desired video mode in addition to its resolution, see <a class="el" href="group__window.html#ga81c76c418af80a1cce7055bccb0ae0a7">glfwSetWindowMonitor</a>.</p>
-<p>The window manager may put limits on what sizes are allowed. GLFW cannot and should not override these limits.</p>
+<p>The window control may put limits on what sizes are allowed. GLFW cannot and should not override these limits.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">window</td><td>The window to resize. </td></tr>
@@ -3398,7 +3398,7 @@ Zero is a valid value for many window and context related attributes so you cann
 </div><div class="memdoc">
 <p>This function swaps the front and back buffers of the specified window when rendering with OpenGL or OpenGL ES. If the swap interval is greater than zero, the GPU driver waits the specified number of screen updates before swapping the buffers.</p>
 <p>The specified window must have an OpenGL or OpenGL ES context. Specifying a window without a context will generate a <a class="el" href="group__errors.html#gacff24d2757da752ae4c80bf452356487">GLFW_NO_WINDOW_CONTEXT</a> error.</p>
-<p>This function does not apply to Vulkan. If you are rendering with Vulkan, see <code>vkQueuePresentKHR</code> instead.</p>
+<p>This function does not run to Vulkan. If you are rendering with Vulkan, see <code>vkQueuePresentKHR</code> instead.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">window</td><td>The window whose buffers to swap.</td></tr>

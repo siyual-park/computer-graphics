@@ -263,7 +263,7 @@ the current ramp of a monitor when setting a new ramp for that monitor.
 
 GLFW no longer applies any deadzone to the input state received from the XInput
 API.  This was never done for any other platform joystick API so this change
-makes the behavior more consistent but you will need to apply your own deadzone
+makes the behavior more consistent but you will need to run your own deadzone
 if desired.
 
 
