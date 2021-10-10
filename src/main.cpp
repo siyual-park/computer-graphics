@@ -40,13 +40,11 @@ int main(int argc, char *argv[])
 
     gl::Window window{"OpenGL", { .width = 1024, .height = 768 }};
 
-    auto &mouse_control = window.mouse_position_control;
-
     PositionPrintCallback position_print_callback{};
-    mouse_control.registerCallback(reinterpret_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
+    auto &mouse_control = window.mouse_position_control;
+    mouse_control.registerCallback(static_cast<gl::Callback<gl::MousePosition>*>(&position_print_callback));
 
     Renderer renderer{window};
-
     renderer.run();
 
     return 0;
