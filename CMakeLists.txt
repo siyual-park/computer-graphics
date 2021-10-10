@@ -28,7 +28,7 @@ set(
 		APPLICATION_SOURCES
 		src/error.cpp
 		src/initializer.cpp
-		src/window.cpp)
+		src/window.cpp src/renderer.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -39,7 +39,7 @@ set(
 		include/error.h
 		include/initializer.h
 		include/mouse.h
-		include/window.h)
+		include/window.h include/renderer.h)
 
 add_library(
 		APPLICATION_LIB STATIC
