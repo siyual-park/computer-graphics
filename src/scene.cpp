@@ -5,6 +5,8 @@ gl::Scene::Scene(Camera &camera): camera{camera}, children{} {
 }
 
 void gl::Scene::draw(Renderer &renderer, Program &program) {
+    camera.update();
+
     glm::mat4 projection = glm::perspective(
             glm::radians(camera.zoom),
             static_cast<float>(renderer.window.size.width) / static_cast<float>(renderer.window.size.height),

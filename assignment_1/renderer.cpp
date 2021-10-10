@@ -3,13 +3,12 @@
 #include "renderer.h"
 #include "program.h"
 #include "shader.h"
-#include "camera.h"
 
 #include "./scene.cpp"
 
 class Renderer: public gl::Renderer {
 public:
-    explicit Renderer(gl::Window &window): gl::Renderer{window}, scene{camera} {
+    explicit Renderer(gl::Window &window, Scene &scene): gl::Renderer{window}, scene{scene} {
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
         gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
 
@@ -32,6 +31,5 @@ private:
     }
 
     gl::Program program;
-    gl::Camera camera;
-    Scene scene;
+    Scene &scene;
 };
