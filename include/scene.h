@@ -9,31 +9,17 @@
 #include "program.h"
 
 namespace gl {
-    class Scene: public Drawable {
+    class Scene {
     public:
-        explicit Scene(Camera &camera, Renderer &renderer);
+        explicit Scene(Camera &camera);
 
-        void draw(Program &program) override;
+        void draw(Renderer &renderer, Program &program);
 
         void add(const Drawable& drawable);
 
     protected:
         Camera &camera;
-        Renderer &renderer;
-
         std::vector<Drawable> children;
-    };
-
-    class SceneRenderer: public Renderer {
-    public:
-        explicit SceneRenderer(Window& window);
-
-    protected:
-        void render(double delta_time) override;
-
-        Camera camera;
-        Scene scene;
-        Program program;
     };
 }
 
