@@ -15,6 +15,8 @@ namespace gl {
         virtual void render(double current_time);
 
         Window &window;
+
+        unsigned int fps;
     };
 }
 
