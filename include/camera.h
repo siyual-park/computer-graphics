@@ -6,8 +6,6 @@
 namespace gl {
     const float YAW         = -90.0f;
     const float PITCH       =  0.0f;
-    const float SPEED       =  2.5f;
-    const float SENSITIVITY =  0.1f;
     const float ZOOM        =  45.0f;
 
     enum CameraMovement {
@@ -34,8 +32,6 @@ namespace gl {
         float yaw;
         float pitch;
 
-        float movement_speed;
-        float mouse_sensitivity;
         float zoom;
     };
 }

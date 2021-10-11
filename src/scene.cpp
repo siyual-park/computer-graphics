@@ -1,7 +1,7 @@
 #include <glm/ext/matrix_clip_space.hpp>
 
-#include <GLFW/glfw3.h>
 #include "scene.h"
+#include <GLFW/glfw3.h>
 
 gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera{camera} {
     auto &window = renderer.window;

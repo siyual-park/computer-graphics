@@ -12,7 +12,7 @@ std::set<gl::Window*> windows{};
 gl::Window* findWindow(GLFWwindow *glfw_window) {
     for (auto &window: windows) {
         if (window->context == glfw_window) {
-            return (gl::Window *) &window;
+            return window;
         }
     }
 
@@ -25,7 +25,7 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
 
     auto window = findWindow(glfw_window);
     if (window != nullptr) {
-        for (auto &callback: window->mouse_position_control.callbacks) {
+        for (auto callback: window->mouse_position_control.callbacks) {
             callback->run(position);
         }
     }
@@ -41,7 +41,7 @@ void framebufferSizeCallback(GLFWwindow* glfw_window, int width, int height) {
 
         glViewport(0, 0, width, height);
 
-        for (auto &callback: window->window_size_control.callbacks) {
+        for (auto callback: window->window_size_control.callbacks) {
             callback->run(size);
         }
     }
@@ -52,7 +52,7 @@ void mouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mo
     if (window != nullptr) {
         gl::MouseButtonEvent enter{ .button = button, .action = action };
 
-        for (auto &callback: window->mouse_button_control.callbacks) {
+        for (auto callback: window->mouse_button_control.callbacks) {
             callback->run(enter);
         }
     }

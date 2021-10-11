@@ -7,7 +7,10 @@ void gl::MousePositionOffsetControl::run(gl::MousePosition value) {
         return;
     }
 
-    gl::MousePositionOffset offset = { .x = value.x = last.x, .y = last.y - value.y };
+    gl::MousePositionOffset offset = {
+            .x = value.x - last.x,
+            .y = last.y - value.y
+    };
     for (auto &callback: callbacks) {
         callback->run(offset);
     }
