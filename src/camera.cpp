@@ -11,7 +11,10 @@ gl::Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch): fr
 }
 
 glm::mat4 gl::Camera::getViewMatrix() const {
-    return glm::lookAt(position, position + front, up);
+    auto mat = glm::lookAt(position, position + front, up);
+    mat = glm::scale(mat, scale);
+
+    return mat;
 }
 
 void gl::Camera::update() {
@@ -22,6 +25,6 @@ void gl::Camera::update() {
     };
 
     front = glm::normalize(new_front);
-    right = glm::normalize(glm::cross(front, world_up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    right = glm::normalize(glm::cross(front, world_up));
     up = glm::normalize(glm::cross(right, front));
 }

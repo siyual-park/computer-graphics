@@ -38,7 +38,9 @@ public:
     }
 
     void onScroll(gl::ScrollOffset offset) override {
-        camera.zoom += static_cast<float>(offset.y);
+        const auto normalize_y = static_cast<float>(offset.y / renderer.window.size.height);
+
+        camera.scale += normalize_y;
     };
 
     void onMouseEnter(int button) override {

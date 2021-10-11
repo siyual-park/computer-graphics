@@ -21,6 +21,7 @@ namespace gl {
         glm::vec3 up{};
         glm::vec3 right{};
         glm::vec3 world_up{};
+        glm::vec3 scale = glm::vec3(1.0, 1.0, 1.0);
 
         float yaw;
         float pitch;
