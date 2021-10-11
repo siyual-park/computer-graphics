@@ -19,7 +19,8 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(external)
 include_directories(
 		include
-		.)
+		.
+)
 
 # Compile internal dependencies
 
@@ -72,7 +73,8 @@ set(
 add_library(
 		APPLICATION_LIB STATIC
 		${APPLICATION_HEADERS}
-		${APPLICATION_SOURCES})
+		${APPLICATION_SOURCES}
+)
 
 target_link_libraries(
 		APPLICATION_LIB
@@ -81,21 +83,23 @@ target_link_libraries(
 		glfw
 		glm
 		assimp
-		)
+)
 
 set(
 		ALL_LIBS
 		APPLICATION_LIB
-		)
+)
 
 add_executable(
 		assignment_1
 		assignment_1/main.cpp
-        assignment_1/renderer.cpp
-		assignment_1/scene.cpp)
+		assignment_1/renderer.cpp
+		assignment_1/scene.cpp
+)
 target_link_libraries(
 		assignment_1
-		${ALL_LIBS})
+		${ALL_LIBS}
+)
 
 set_target_properties(assignment_1 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_1/")
 
