@@ -57,6 +57,9 @@ public:
     void onScroll(gl::ScrollOffset offset) override {
         const auto normalize_y = static_cast<float>(offset.y / renderer.window.size.height);
 
+        if (normalize_y + glm::distance(glm::zero<glm::vec3>(), camera.scale) < 0.5) {
+            return;
+        }
         camera.scale += normalize_y;
     };
 
