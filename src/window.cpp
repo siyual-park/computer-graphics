@@ -9,15 +9,24 @@
 
 std::set<gl::Window*> windows{};
 
+gl::Window* findWindow(GLFWwindow *glfw_window) {
+    for (auto &window: windows) {
+        if (window->context == glfw_window) {
+            return (gl::Window *) &window;
+        }
+    }
+
+    return nullptr;
+}
+
 
 void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     gl::MousePosition position{ .x = x, .y = y };
 
-    for (auto &window: windows) {
-        if (window->context == glfw_window) {
-            for (auto &callback: window->mouse_position_control.callbacks) {
-                callback->run(position);
-            }
+    auto window = findWindow(glfw_window);
+    if (window != nullptr) {
+        for (auto &callback: window->mouse_position_control.callbacks) {
+            callback->run(position);
         }
     }
 }
@@ -25,42 +34,48 @@ void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
 void framebufferSizeCallback(GLFWwindow* glfw_window, int width, int height) {
     gl::WindowSize size{ .width = width, .height = height };
 
-    for (auto &window: windows) {
-        if (window->context == glfw_window) {
-            window->size.height = height;
-            window->size.width = width;
+    auto window = findWindow(glfw_window);
+    if (window != nullptr) {
+        window->size.height = height;
+        window->size.width = width;
 
-            glViewport(0, 0, width, height);
+        glViewport(0, 0, width, height);
 
-            for (auto &callback: window->window_size_control.callbacks) {
-                callback->run(size);
-            }
+        for (auto &callback: window->window_size_control.callbacks) {
+            callback->run(size);
+        }
+    }
+}
+
+void mouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mods) {
+    auto window = findWindow(glfw_window);
+    if (window != nullptr) {
+        gl::MouseButtonEvent enter{ .button = button, .action = action };
+
+        for (auto &callback: window->mouse_button_control.callbacks) {
+            callback->run(enter);
         }
     }
 }
 
 
-gl::Window::Window(std::string& title, WindowSize &size): size{}, context{}, mouse_position_control{}, window_size_control{} {
+gl::Window::Window(std::string& title, WindowSize &size): title{title}, size{size} {
     this->title = title;
-    this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, WindowSize &size): size{}, context{}, mouse_position_control{}, window_size_control{} {
+gl::Window::Window(std::string&& title, WindowSize &size): title{title}, size{size} {
     this->title = title;
-    this->size = size;
 
     init();
 }
-gl::Window::Window(std::string& title, WindowSize &&size): size{}, context{}, mouse_position_control{}, window_size_control{} {
+gl::Window::Window(std::string& title, WindowSize &&size): title{title}, size{size} {
     this->title = title;
-    this->size = size;
 
     init();
 }
-gl::Window::Window(std::string&& title, WindowSize &&size): size{}, context{}, mouse_position_control{}, window_size_control{} {
+gl::Window::Window(std::string&& title, WindowSize &&size): title{title}, size{size} {
     this->title = title;
-    this->size = size;
 
     init();
 }
@@ -111,6 +126,10 @@ void gl::Window::init() {
     glfwSetFramebufferSizeCallback(
             static_cast<GLFWwindow *>(context),
             framebufferSizeCallback
+    );
+    glfwSetMouseButtonCallback(
+            static_cast<GLFWwindow *>(context),
+            mouseButtonCallback
     );
 
     windows.insert(this);

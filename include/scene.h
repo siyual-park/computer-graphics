@@ -42,8 +42,8 @@ namespace gl {
         void add(Drawable& drawable);
 
     protected:
-        virtual void onMouseChange(MousePosition position) {};
-        virtual void onMouseChange(MousePositionOffset offset) {};
+        virtual void onMouseCursorChange(MousePosition position) {};
+        virtual void onMouseCursorChange(MousePositionOffset offset) {};
 
         Renderer &renderer;
         Camera &camera;

@@ -38,12 +38,12 @@ gl::SceneMousePositionCallback::SceneMousePositionCallback(gl::Scene &scene): sc
 }
 
 void gl::SceneMousePositionCallback::run(gl::MousePosition position) {
-    scene.onMouseChange(position);
+    scene.onMouseCursorChange(position);
 }
 
 gl::SceneMousePositionOffsetCallback::SceneMousePositionOffsetCallback(gl::Scene &scene): scene{scene} {
 }
 
 void gl::SceneMousePositionOffsetCallback::run(gl::MousePositionOffset offset) {
-    scene.onMouseChange(offset);
+    scene.onMouseCursorChange(offset);
 }

@@ -15,6 +15,11 @@ namespace gl {
         double y;
     };
 
+    struct MouseButtonEvent {
+        int button;
+        int action;
+    };
+
     class MousePositionOffsetControl: public Callback<MousePosition>, public Control<MousePositionOffset> {
     public:
         void run(MousePosition value) override;

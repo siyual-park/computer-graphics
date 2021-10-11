@@ -31,13 +31,15 @@ namespace gl {
         virtual void update();
         bool isClose();
 
-        void* context;
+        void* context{};
 
         std::string title;
         WindowSize size;
 
-        Control<MousePosition> mouse_position_control;
-        Control<WindowSize> window_size_control;
+        Control<MousePosition> mouse_position_control{};
+        Control<MouseButtonEvent> mouse_button_control{};
+
+        Control<WindowSize> window_size_control{};
     protected:
         void init();
     };

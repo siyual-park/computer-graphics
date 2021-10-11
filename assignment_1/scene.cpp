@@ -1,4 +1,5 @@
 #include <glm/ext/matrix_transform.hpp>
+
 #include "scene.h"
 #include "camera.h"
 #include "model.h"
@@ -9,11 +10,11 @@ public:
         add(model);
     }
 
-    void onMouseChange(gl::MousePosition position) override {
+    void onMouseCursorChange(gl::MousePosition position) override {
 
     }
 
-    void onMouseChange(gl::MousePositionOffset offset) override {
+    void onMouseCursorChange(gl::MousePositionOffset offset) override {
 
     }
 };
