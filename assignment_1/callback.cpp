@@ -11,7 +11,6 @@ public:
     }
 
     void run(gl::MousePosition position) override {
-        std::cout << "X: " << position.x << ", Y: " << position.y << std::endl;
     }
 
 protected:
@@ -26,10 +25,8 @@ public:
 
 
     void run(gl::MousePositionOffset offset) override {
-        std::cout << "X Offset: " << offset.x << ", Y Offset: " << offset.y << std::endl;
-
-        camera.yaw += offset.x;
-        camera.pitch += offset.y;
+//        camera.yaw += offset.x * 0.01;
+//        camera.pitch += offset.y * 0.01;
     }
 
 protected:

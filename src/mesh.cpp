@@ -38,6 +38,32 @@ gl::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices
     glBindVertexArray(0);
 }
 
+gl::Mesh::Mesh(gl::Mesh &&other) noexcept {
+    VAO = other.VAO;
+    VBO = other.VBO;
+    EBO = other.EBO;
+
+    vertices = std::move(other.vertices);
+    indices = std::move(other.indices);
+    textures = std::move(other.textures);
+
+    other.EBO = 0;
+    other.VBO = 0;
+    other.VAO = 0;
+}
+
+gl::Mesh::~Mesh() {
+    if (EBO != 0) {
+        glDeleteBuffers(1, &EBO);
+    }
+    if (VBO != 0) {
+        glDeleteBuffers(1, &VBO);
+    }
+    if (VAO != 0) {
+        glDeleteBuffers(1, &VAO);
+    }
+}
+
 void gl::Mesh::draw(gl::Program &program) {
     unsigned int diffuse_nr = 1;
     unsigned int specular_nr = 1;
@@ -66,10 +92,4 @@ void gl::Mesh::draw(gl::Program &program) {
     glBindVertexArray(0);
 
     glActiveTexture(GL_TEXTURE0);
-}
-
-gl::Mesh::~Mesh() {
-    glDeleteBuffers(1, &EBO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteVertexArrays(1, &VAO);
 }

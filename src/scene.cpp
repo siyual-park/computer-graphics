@@ -11,12 +11,11 @@ void gl::Scene::draw(Renderer &renderer, Program &program) {
             glm::radians(camera.zoom),
             static_cast<float>(renderer.window.size.width) / static_cast<float>(renderer.window.size.height),
             0.1f,
-            100.0f
+            1000.0f
     );
+    glm::mat4 view = camera.getViewMatrix();
 
     program.setMat4("projection", projection);
-
-    glm::mat4 view = camera.getViewMatrix();
     program.setMat4("view", view);
 
     for (auto &child: children) {

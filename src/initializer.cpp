@@ -13,6 +13,14 @@ void glfwErrorHandle(int error, const char *description) {
     gl::errorHandle(gl::Error::GLFW, stringStream.str());
 }
 
+#ifndef NDEBUG
+void glErrorHandle(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+                   const GLchar *message, const void *userParam) {
+    // Print, log, whatever based on the enums and message
+    gl::errorHandle(gl::Error::GL, message);
+}
+#endif
+
 gl::Version gl::version{};
 bool gl::inited_window_system = false;
 bool gl::inited_gl_loader = false;
@@ -38,8 +46,8 @@ void gl::initWindowSystem() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl::version.minor);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-#ifndef NDEBUG
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
     inited_window_system = true;
@@ -56,6 +64,19 @@ void gl::initGLLoader() {
         errorHandle(Error::GL3W, "This version not supported.");
         return;
     }
+
+#ifndef NDEBUG
+    GLint flags;
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(glErrorHandle, nullptr);
+
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    }
+#endif
 
     inited_gl_loader = true;
 }

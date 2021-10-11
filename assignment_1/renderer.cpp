@@ -9,21 +9,23 @@
 class Renderer: public gl::Renderer {
 public:
     explicit Renderer(gl::Window &window, Scene &scene): gl::Renderer{window}, scene{scene} {
+        glEnable(GL_DEPTH_TEST);
+
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
         gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
 
-        program.attach(vertex_shader);
-        program.attach(fragment_shader);
-
         vertex_shader.compile();
         fragment_shader.compile();
+
+        program.attach(vertex_shader);
+        program.attach(fragment_shader);
 
         program.link();
     }
 
 private:
     void render(double delta_time) override {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.use();
