@@ -13,7 +13,7 @@ int main() {
     gl::Window window{"Assignment 1", { .width = 1024, .height = 768 }};
 
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
-    gl::Model backpack{"./resources/objects/backpack/backpack.obj"};
+    gl::Model backpack{"model", "./resources/objects/backpack/backpack.obj"};
 
     Scene scene{camera, backpack};
 

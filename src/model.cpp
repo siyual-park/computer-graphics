@@ -42,20 +42,23 @@ unsigned int textureFromFile(const char *path, std::string &directory) {
     return texture_id;
 }
 
-gl::Model::Model(std::string &path) {
-    stbi_set_flip_vertically_on_load(true);
-
-    Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-        gl::errorHandle(gl::GL, importer.GetErrorString());
-        return;
-    }
-
-    directory = path.substr(0, path.find_last_of('/'));
-    processNode(scene->mRootNode, scene);
+gl::Model::Model(std::string &name, std::string &path): name{name}, translation{glm::vec3(0.0, 0.0, 0.0)}, scale{glm::vec3(1.0, 1.0, 1.0)} {
+    init(path);
 }
-gl::Model::Model(std::string &&path) {
+
+gl::Model::Model(std::string &name, std::string &&path): name{name}, translation{glm::vec3(0.0, 0.0, 0.0)}, scale{glm::vec3(1.0, 1.0, 1.0)} {
+    init(path);
+}
+
+gl::Model::Model(std::string &&name, std::string &path): name{name}, translation{glm::vec3(0.0, 0.0, 0.0)}, scale{glm::vec3(1.0, 1.0, 1.0)} {
+    init(path);
+}
+
+gl::Model::Model(std::string &&name, std::string &&path): name{name}, translation{glm::vec3(0.0, 0.0, 0.0)}, scale{glm::vec3(1.0, 1.0, 1.0)} {
+    init(path);
+}
+
+void gl::Model::init(std::string &path) {
     stbi_set_flip_vertically_on_load(true);
 
     Assimp::Importer importer;
@@ -77,9 +80,11 @@ gl::Model::~Model() {
 
 void gl::Model::draw(gl::Program &program) {
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    program.setMat4("model", model);
+
+    model = glm::translate(model, translation);
+    model = glm::scale(model, scale);
+
+    program.setMat4(name, model);
 
     for (auto &mesh: meshes) {
         mesh.draw(program);
