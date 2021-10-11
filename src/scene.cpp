@@ -31,6 +31,7 @@ void gl::Scene::draw(Program &program) {
 
     program.setMat4("projection", projection);
     program.setMat4("view", view);
+    program.setVec3("viewPos", camera.position);
 
     for (auto &child: children) {
         child->draw(program);
