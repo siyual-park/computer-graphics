@@ -27,13 +27,8 @@ public:
         if (enter_button == GLFW_MOUSE_BUTTON_1) {
             camera.position += glm::vec3(normalize_x, normalize_y, 0.0f);
         } else if (enter_button == GLFW_MOUSE_BUTTON_2) {
-            camera.yaw += normalize_x * 90;
-            camera.pitch += normalize_y * 90;
-
-            if (camera.pitch > 89.0f)
-                camera.pitch =  89.0f;
-            if (camera.pitch < -89.0f)
-                camera.pitch = -89.0f;
+            world.mat = glm::rotate(world.mat, glm::radians(normalize_x * 90), glm::vec3(1.0, 0, 0));
+            world.mat = glm::rotate(world.mat, glm::radians(normalize_y * 90), glm::vec3(0, 1.0, 0));
         }
     }
 

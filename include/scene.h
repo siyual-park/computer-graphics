@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "renderer.h"
 #include "program.h"
+#include "world.h"
 #include "mouse.h"
 
 namespace gl {
@@ -72,6 +73,7 @@ namespace gl {
 
         Renderer &renderer;
         Camera &camera;
+        World world{};
 
         std::vector<Drawable*> children{};
 

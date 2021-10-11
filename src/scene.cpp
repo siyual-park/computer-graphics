@@ -19,6 +19,7 @@ gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera
 
 void gl::Scene::draw(Program &program) {
     camera.update();
+    world.draw(program);
 
     glm::mat4 projection = glm::perspective(
             glm::radians(camera.zoom),

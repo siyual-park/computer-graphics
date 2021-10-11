@@ -34,7 +34,7 @@ set(
 		src/mouse.cpp
 		src/camera.cpp
 		src/scene.cpp
-		src/mesh.cpp src/model.cpp)
+		src/mesh.cpp src/model.cpp src/world.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -57,7 +57,9 @@ set(
 		include/camera.h
 		include/scene.h
 		include/mesh.h
-		include/model.h include/stb_image.h)
+		include/model.h
+		include/stb_image.h
+		include/world.h)
 
 add_library(
 		APPLICATION_LIB STATIC
