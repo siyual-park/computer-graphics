@@ -1,12 +1,18 @@
 #include <glm/ext/matrix_clip_space.hpp>
+
+#include <GLFW/glfw3.h>
 #include "scene.h"
 
-gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera{camera}, children{}, scene_mouse_position_callback{*this}, scene_mouse_position_offset_callback{*this} {
+gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera{camera} {
     auto &window = renderer.window;
-    auto &mouse_control = window.mouse_position_control;
+    auto &mouse_position_control = window.mouse_position_control;
+    auto &mouse_button_control = window.mouse_button_control;
 
-    mouse_control.registerCallback(&mouse_position_offset_control);
-    mouse_control.registerCallback(&scene_mouse_position_callback);
+    mouse_position_control.registerCallback(&mouse_position_offset_control);
+    mouse_position_control.registerCallback(&scene_mouse_position_callback);
+
+    mouse_button_control.registerCallback(&scene_mouse_button_callback);
+
     mouse_position_offset_control.registerCallback(&scene_mouse_position_offset_callback);
 }
 
@@ -34,7 +40,6 @@ void gl::Scene::add(gl::Drawable& drawable) {
 }
 
 gl::SceneMousePositionCallback::SceneMousePositionCallback(gl::Scene &scene): scene{scene} {
-
 }
 
 void gl::SceneMousePositionCallback::run(gl::MousePosition position) {
@@ -46,4 +51,16 @@ gl::SceneMousePositionOffsetCallback::SceneMousePositionOffsetCallback(gl::Scene
 
 void gl::SceneMousePositionOffsetCallback::run(gl::MousePositionOffset offset) {
     scene.onMouseCursorChange(offset);
+}
+
+gl::SceneMouseButtonCallback::SceneMouseButtonCallback(gl::Scene &scene): scene{scene} {
+}
+
+void gl::SceneMouseButtonCallback::run(gl::MouseButtonEvent event) {
+    if (event.action == GLFW_PRESS) {
+        scene.onMouseEnter(event.button);
+    }
+    if (event.action == GLFW_RELEASE) {
+        scene.onMouseRelease(event.button);
+    }
 }

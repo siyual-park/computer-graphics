@@ -30,10 +30,20 @@ namespace gl {
         Scene &scene;
     };
 
+    class SceneMouseButtonCallback: public Callback<MouseButtonEvent> {
+    public:
+        explicit SceneMouseButtonCallback(Scene &scene);
+        void run(MouseButtonEvent event) override;
+
+    protected:
+        Scene &scene;
+    };
+
     class Scene: public Drawable {
     public:
         friend SceneMousePositionCallback;
         friend SceneMousePositionOffsetCallback;
+        friend SceneMouseButtonCallback;
 
         explicit Scene(Renderer &renderer, Camera &camera);
 
@@ -45,16 +55,20 @@ namespace gl {
         virtual void onMouseCursorChange(MousePosition position) {};
         virtual void onMouseCursorChange(MousePositionOffset offset) {};
 
+        virtual void onMouseEnter(int button) {};
+        virtual void onMouseRelease(int button) {};
+
         Renderer &renderer;
         Camera &camera;
 
-        std::vector<Drawable*> children;
+        std::vector<Drawable*> children{};
 
     private:
         MousePositionOffsetControl mouse_position_offset_control{};
 
-        SceneMousePositionCallback scene_mouse_position_callback;
-        SceneMousePositionOffsetCallback scene_mouse_position_offset_callback;
+        SceneMousePositionCallback scene_mouse_position_callback{*this};
+        SceneMousePositionOffsetCallback scene_mouse_position_offset_callback{*this};
+        SceneMouseButtonCallback scene_mouse_button_callback{*this};
     };
 }
 
