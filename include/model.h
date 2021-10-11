@@ -23,8 +23,11 @@ namespace gl {
 
         std::string name;
 
-        glm::vec3 translation;
-        glm::vec3 scale;
+        glm::vec3 translation = glm::vec3(0.0, 0.0, 0.0);
+        glm::vec3 scale = glm::vec3(1.0, 1.0, 1.0);
+
+        float angle = glm::radians(0.0f);
+        glm::vec3 rotate_axis = glm::vec3(1.0f, 1.0f, 1.0f);
     protected:
         std::vector<Texture> textures_loaded;
         std::vector<Mesh> meshes;

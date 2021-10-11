@@ -15,6 +15,8 @@ int main() {
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Model backpack{"model", "./resources/objects/backpack/backpack.obj"};
 
+    backpack.scale = glm::vec3(0.5, 0.5, 0.5);
+
     Scene scene{camera, backpack};
 
     Renderer renderer{window, scene};
