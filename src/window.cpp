@@ -58,6 +58,17 @@ void mouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mo
     }
 }
 
+void scrollCallback(GLFWwindow* glfw_window, double x, double y) {
+    gl::ScrollOffset offset{ .x = x, .y = y };
+
+    auto window = findWindow(glfw_window);
+    if (window != nullptr) {
+        for (auto callback: window->scroll_control.callbacks) {
+            callback->run(offset);
+        }
+    }
+}
+
 
 gl::Window::Window(std::string& title, WindowSize &size): title{title}, size{size} {
     this->title = title;
@@ -130,6 +141,10 @@ void gl::Window::init() {
     glfwSetMouseButtonCallback(
             static_cast<GLFWwindow *>(context),
             mouseButtonCallback
+    );
+    glfwSetScrollCallback(
+            static_cast<GLFWwindow *>(context),
+            scrollCallback
     );
 
     windows.insert(this);

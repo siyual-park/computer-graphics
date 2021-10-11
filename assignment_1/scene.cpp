@@ -37,6 +37,10 @@ public:
         }
     }
 
+    void onScroll(gl::ScrollOffset offset) override {
+        camera.zoom += static_cast<float>(offset.y);
+    };
+
     void onMouseEnter(int button) override {
         is_mouse_enter = true;
         enter_button = button;
@@ -44,6 +48,7 @@ public:
     void onMouseRelease(int button) override {
         is_mouse_enter = false;
     };
+
 
 private:
     bool is_mouse_enter{false};

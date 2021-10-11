@@ -39,6 +39,8 @@ namespace gl {
         Control<MousePosition> mouse_position_control{};
         Control<MouseButtonEvent> mouse_button_control{};
 
+        Control<ScrollOffset> scroll_control{};
+
         Control<WindowSize> window_size_control{};
     protected:
         void init();

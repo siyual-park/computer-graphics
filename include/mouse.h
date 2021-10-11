@@ -20,6 +20,11 @@ namespace gl {
         int action;
     };
 
+    struct ScrollOffset {
+        double x;
+        double y;
+    };
+
     class MousePositionOffsetControl: public Callback<MousePosition>, public Control<MousePositionOffset> {
     public:
         void run(MousePosition value) override;

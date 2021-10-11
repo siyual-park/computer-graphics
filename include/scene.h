@@ -39,11 +39,21 @@ namespace gl {
         Scene &scene;
     };
 
+    class SceneScrollCallback: public Callback<ScrollOffset> {
+    public:
+        explicit SceneScrollCallback(Scene &scene);
+        void run(ScrollOffset offset) override;
+
+    protected:
+        Scene &scene;
+    };
+
     class Scene: public Drawable {
     public:
         friend SceneMousePositionCallback;
         friend SceneMousePositionOffsetCallback;
         friend SceneMouseButtonCallback;
+        friend SceneScrollCallback;
 
         explicit Scene(Renderer &renderer, Camera &camera);
 
@@ -58,6 +68,8 @@ namespace gl {
         virtual void onMouseEnter(int button) {};
         virtual void onMouseRelease(int button) {};
 
+        virtual void onScroll(ScrollOffset offset) {};
+
         Renderer &renderer;
         Camera &camera;
 
@@ -69,6 +81,7 @@ namespace gl {
         SceneMousePositionCallback scene_mouse_position_callback{*this};
         SceneMousePositionOffsetCallback scene_mouse_position_offset_callback{*this};
         SceneMouseButtonCallback scene_mouse_button_callback{*this};
+        SceneScrollCallback scene_scroll_callback{*this};
     };
 }
 

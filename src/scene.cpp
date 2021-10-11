@@ -7,11 +7,12 @@ gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera
     auto &window = renderer.window;
     auto &mouse_position_control = window.mouse_position_control;
     auto &mouse_button_control = window.mouse_button_control;
+    auto &scroll_control = window.scroll_control;
 
     mouse_position_control.registerCallback(&mouse_position_offset_control);
     mouse_position_control.registerCallback(&scene_mouse_position_callback);
-
     mouse_button_control.registerCallback(&scene_mouse_button_callback);
+    scroll_control.registerCallback(&scene_scroll_callback);
 
     mouse_position_offset_control.registerCallback(&scene_mouse_position_offset_callback);
 }
@@ -63,4 +64,12 @@ void gl::SceneMouseButtonCallback::run(gl::MouseButtonEvent event) {
     if (event.action == GLFW_RELEASE) {
         scene.onMouseRelease(event.button);
     }
+}
+
+gl::SceneScrollCallback::SceneScrollCallback(gl::Scene &scene): scene{scene} {
+
+}
+
+void gl::SceneScrollCallback::run(gl::ScrollOffset offset) {
+    scene.onScroll(offset);
 }
