@@ -166,7 +166,7 @@ gl::Mesh gl::Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-    return Mesh{vertices, indices, textures};
+    return Mesh{name, vertices, indices, textures};
 }
 
 std::vector<gl::Texture> gl::Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string &&type_name) {

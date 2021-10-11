@@ -29,12 +29,14 @@ namespace gl {
 
     class Mesh: public Drawable {
     public:
-        Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
+        Mesh(std::string &name, std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures);
         Mesh(Mesh &&other) noexcept;
 
         virtual ~Mesh();
 
         void draw(Program &program) override;
+
+        std::string name;
 
         std::vector<Vertex>       vertices;
         std::vector<unsigned int> indices;

@@ -3,7 +3,7 @@
 #include <GL/gl3w.h>
 #include "cast.h"
 
-gl::Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures): vertices{vertices}, indices{indices}, textures{textures} {
+gl::Mesh::Mesh(std::string &name, std::vector<Vertex> &vertices, std::vector<unsigned int> &indices, std::vector<Texture> &textures): name{name}, vertices{vertices}, indices{indices}, textures{textures} {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -43,6 +43,8 @@ gl::Mesh::Mesh(gl::Mesh &&other) noexcept {
     VBO = other.VBO;
     EBO = other.EBO;
 
+    name = std::move(other.name);
+
     vertices = std::move(other.vertices);
     indices = std::move(other.indices);
     textures = std::move(other.textures);
@@ -72,18 +74,20 @@ void gl::Mesh::draw(gl::Program &program) {
 
     for (unsigned int i = 0; i < textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
+
         std::string number;
-        std::string name = textures[i].type;
-        if (name == "texture_diffuse")
+        std::string name = this->name + "_" + textures[i].type;
+        if (textures[i].type == "texture_diffuse")
             number = std::to_string(diffuse_nr++);
-        else if (name == "texture_specular")
+        else if (textures[i].type == "texture_specular")
             number = std::to_string(specular_nr++);
-        else if (name == "texture_normal")
+        else if (textures[i].type == "texture_normal")
             number = std::to_string(normal_nr++);
-        else if (name == "texture_height")
+        else if (textures[i].type == "texture_height")
             number = std::to_string(height_nr++);
 
-        glUniform1i(glGetUniformLocation(program.id, (name + number).c_str()), getGLint(i));
+        program.setInt(name + number, getGLint(i));
+
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
 
