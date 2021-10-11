@@ -25,7 +25,7 @@ public:
         const auto normalize_y = static_cast<float>(offset.y / renderer.window.size.height);
 
         if (enter_button == GLFW_MOUSE_BUTTON_1) {
-            model.translation += glm::vec3(normalize_x * 2, normalize_y * 2, 0.0f);
+            camera.position += glm::vec3(normalize_x, normalize_y, 0.0f);
         } else if (enter_button == GLFW_MOUSE_BUTTON_2) {
             camera.yaw += normalize_x * 90;
             camera.pitch += normalize_y * 90;
