@@ -32,7 +32,9 @@ set(
 		src/base-object.cpp
 		src/program.cpp
 		src/mouse.cpp
-		src/camera.cpp src/scene.cpp src/mesh.cpp)
+		src/camera.cpp
+		src/scene.cpp
+		src/mesh.cpp src/model.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -54,7 +56,8 @@ set(
 		include/drawable.h
 		include/camera.h
 		include/scene.h
-		include/mesh.h)
+		include/mesh.h
+		include/model.h include/stb_image.h)
 
 add_library(
 		APPLICATION_LIB STATIC
