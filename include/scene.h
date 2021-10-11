@@ -7,19 +7,54 @@
 #include "camera.h"
 #include "renderer.h"
 #include "program.h"
+#include "mouse.h"
 
 namespace gl {
-    class Scene {
-    public:
-        explicit Scene(Camera &camera);
+    class Scene;
 
-        virtual void draw(Renderer &renderer, Program &program);
+    class SceneMousePositionCallback: public Callback<MousePosition> {
+    public:
+        explicit SceneMousePositionCallback(Scene &scene);
+        void run(MousePosition position) override;
+
+    protected:
+        Scene &scene;
+    };
+
+    class SceneMousePositionOffsetCallback: public Callback<MousePositionOffset> {
+    public:
+        explicit SceneMousePositionOffsetCallback(Scene &scene);
+        void run(MousePositionOffset offset) override;
+
+    protected:
+        Scene &scene;
+    };
+
+    class Scene: public Drawable {
+    public:
+        friend SceneMousePositionCallback;
+        friend SceneMousePositionOffsetCallback;
+
+        explicit Scene(Renderer &renderer, Camera &camera);
+
+        virtual void draw(Program &program);
 
         void add(Drawable& drawable);
 
     protected:
+        virtual void onMouseChange(MousePosition position) {};
+        virtual void onMouseChange(MousePositionOffset offset) {};
+
+        Renderer &renderer;
         Camera &camera;
+
         std::vector<Drawable*> children;
+
+    private:
+        MousePositionOffsetControl mouse_position_offset_control{};
+
+        SceneMousePositionCallback scene_mouse_position_callback;
+        SceneMousePositionOffsetCallback scene_mouse_position_offset_callback;
     };
 }
 

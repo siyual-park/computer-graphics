@@ -18,18 +18,7 @@ int main() {
     backpack.scale = glm::vec3(0.5, 0.5, 0.5);
 
     Scene scene{camera, backpack};
-
     Renderer renderer{window, scene};
-
-    gl::MousePositionOffsetControl  mouse_position_offset_control{};
-
-    PositionChangeCallback position_callback{camera, backpack};
-    OffsetChangeCallback offset_callback{camera, backpack};
-
-    auto &mouse_control = window.mouse_position_control;
-    mouse_control.registerCallback(&mouse_position_offset_control);
-    mouse_control.registerCallback(&position_callback);
-    mouse_position_offset_control.registerCallback(&offset_callback);
 
     renderer.run();
 
