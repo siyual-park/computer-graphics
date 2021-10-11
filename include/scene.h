@@ -15,11 +15,11 @@ namespace gl {
 
         virtual void draw(Renderer &renderer, Program &program);
 
-        void add(const Drawable& drawable);
+        void add(Drawable& drawable);
 
     protected:
         Camera &camera;
-        std::vector<Drawable> children;
+        std::vector<Drawable*> children;
     };
 }
 

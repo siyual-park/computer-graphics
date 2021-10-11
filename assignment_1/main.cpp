@@ -21,13 +21,13 @@ int main() {
 
     gl::MousePositionOffsetControl  mouse_position_offset_control{};
 
-    PositionChangeCallback position_print_callback{backpack};
-    OffsetChangeCallback offset_print_callback{backpack};
+    PositionChangeCallback position_callback{camera, backpack};
+    OffsetChangeCallback offset_callback{camera, backpack};
 
     auto &mouse_control = window.mouse_position_control;
     mouse_control.registerCallback(&mouse_position_offset_control);
-    mouse_control.registerCallback(&position_print_callback);
-    mouse_position_offset_control.registerCallback(&offset_print_callback);
+    mouse_control.registerCallback(&position_callback);
+    mouse_position_offset_control.registerCallback(&offset_callback);
 
     renderer.run();
 

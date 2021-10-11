@@ -1,12 +1,13 @@
 #include <iostream>
 
 #include "callback.h"
+#include "camera.h"
 #include "mouse.h"
 #include "model.h"
 
 class PositionChangeCallback: public gl::Callback<gl::MousePosition> {
 public:
-    explicit PositionChangeCallback(gl::Model &model): model{model} {
+    explicit PositionChangeCallback(gl::Camera &camera, gl::Model &model): camera{camera}, model{model} {
     }
 
     void run(gl::MousePosition position) override {
@@ -14,19 +15,24 @@ public:
     }
 
 protected:
+    gl::Camera &camera;
     gl::Model &model;
 };
 
 class OffsetChangeCallback: public gl::Callback<gl::MousePositionOffset> {
 public:
-    explicit OffsetChangeCallback(gl::Model &model): model{model} {
+    explicit OffsetChangeCallback(gl::Camera &camera, gl::Model &model): camera{camera}, model{model} {
     }
 
 
-    void run(gl::MousePositionOffset position) override {
-        std::cout << "X Offset: " << position.x << ", Y Offset: " << position.y << std::endl;
+    void run(gl::MousePositionOffset offset) override {
+        std::cout << "X Offset: " << offset.x << ", Y Offset: " << offset.y << std::endl;
+
+        camera.yaw += offset.x;
+        camera.pitch += offset.y;
     }
 
 protected:
+    gl::Camera &camera;
     gl::Model &model;
 };

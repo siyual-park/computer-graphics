@@ -20,10 +20,10 @@ void gl::Scene::draw(Renderer &renderer, Program &program) {
     program.setMat4("view", view);
 
     for (auto &child: children) {
-        child.draw(program);
+        child->draw(program);
     }
 }
 
-void gl::Scene::add(const gl::Drawable& drawable) {
-    children.push_back(drawable);
+void gl::Scene::add(gl::Drawable& drawable) {
+    children.push_back(&drawable);
 }
