@@ -9,9 +9,11 @@
 #include "mesh.h"
 
 namespace gl {
-    class Model: Drawable {
+    class Model: public Drawable {
     public:
         explicit Model(std::string &path);
+        explicit Model(std::string &&path);
+        ~Model();
 
         void draw(Program &program) override;
 

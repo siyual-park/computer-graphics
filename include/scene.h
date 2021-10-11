@@ -13,7 +13,7 @@ namespace gl {
     public:
         explicit Scene(Camera &camera);
 
-        void draw(Renderer &renderer, Program &program);
+        virtual void draw(Renderer &renderer, Program &program);
 
         void add(const Drawable& drawable);
 

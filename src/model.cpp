@@ -10,8 +10,8 @@ unsigned int textureFromFile(const char *path, std::string &directory) {
     std::string filename{path};
     filename = directory + '/' + filename;
 
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
+    unsigned int texture_id;
+    glGenTextures(1, &texture_id);
 
     int width, height, nr_components;
     unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nr_components, 0);
@@ -24,7 +24,7 @@ unsigned int textureFromFile(const char *path, std::string &directory) {
         else if (nr_components == 4)
             format = GL_RGBA;
 
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindTexture(GL_TEXTURE_2D, texture_id);
         glTexImage2D(GL_TEXTURE_2D, 0, gl::getGLint(format), width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -38,10 +38,12 @@ unsigned int textureFromFile(const char *path, std::string &directory) {
         stbi_image_free(data);
     }
 
-    return textureID;
+    return texture_id;
 }
 
 gl::Model::Model(std::string &path) {
+    stbi_set_flip_vertically_on_load(true);
+
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -51,6 +53,25 @@ gl::Model::Model(std::string &path) {
 
     directory = path.substr(0, path.find_last_of('/'));
     processNode(scene->mRootNode, scene);
+}
+gl::Model::Model(std::string &&path) {
+    stbi_set_flip_vertically_on_load(true);
+
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+        gl::errorHandle(gl::GL, importer.GetErrorString());
+        return;
+    }
+
+    directory = path.substr(0, path.find_last_of('/'));
+    processNode(scene->mRootNode, scene);
+}
+
+gl::Model::~Model() {
+    for (auto &texture: textures_loaded) {
+        glDeleteTextures(1, &texture.id);
+    }
 }
 
 void gl::Model::draw(gl::Program &program) {

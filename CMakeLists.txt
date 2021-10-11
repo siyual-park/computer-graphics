@@ -96,3 +96,10 @@ add_custom_command(
 		${CMAKE_SOURCE_DIR}/assignment_1/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
 		COMMENT "Copying shaders" VERBATIM
 )
+
+add_custom_command(
+		TARGET assignment_1 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/assignment_1/resources $<TARGET_FILE_DIR:assignment_1>/resources
+		COMMENT "Copying resources" VERBATIM
+)

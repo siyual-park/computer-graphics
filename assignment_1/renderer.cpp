@@ -19,6 +19,8 @@ public:
         fragment_shader.compile();
 
         program.link();
+
+        glEnable(GL_DEPTH_TEST);
     }
 
 private:
