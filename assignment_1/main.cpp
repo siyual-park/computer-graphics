@@ -3,7 +3,6 @@
 #include "mouse.h"
 #include "model.h"
 
-#include "./callback.cpp"
 #include "./renderer.cpp"
 
 
@@ -17,8 +16,7 @@ int main() {
 
     backpack.scale = glm::vec3(0.5, 0.5, 0.5);
 
-    Scene scene{camera, backpack};
-    Renderer renderer{window, scene};
+    Renderer renderer{window, camera, backpack};
 
     renderer.run();
 
