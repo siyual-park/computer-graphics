@@ -8,7 +8,7 @@ namespace gl {
     public:
         void draw(Program &program) override;
 
-        glm::mat4 mat = glm::mat4(1.0f);
+        glm::mat4 translation = glm::mat4(1.0f);
     };
 }
 
