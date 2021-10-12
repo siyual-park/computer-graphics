@@ -4,9 +4,8 @@
 #include <set>
 #include <string>
 
-#include "callback.h"
-#include "control.h"
 #include "mouse.h"
+#include "event.h"
 
 namespace gl {
     struct WindowSize
@@ -31,20 +30,22 @@ namespace gl {
         virtual void update();
         bool isClose();
 
+        template<class T>
+        void addListener(EventListener<T> listener);
+
         void* context{};
 
         std::string title;
         WindowSize size;
 
-        Control<MousePosition> mouse_position_control{};
-        Control<MouseButtonEvent> mouse_button_control{};
-
-        Control<ScrollOffset> scroll_control{};
-
-        Control<WindowSize> window_size_control{};
-    protected:
+        EventEmitter event_emitter{};
+    private:
         void init();
+
+        MousePositionOffsetEventProvider mouse_position_offset_event_provider{event_emitter};
     };
 }
+
+#include "window-inc.h"
 
 #endif //OPENGLBOILERPLATE_WINDOW_H

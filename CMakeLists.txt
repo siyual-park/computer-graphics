@@ -44,10 +44,6 @@ set(
 
 set(
 		APPLICATION_HEADERS
-		include/callback.h
-		include/callback-inc.h
-		include/control.h
-		include/control-inc.h
 		include/error.h
 		include/initializer.h
 		include/mouse.h
@@ -68,7 +64,7 @@ set(
 		include/world.h
 		include/light.h
 		include/material.h
-)
+        include/event.h include/event-inc.h include/window-inc.h)
 
 add_library(
 		APPLICATION_LIB STATIC

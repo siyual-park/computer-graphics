@@ -1,16 +1,15 @@
 #ifndef OPENGLBOILERPLATE_MOUSE_H
 #define OPENGLBOILERPLATE_MOUSE_H
 
-#include "callback.h"
-#include "control.h"
+#include "event.h"
 
 namespace gl {
-    struct MousePosition {
+    struct MousePositionEvent {
         double x;
         double y;
     };
 
-    struct MousePositionOffset {
+    struct MousePositionOffsetEvent {
         double x;
         double y;
     };
@@ -25,13 +24,17 @@ namespace gl {
         double y;
     };
 
-    class MousePositionOffsetControl: public Callback<MousePosition>, public Control<MousePositionOffset> {
+    class MousePositionOffsetEventProvider: public EventListener<MousePositionEvent> {
     public:
-        void run(MousePosition value) override;
+        explicit MousePositionOffsetEventProvider(EventEmitter &event_emitter);
 
-    protected:
-        MousePosition last;
+        void on(MousePositionEvent event) override;
+
+    private:
         bool first = true;
+        MousePositionEvent last{};
+
+        EventEmitter &event_emitter;
     };
 }
 

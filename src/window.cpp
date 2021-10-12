@@ -21,13 +21,11 @@ gl::Window* findWindow(GLFWwindow *glfw_window) {
 
 
 void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
-    gl::MousePosition position{ .x = x, .y = y };
+    gl::MousePositionEvent position{ .x = x, .y = y };
 
     auto window = findWindow(glfw_window);
     if (window != nullptr) {
-        for (auto callback: window->mouse_position_control.callbacks) {
-            callback->run(position);
-        }
+        window->event_emitter.emit(position);
     }
 }
 
@@ -41,9 +39,7 @@ void framebufferSizeCallback(GLFWwindow* glfw_window, int width, int height) {
 
         glViewport(0, 0, width, height);
 
-        for (auto callback: window->window_size_control.callbacks) {
-            callback->run(size);
-        }
+        window->event_emitter.emit(size);
     }
 }
 
@@ -52,9 +48,7 @@ void mouseButtonCallback(GLFWwindow* glfw_window, int button, int action, int mo
     if (window != nullptr) {
         gl::MouseButtonEvent enter{ .button = button, .action = action };
 
-        for (auto callback: window->mouse_button_control.callbacks) {
-            callback->run(enter);
-        }
+        window->event_emitter.emit(enter);
     }
 }
 
@@ -63,9 +57,7 @@ void scrollCallback(GLFWwindow* glfw_window, double x, double y) {
 
     auto window = findWindow(glfw_window);
     if (window != nullptr) {
-        for (auto callback: window->scroll_control.callbacks) {
-            callback->run(offset);
-        }
+        window->event_emitter.emit(offset);
     }
 }
 
@@ -118,6 +110,8 @@ bool gl::Window::isClose() {
 }
 
 void gl::Window::init() {
+    event_emitter.addListener(mouse_position_offset_event_provider);
+
     gl::initWindowSystem();
 
     context = glfwCreateWindow(size.width, size.height, title.c_str(), nullptr, nullptr);

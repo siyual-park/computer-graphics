@@ -13,37 +13,37 @@
 namespace gl {
     class Scene;
 
-    class SceneMousePositionCallback: public Callback<MousePosition> {
+    class SceneMousePositionEventListener: public EventListener<MousePositionEvent> {
     public:
-        explicit SceneMousePositionCallback(Scene &scene);
-        void run(MousePosition position) override;
+        explicit SceneMousePositionEventListener(Scene &scene);
+        void on(MousePositionEvent position) override;
 
     protected:
         Scene &scene;
     };
 
-    class SceneMousePositionOffsetCallback: public Callback<MousePositionOffset> {
+    class SceneMousePositionOffsetEventListener: public EventListener<MousePositionOffsetEvent> {
     public:
-        explicit SceneMousePositionOffsetCallback(Scene &scene);
-        void run(MousePositionOffset offset) override;
+        explicit SceneMousePositionOffsetEventListener(Scene &scene);
+        void on(MousePositionOffsetEvent offset) override;
 
     protected:
         Scene &scene;
     };
 
-    class SceneMouseButtonCallback: public Callback<MouseButtonEvent> {
+    class SceneMouseButtonEventListener: public EventListener<MouseButtonEvent> {
     public:
-        explicit SceneMouseButtonCallback(Scene &scene);
-        void run(MouseButtonEvent event) override;
+        explicit SceneMouseButtonEventListener(Scene &scene);
+        void on(MouseButtonEvent event) override;
 
     protected:
         Scene &scene;
     };
 
-    class SceneScrollCallback: public Callback<ScrollOffset> {
+    class SceneScrollEventListener: public EventListener<ScrollOffset> {
     public:
-        explicit SceneScrollCallback(Scene &scene);
-        void run(ScrollOffset offset) override;
+        explicit SceneScrollEventListener(Scene &scene);
+        void on(ScrollOffset offset) override;
 
     protected:
         Scene &scene;
@@ -51,10 +51,10 @@ namespace gl {
 
     class Scene: public Drawable {
     public:
-        friend SceneMousePositionCallback;
-        friend SceneMousePositionOffsetCallback;
-        friend SceneMouseButtonCallback;
-        friend SceneScrollCallback;
+        friend SceneMousePositionEventListener;
+        friend SceneMousePositionOffsetEventListener;
+        friend SceneMouseButtonEventListener;
+        friend SceneScrollEventListener;
 
         explicit Scene(Renderer &renderer, Camera &camera);
 
@@ -63,8 +63,8 @@ namespace gl {
         void add(Drawable& drawable);
 
     protected:
-        virtual void onMouseCursorChange(MousePosition position) {};
-        virtual void onMouseCursorChange(MousePositionOffset offset) {};
+        virtual void onMouseCursorChange(MousePositionEvent position) {};
+        virtual void onMouseCursorChange(MousePositionOffsetEvent offset) {};
 
         virtual void onMouseEnter(int button) {};
         virtual void onMouseRelease(int button) {};
@@ -78,12 +78,10 @@ namespace gl {
         std::vector<Drawable*> children{};
 
     private:
-        MousePositionOffsetControl mouse_position_offset_control{};
-
-        SceneMousePositionCallback scene_mouse_position_callback{*this};
-        SceneMousePositionOffsetCallback scene_mouse_position_offset_callback{*this};
-        SceneMouseButtonCallback scene_mouse_button_callback{*this};
-        SceneScrollCallback scene_scroll_callback{*this};
+        SceneMousePositionEventListener scene_mouse_position_listener{*this};
+        SceneMousePositionOffsetEventListener scene_mouse_position_offset_listener{*this};
+        SceneMouseButtonEventListener scene_mouse_button_listener{*this};
+        SceneScrollEventListener scene_scroll_listener{*this};
     };
 }
 

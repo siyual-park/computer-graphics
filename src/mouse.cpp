@@ -1,19 +1,24 @@
 #include "mouse.h"
 
-void gl::MousePositionOffsetControl::run(gl::MousePosition value) {
+gl::MousePositionOffsetEventProvider::MousePositionOffsetEventProvider(gl::EventEmitter &event_emitter): event_emitter{event_emitter} {
+
+}
+
+void gl::MousePositionOffsetEventProvider::on(gl::MousePositionEvent event) {
     if (first) {
-        last = value;
+        last = event;
         first = false;
         return;
     }
 
-    gl::MousePositionOffset offset = {
-            .x = value.x - last.x,
-            .y = last.y - value.y
+    gl::MousePositionOffsetEvent offset = {
+            .x = event.x - last.x,
+            .y = last.y - event.y
     };
-    for (auto &callback: callbacks) {
-        callback->run(offset);
-    }
 
-    last = value;
+    event_emitter.emit(offset);
+
+    last = event;
 }
+
+

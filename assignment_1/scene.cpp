@@ -34,11 +34,11 @@ public:
         add(material);
     }
 
-    void onMouseCursorChange(gl::MousePosition position) override {
+    void onMouseCursorChange(gl::MousePositionEvent position) override {
 
     }
 
-    void onMouseCursorChange(gl::MousePositionOffset offset) override {
+    void onMouseCursorChange(gl::MousePositionOffsetEvent offset) override {
         if (!is_mouse_enter) {
             return;
         }
