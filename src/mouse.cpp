@@ -13,7 +13,9 @@ void gl::MousePositionOffsetEventProvider::on(gl::MousePositionEvent event) {
 
     gl::MousePositionOffsetEvent offset = {
             .x = event.x - last.x,
-            .y = last.y - event.y
+            .y = last.y - event.y,
+            .start = last,
+            .end = event
     };
 
     event_emitter.emit(offset);

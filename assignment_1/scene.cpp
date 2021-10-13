@@ -34,6 +34,34 @@ public:
         add(material);
     }
 
+    glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
+        int diameter = std::min(renderer.window.size.height, renderer.window.size.width);
+
+        glm::vec3 coord{};
+
+        coord[0] = static_cast<float>((2 * position.x - diameter) / diameter);
+        coord[1] = static_cast<float>(-1.0 * (2 * position.y - diameter) / diameter);
+
+        float length_squared = coord[0] * coord[0] + coord[1] * coord[1];
+
+        if (length_squared <= 1.0) {
+            coord[2] = std::sqrt(1.0f - length_squared);
+        } else {
+            coord = glm::normalize(coord);
+        }
+
+        return coord;
+    }
+
+    float angleBetween(glm::vec3 a, glm::vec3 b) {
+        glm::vec3 origin = glm::zero<glm::vec3>();
+
+        glm::vec3 da = glm::normalize(a - origin);
+        glm::vec3 db = glm::normalize(b - origin);
+
+        return glm::acos(glm::dot(da, db));
+    }
+
     void onMouseCursorChange(gl::MousePositionEvent position) override {
 
     }
@@ -49,8 +77,25 @@ public:
         if (enter_button == GLFW_MOUSE_BUTTON_1) {
             camera.position += glm::vec3(normalize_x, normalize_y, 0.0f);
         } else if (enter_button == GLFW_MOUSE_BUTTON_2) {
-            world.translation = glm::rotate(world.translation, glm::radians(normalize_x * 90), glm::vec3(0, 1.0, 0));
-            world.translation = glm::rotate(world.translation, glm::radians(normalize_y * 90), glm::vec3(1.0, 0, 0));
+            glm::vec3 arc_start_point = mapSphereCoordinate(offset.start);
+            glm::vec3 arc_end_point = mapSphereCoordinate(offset.end);
+
+            if (arc_start_point == arc_end_point) {
+                return;
+            }
+
+            glm::vec3 rotate_axis = glm::cross(arc_start_point, arc_end_point);
+            float angle = angleBetween(arc_start_point, arc_end_point);
+
+            auto rotate_axis_distance = glm::distance(rotate_axis, glm::zero<glm::vec3>());
+            if (
+                    angle == NAN || angle == 0 || angle == INFINITY ||
+                    rotate_axis_distance == NAN || rotate_axis_distance <= 0.01 || rotate_axis_distance == INFINITY
+            ) {
+                return;
+            }
+
+            world.translation = glm::rotate(world.translation, angle, rotate_axis);
         }
     }
 

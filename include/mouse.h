@@ -12,6 +12,9 @@ namespace gl {
     struct MousePositionOffsetEvent {
         double x;
         double y;
+
+        MousePositionEvent start;
+        MousePositionEvent end;
     };
 
     struct MouseButtonEvent {
