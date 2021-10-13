@@ -1,6 +1,5 @@
 #include "initializer.h"
 #include "window.h"
-#include "mouse.h"
 #include "model.h"
 
 #include "./renderer.cpp"
