@@ -25,7 +25,7 @@ public:
 
         material.name = "material";
 
-        material.diffuse = 0;
+        material.diffuse = 1;
         material.specular = 1;
         material.shininess = 1;
 
@@ -115,7 +115,6 @@ public:
     void onMouseRelease(int button) override {
         is_mouse_enter = false;
     };
-
 
 private:
     bool is_mouse_enter{false};
