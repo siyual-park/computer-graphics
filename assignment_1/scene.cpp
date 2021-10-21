@@ -13,11 +13,11 @@ public:
     explicit Scene(gl::Renderer &renderer, gl::Camera &camera, gl::Model &model): gl::Scene{renderer, camera}, model{model} {
         light.name = "light";
 
-        light.position = glm::vec3(1.2f, 1.0f, 2.0f);
+        light.position = glm::vec3(1.0f, 1.0f, 1.0f);
 
         light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
         light.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-        light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        light.specular = glm::vec3(0.0f, 1.0f, 1.0f);
 
         light.constant = 1.0f;
         light.linear = 0.09f;

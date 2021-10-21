@@ -13,7 +13,8 @@ int main() {
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Model backpack{"model", "./resources/objects/backpack/backpack.obj"};
 
-    backpack.scale = glm::vec3(0.5, 0.5, 0.5);
+    camera.zoom = 45.0f;
+    backpack.scale = glm::vec3(0.2, 0.2, 0.2);
 
     Renderer renderer{window, camera, backpack};
 
