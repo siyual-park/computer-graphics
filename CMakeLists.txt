@@ -93,6 +93,7 @@ set(
 		APPLICATION_LIB
 )
 
+# assignment_1
 add_executable(
 		assignment_1
 		assignment_1/main.cpp
@@ -117,5 +118,33 @@ add_custom_command(
 		TARGET assignment_1 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assignment_1/resources $<TARGET_FILE_DIR:assignment_1>/resources
+		COMMENT "Copying resources" VERBATIM
+)
+
+# assignment_2
+add_executable(
+		assignment_2
+		assignment_2/main.cpp
+		assignment_2/renderer.cpp
+		assignment_2/scene.cpp
+)
+target_link_libraries(
+		assignment_2
+		${ALL_LIBS}
+)
+
+set_target_properties(assignment_2 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_2/")
+
+add_custom_command(
+		TARGET assignment_2 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/assignment_2/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)
+
+add_custom_command(
+		TARGET assignment_2 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/assignment_2/resources $<TARGET_FILE_DIR:assignment_2>/resources
 		COMMENT "Copying resources" VERBATIM
 )
