@@ -5,8 +5,9 @@
 
 namespace gl {
     struct Spacing {
-        float pixel;
-        float slice;
+        float x;
+        float y;
+        float z;
     };
 
     template<class T>
@@ -22,7 +23,7 @@ namespace gl {
         std::size_t slice;
         std::size_t depth;
 
-        Spacing spacing{1.0f, 1.0f};
+        Spacing spacing{1.0f, 1.0f, 1.0f};
     };
 }
 

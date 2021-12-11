@@ -16,6 +16,7 @@ template<class T>
 gl::Volume<T>::Volume(gl::Volume<T> &other) noexcept {
     slice = other.slice;
     depth = other.depth;
+    spacing = other.spacing;
 
     data = new T*[depth];
     for (auto i = 0; i < depth; i++) {
@@ -31,11 +32,13 @@ template<class T>
 gl::Volume<T>::Volume(gl::Volume<T> &&other) noexcept {
     slice = other.slice;
     depth = other.depth;
+    spacing = other.spacing;
 
     data = other.data;
 
     other.slice = 0;
     other.depth = 0;
+    other.spacing = Spacing{1.0f, 1.0f, 1.0f};
     other.data = nullptr;
 }
 
