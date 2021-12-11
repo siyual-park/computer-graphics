@@ -8,7 +8,7 @@
 int main() {
     gl::setVersion(gl::Version{ .major = 3, .minor =  3 });
 
-    gl::Window window{"Assignment 1", { .width = 1024, .height = 768 }};
+    gl::Window window{"Assignment 2", { .width = 1024, .height = 768 }};
 
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Model backpack{"model", "./resources/objects/backpack/backpack.obj"};
