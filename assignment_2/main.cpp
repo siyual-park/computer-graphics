@@ -1,6 +1,6 @@
 #include "initializer.h"
 #include "window.h"
-#include "model.h"
+#include "volume-reader.h"
 
 #include "./renderer.cpp"
 
@@ -13,6 +13,9 @@ int main() {
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
 
     camera.zoom = 45.0f;
+
+    gl::VolumeReader<signed short> reader{"./resources/objects/sample/volume.raw", gl::ENDIAN_TYPE::BIG};
+    auto volume{std::move(reader.read(256, 256, 39))};
 
     Renderer renderer{window, camera};
 

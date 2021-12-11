@@ -71,7 +71,14 @@ set(
 		include/world.h
 		include/light.h
 		include/material.h
-        include/event.h include/event-inc.h include/window-inc.h)
+        include/event.h
+		include/event-inc.h
+		include/window-inc.h
+		include/volume.h
+		include/volume-inc.h
+		include/volume-reader.h
+		include/volume-reader-inc.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC
