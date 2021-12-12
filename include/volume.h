@@ -19,7 +19,7 @@ namespace gl {
     template<class T>
     class Volume {
     public:
-        Volume(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
+        explicit Volume(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
         Volume(Volume<T> &other) noexcept;
         Volume(Volume<T> &&other) noexcept;
         ~Volume();
