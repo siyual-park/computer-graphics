@@ -15,7 +15,7 @@ int main() {
     camera.zoom = 45.0f;
 
     gl::VolumeReader<signed short> reader{"./resources/objects/sample/volume.raw", gl::ENDIAN_TYPE::BIG};
-    auto volume{std::move(reader.read(256, 256, 39))};
+    auto volume{std::move(reader.read(gl::Size{256, 256, 39}, gl::Spacing{1.4532, 1.4532, 4}))};
 
     Renderer renderer{window, camera};
 

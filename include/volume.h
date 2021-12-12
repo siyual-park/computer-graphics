@@ -4,6 +4,12 @@
 #include <string>
 
 namespace gl {
+    struct Size {
+        std::size_t width;
+        std::size_t height;
+        std::size_t depth;
+    };
+
     struct Spacing {
         float x;
         float y;
@@ -13,17 +19,15 @@ namespace gl {
     template<class T>
     class Volume {
     public:
-        Volume(std::size_t width, std::size_t height, std::size_t depth);
+        Volume(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
         Volume(Volume<T> &other) noexcept;
         Volume(Volume<T> &&other) noexcept;
         ~Volume();
 
-        T** data;
+        T* data;
 
-        std::size_t slice;
-        std::size_t depth;
-
-        Spacing spacing{1.0f, 1.0f, 1.0f};
+        Size size;
+        Spacing spacing;
     };
 }
 

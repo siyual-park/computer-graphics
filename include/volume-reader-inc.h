@@ -10,12 +10,8 @@ namespace gl {
         template <class T>
         void copyData(Volume<T> *vol, unsigned char *buffer) noexcept {
             auto converted_buffer = reinterpret_cast<T*>(buffer);
-            auto slice = vol->data;
-            for (auto i = 0; i < vol->depth; ++i) {
-                auto ptr = *(slice++);
-                for (auto j = 0; j < vol->slice; ++j) {
-                    *(ptr++) = static_cast<T>(*(converted_buffer++));
-                }
+            for (auto i = 0; i < vol->size.width * vol->size.height * vol->size.depth; ++i) {
+                vol->data[i] = converted_buffer[i];
             }
         }
 
@@ -49,8 +45,8 @@ gl::VolumeReader<T>::VolumeReader(std::string &&path, ENDIAN_TYPE endian_type):
 }
 
 template<class T>
-gl::Volume<T> gl::VolumeReader<T>::read(std::size_t width, std::size_t height, std::size_t depth) {
-    const long buffer_size = width * height * depth;
+gl::Volume<T> gl::VolumeReader<T>::read(Size size, Spacing spacing) {
+    const long buffer_size = size.width * size.height * size.depth;
 
     std::ifstream in_file{path, std::ios::binary | std::ios::in};
     if (!in_file.is_open()) {
@@ -65,7 +61,7 @@ gl::Volume<T> gl::VolumeReader<T>::read(std::size_t width, std::size_t height, s
         gl::internal::convertToBidEndian<T>(reinterpret_cast<T*>(read_buffer.get()));
     }
 
-    Volume<T> volume{width, height, depth};
+    Volume<T> volume{size, spacing};
     gl::internal::copyData<T>(&volume, read_buffer.get());
 
     in_file.close();

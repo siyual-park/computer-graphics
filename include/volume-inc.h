@@ -4,51 +4,40 @@
 #include "volume.h"
 
 template<class T>
-gl::Volume<T>::Volume(std::size_t width, std::size_t height, std::size_t depth):
-        slice{width * height}, depth{depth} {
-    data = new T*[depth];
-    for (auto i = 0; i < depth; i++) {
-        data[i] = new T[slice];
-    }
+gl::Volume<T>::Volume(Size size, Spacing spacing):
+        size{size}, spacing{spacing} {
+    data = new T[size.depth * size.height * size.width];
 }
 
 template<class T>
 gl::Volume<T>::Volume(gl::Volume<T> &other) noexcept {
-    slice = other.slice;
-    depth = other.depth;
+    size = other.size;
     spacing = other.spacing;
 
-    data = new T*[depth];
-    for (auto i = 0; i < depth; i++) {
-        data[i] = new T[slice];
-
-        for (auto j = 0; j < slice; j++) {
-            data[i][j] = other.data[i][j];
-        }
+    data = new T[size.depth * size.height * size.width];
+    for (auto i = 0; i < size.depth * size.height * size.width; i++) {
+        data[i] = other.data[i];
     }
 }
 
 template<class T>
 gl::Volume<T>::Volume(gl::Volume<T> &&other) noexcept {
-    slice = other.slice;
-    depth = other.depth;
+    size = other.size;
     spacing = other.spacing;
 
     data = other.data;
 
-    other.slice = 0;
-    other.depth = 0;
+    other.size = Size{0, 0, 0};
     other.spacing = Spacing{1.0f, 1.0f, 1.0f};
     other.data = nullptr;
 }
 
 template<class T>
 gl::Volume<T>::~Volume() {
+    size = Size{0, 0, 0};
+    spacing = Spacing{1.0f, 1.0f, 1.0f};
+
     if (data != nullptr) {
-        for (auto i = 0; i < depth; i++) {
-            delete data[i];
-            data[i] = nullptr;
-        }
         delete data;
         data = nullptr;
     }
