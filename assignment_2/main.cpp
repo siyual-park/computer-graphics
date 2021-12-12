@@ -14,9 +14,8 @@ int main() {
 
     camera.zoom = 45.0f;
 
-    gl::VolumeReader<signed short> reader{"./resources/objects/sample/volume.raw", gl::ENDIAN_TYPE::BIG};
-    // TODO (change to read metadata from file)
-    auto volume{std::move(reader.read(gl::Size{256, 256, 39}, gl::Spacing{1.4532, 1.4532, 4}))};
+    gl::VolumeReader<signed short> reader{"./resources/objects/sample", gl::ENDIAN_TYPE::BIG};
+    auto volume{std::move(reader.read())};
 
     Renderer renderer{window, camera};
 

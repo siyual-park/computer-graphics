@@ -41,14 +41,16 @@ template<class T>
 gl::VolumeReader<T>::VolumeReader(std::string &&path, ENDIAN_TYPE endian_type):
         path{path},
         endian_type{endian_type} {
-
 }
 
 template<class T>
-gl::Volume<T> gl::VolumeReader<T>::read(Size size, Spacing spacing) {
+gl::Volume<T> gl::VolumeReader<T>::read() {
+    gl::Size size{readSize()};
+    gl::Spacing spacing{readSpacing()};
+
     const long buffer_size = size.width * size.height * size.depth;
 
-    std::ifstream in_file{path, std::ios::binary | std::ios::in};
+    std::ifstream in_file{path + "/data.raw", std::ios::binary | std::ios::in};
     if (!in_file.is_open()) {
         throw std::runtime_error{"Can't open file"};
     }
@@ -57,6 +59,8 @@ gl::Volume<T> gl::VolumeReader<T>::read(Size size, Spacing spacing) {
     std::memset(read_buffer.get(), 0, sizeof(char) * buffer_size * sizeof(T));
 
     in_file.read(reinterpret_cast<char*>(read_buffer.get()), buffer_size * sizeof(T));
+    in_file.close();
+
     if (endian_type == ENDIAN_TYPE::BIG) {
         gl::internal::convertToBidEndian<T>(reinterpret_cast<T*>(read_buffer.get()));
     }
@@ -64,9 +68,37 @@ gl::Volume<T> gl::VolumeReader<T>::read(Size size, Spacing spacing) {
     Volume<T> volume{size, spacing};
     gl::internal::copyData<T>(&volume, read_buffer.get());
 
+    return volume;
+}
+
+template<class T>
+gl::Size gl::VolumeReader<T>::readSize() {
+    std::ifstream in_file{path + "/size.txt", std::ios::in};
+    if (!in_file.is_open()) {
+        throw std::runtime_error{"Can't open file"};
+    }
+
+    std::size_t width, height, depth;
+    in_file >> width >> height >> depth;
+
     in_file.close();
 
-    return volume;
+    return gl::Size{width, height, depth};
+}
+
+template<class T>
+gl::Spacing gl::VolumeReader<T>::readSpacing() {
+    std::ifstream in_file{path + "/spacing.txt", std::ios::in};
+    if (!in_file.is_open()) {
+        throw std::runtime_error{"Can't open file"};
+    }
+
+    float x, y, z;
+    in_file >> x >> y >> z;
+
+    in_file.close();
+
+    return gl::Spacing{x, y, z};
 }
 
 template<class T>

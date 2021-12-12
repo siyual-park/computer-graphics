@@ -18,12 +18,14 @@ namespace gl {
         explicit VolumeReader(std::string &&path, ENDIAN_TYPE endian_type = ENDIAN_TYPE::LITTLE);
         ~VolumeReader();
 
-        Volume<T> read(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
+        Volume<T> read();
 
     private:
-        std::string path;
+        Size readSize();
+        Spacing readSpacing();
 
-        ENDIAN_TYPE endian_type;
+        const std::string path;
+        const ENDIAN_TYPE endian_type;
     };
 }
 
