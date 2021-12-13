@@ -2,7 +2,9 @@
 
 using namespace gl;
 
-FrameBuffer::FrameBuffer(WindowSize &size): size{size} {
+FrameBuffer::FrameBuffer() {
+    auto size = internal::getWindowSize();
+
     glGenRenderbuffers(1, &depth_buffer);
     glBindRenderbuffer(GL_RENDERBUFFER, depth_buffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, size.width, size.height);
@@ -30,16 +32,26 @@ void FrameBuffer::check() const {
     }
 }
 
-void FrameBuffer::bind() const {
+void FrameBuffer::bind() {
+    auto size = internal::getWindowSize();
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
     glViewport(0, 0, size.width, size.height);
+    bound = true;
 }
 
-void FrameBuffer::unbind() const {
+void FrameBuffer::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    bound = false;
 }
 
-void FrameBuffer::attach(Texture2d &texture2d) const {
+void FrameBuffer::attach(Texture2d &texture2d) {
+    auto origin_bound = bound;
+
+    bind();
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture2d.id, 0);
     check();
+
+    if (!origin_bound) {
+        unbind();
+    }
 }

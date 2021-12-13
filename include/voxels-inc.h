@@ -2,6 +2,7 @@
 #define OPENGLBOILERPLATE_VOXELS_INC_H
 
 #include "voxels.h"
+#include <GL/gl3w.h>
 
 template<class T>
 gl::Voxels<T>::Voxels(Size size, Spacing spacing):

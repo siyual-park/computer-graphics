@@ -6,10 +6,13 @@
 #include "cast.h"
 
 template<unsigned int T>
-gl::Program &gl::Program::attach(gl::Shader<T> &shader) {
+void gl::Program::attach(Shader<T> &shader) {
     glAttachShader(getGLuint(id), getGLuint(shader.id));
+}
 
-    return *this;
+template<unsigned int T>
+void gl::Program::detach(Shader<T> &shader) {
+    glDetachShader(getGLuint(id), getGLuint(shader.id));
 }
 
 #endif //OPENGLBOILERPLATE_PROGRAM_INC_H

@@ -44,6 +44,10 @@ namespace gl {
 
         MousePositionOffsetEventProvider mouse_position_offset_event_provider{event_emitter};
     };
+
+    namespace internal {
+        WindowSize getWindowSize();
+    }
 }
 
 #include "window-inc.h"

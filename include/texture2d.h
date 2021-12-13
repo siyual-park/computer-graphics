@@ -7,10 +7,8 @@
 namespace gl {
     class Texture2d : public GLObject {
     public:
-        explicit Texture2d(WindowSize &size);
+        explicit Texture2d();
         ~Texture2d();
-
-        const WindowSize size;
     };
 }
 

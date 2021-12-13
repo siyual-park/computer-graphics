@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include "drawable.h"
+#include "gl-object.h"
+
 namespace gl {
     struct Size {
         std::size_t width;

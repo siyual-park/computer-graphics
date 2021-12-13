@@ -19,6 +19,19 @@ gl::Window* findWindow(GLFWwindow *glfw_window) {
     return nullptr;
 }
 
+namespace gl {
+    namespace internal {
+        WindowSize getWindowSize() {
+            GLint viewport[4];
+            glGetIntegerv(GL_VIEWPORT, viewport);
+
+            auto width = viewport[2] - viewport[0];
+            auto height = viewport[3] - viewport[1];
+
+            return WindowSize{ .width = width, .height = height };
+        }
+    }
+}
 
 void cursorPosCallback(GLFWwindow *glfw_window, double x, double y) {
     gl::MousePositionEvent position{ .x = x, .y = y };
@@ -93,9 +106,13 @@ gl::WindowSize gl::Window::getSize() const noexcept {
 }
 void gl::Window::resize(gl::WindowSize &size) {
     this->size = size;
+
+    glViewport(0, 0, size.width, size.height);
 }
 void gl::Window::resize(gl::WindowSize &&size) {
     this->size = size;
+
+    glViewport(0, 0, size.width, size.height);
 }
 
 void gl::Window::update() {

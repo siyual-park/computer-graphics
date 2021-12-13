@@ -85,7 +85,8 @@ set(
         include/volume-surface.h
         include/volume.h
 		include/frame-buffer.h
-        include/texture2d.h)
+        include/texture2d.h
+		include/volume-inc.h)
 
 add_library(
 		APPLICATION_LIB STATIC

@@ -2,7 +2,6 @@
 
 #include "renderer.h"
 #include "program.h"
-#include "shader.h"
 
 #include "./scene.cpp"
 
@@ -10,17 +9,6 @@ class Renderer: public gl::Renderer {
 public:
     explicit Renderer(gl::Window &window): gl::Renderer{window}, scene{*this} {
         glEnable(GL_DEPTH_TEST);
-
-        gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};
-        gl::FragmentShader fragment_shader{"./shaders/fragment-shader.glsl"};
-
-        vertex_shader.compile();
-        fragment_shader.compile();
-
-        program.attach(vertex_shader);
-        program.attach(fragment_shader);
-
-        program.link();
     }
 
 private:

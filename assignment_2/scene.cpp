@@ -4,9 +4,8 @@
 #include "camera.h"
 #include "light.h"
 #include "material.h"
-#include "volume-surface.h"
-#include "frame-buffer.h"
-#include "texture2d.h"
+#include "voxels-reader.h"
+#include "volume.h"
 
 #include <GLFW/glfw3.h>
 
@@ -14,8 +13,7 @@ class Scene: public gl::Scene {
 public:
     explicit Scene(gl::Renderer &renderer)
             : gl::Scene{renderer, camera},
-              frame_buffer{renderer.window.size},
-              texture2d{renderer.window.size}
+              volume{std::move(std::string{"model"}), std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read())}
     {
         camera.zoom = 45.0f;
 
@@ -37,13 +35,11 @@ public:
         material.specular = 1;
         material.shininess = 1;
 
-        volume_surface.scale = glm::vec3(0.5f, 0.5f, 0.5f);
-
-        frame_buffer.attach(texture2d);
+        volume.scale *= 0.001;
 
         add(light);
         add(material);
-        add(volume_surface);
+        add(volume);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
@@ -135,8 +131,6 @@ private:
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Light light{};
     gl::Material material{};
-    gl::VolumeSurface volume_surface{"model"};
 
-    gl::FrameBuffer frame_buffer;
-    gl::Texture2d texture2d;
+    gl::Volume<signed short> volume;
 };

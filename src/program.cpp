@@ -10,6 +10,17 @@ gl::Program::~Program() {
     glDeleteProgram(getGLuint(id));
 }
 
+void gl::Program::detachAllShader() {
+    const GLsizei maxCount = 10;
+    GLsizei count;
+    GLuint shaders[maxCount];
+
+    glGetAttachedShaders(getGLuint(id), maxCount, &count, shaders);
+    for (int i = 0; i < count; i++) {
+        glDetachShader(getGLuint(id), shaders[i]);
+    }
+}
+
 void gl::Program::link() {
     glLinkProgram(getGLuint(id));
 }

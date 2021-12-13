@@ -2,7 +2,9 @@
 
 using namespace gl;
 
-Texture2d::Texture2d(WindowSize &size): size{size} {
+Texture2d::Texture2d() {
+    auto size = internal::getWindowSize();
+
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

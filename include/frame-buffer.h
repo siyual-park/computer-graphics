@@ -8,20 +8,19 @@
 namespace gl {
     class FrameBuffer : public GLObject {
     public:
-        explicit FrameBuffer(WindowSize &size);
+        explicit FrameBuffer();
         ~FrameBuffer();
 
         void check() const;
 
-        void bind() const;
-        void unbind() const;
+        void bind();
+        void unbind();
 
-        void attach(Texture2d &texture2d) const;
-
-        const WindowSize size;
-
+        void attach(Texture2d &texture2d);
     private:
         GLuint depth_buffer;
+
+        bool bound{false};
     };
 }
 
