@@ -1,8 +1,8 @@
-#include "base-object.h"
+#include "gl-object.h"
 
 #include "initializer.h"
 
-gl::BaseObject::BaseObject()
+gl::GLObject::GLObject()
         : id{} {
     initGLLoader();
 }

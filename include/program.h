@@ -3,12 +3,11 @@
 
 #include <glm/glm.hpp>
 
-#include "base-object.h"
+#include "gl-object.h"
 #include "shader.h"
 
 namespace gl {
-
-    class Program : public BaseObject {
+    class Program : public GLObject {
     public:
         Program();
         ~Program();

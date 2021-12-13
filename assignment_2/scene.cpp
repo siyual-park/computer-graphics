@@ -5,51 +5,18 @@
 #include "light.h"
 #include "material.h"
 #include "volume-surface.h"
+#include "frame-buffer.h"
+#include "texture2d.h"
 
 #include <GLFW/glfw3.h>
 
-const GLfloat color_buffer[] = {
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 0.0f,
-        1.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f
-};
-
 class Scene: public gl::Scene {
 public:
-    explicit Scene(gl::Renderer &renderer): gl::Scene{renderer, camera} {
+    explicit Scene(gl::Renderer &renderer)
+            : gl::Scene{renderer, camera},
+              frame_buffer{renderer.window.size},
+              texture2d{renderer.window.size}
+    {
         camera.zoom = 45.0f;
 
         light.name = "light";
@@ -71,6 +38,8 @@ public:
         material.shininess = 1;
 
         volume_surface.scale = glm::vec3(0.5f, 0.5f, 0.5f);
+
+        frame_buffer.attach(texture2d);
 
         add(light);
         add(material);
@@ -134,7 +103,7 @@ public:
             if (
                     angle == NAN || angle == 0 || angle == INFINITY ||
                     rotate_axis_distance == NAN || rotate_axis_distance <= 0.01 || rotate_axis_distance == INFINITY
-            ) {
+                    ) {
                 return;
             }
 
@@ -167,4 +136,7 @@ private:
     gl::Light light{};
     gl::Material material{};
     gl::VolumeSurface volume_surface{"model"};
+
+    gl::FrameBuffer frame_buffer;
+    gl::Texture2d texture2d;
 };

@@ -2,7 +2,7 @@
 
 #include "cast.h"
 
-gl::Program::Program(): BaseObject{} {
+gl::Program::Program(): GLObject{} {
     id = static_cast<unsigned int>(glCreateProgram());
 }
 gl::Program::~Program() {

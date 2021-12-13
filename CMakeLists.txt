@@ -37,7 +37,7 @@ set(
 		src/initializer.cpp
 		src/window.cpp
 		src/renderer.cpp
-		src/base-object.cpp
+		src/gl-object.cpp
 		src/program.cpp
 		src/mouse.cpp
 		src/camera.cpp
@@ -49,7 +49,8 @@ set(
 		src/material.cpp
 		src/cube.cpp
         src/volume-surface.cpp
-)
+		src/frame-buffer.cpp
+		src/texture2d.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -58,7 +59,7 @@ set(
 		include/mouse.h
 		include/window.h
 		include/renderer.h
-		include/base-object.h
+		include/gl-object.h
 		include/shader.h
 		include/shader-inc.h
 		include/cast.h
@@ -82,7 +83,9 @@ set(
 		include/voxels-reader-inc.h
 		include/cube.h
         include/volume-surface.h
-        include/volume.h)
+        include/volume.h
+		include/frame-buffer.h
+        include/texture2d.h)
 
 add_library(
 		APPLICATION_LIB STATIC

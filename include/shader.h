@@ -2,11 +2,11 @@
 #define OPENGLBOILERPLATE_SHADER_H
 
 #include <string>
-#include "base-object.h"
+#include "gl-object.h"
 
 namespace gl {
     template <unsigned int T>
-    class Shader : public BaseObject {
+    class Shader : public GLObject {
     public:
         enum {
             Type = T

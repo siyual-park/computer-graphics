@@ -41,12 +41,12 @@ void init(gl::Shader<T> &shader, std::string &path) {
 }
 
 template<unsigned int T>
-gl::Shader<T>::Shader(std::string &path): path{path}, BaseObject{} {
+gl::Shader<T>::Shader(std::string &path): path{path}, GLObject{} {
     init(*this, path);
 }
 
 template <unsigned int T>
-gl::Shader<T>::Shader(std::string &&path): path{path}, BaseObject{} {
+gl::Shader<T>::Shader(std::string &&path): path{path}, GLObject{} {
     init(*this, path);
 }
 
