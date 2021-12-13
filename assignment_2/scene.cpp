@@ -10,7 +10,9 @@
 
 class Scene: public gl::Scene {
 public:
-    explicit Scene(gl::Renderer &renderer, gl::Camera &camera): gl::Scene{renderer, camera} {
+    explicit Scene(gl::Renderer &renderer): gl::Scene{renderer, camera} {
+        camera.zoom = 45.0f;
+
         light.name = "light";
 
         light.position = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -120,6 +122,7 @@ private:
     bool is_mouse_enter{false};
     int enter_button{0};
 
+    gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Light light{};
     gl::Material material{};
     gl::Cube cube{"model"};
