@@ -80,6 +80,7 @@ void Cube::draw(Program &program) {
     program.setMat4(name, model);
 
     glEnableVertexAttribArray(0);
+
     glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
     glVertexAttribPointer(
             0,
@@ -90,7 +91,9 @@ void Cube::draw(Program &program) {
             0
     );
 
+    glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+    glBindVertexArray(0);
 
     glDisableVertexAttribArray(0);
 }
