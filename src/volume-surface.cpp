@@ -54,3 +54,13 @@ VolumeSurface::~VolumeSurface() = default;
 void VolumeSurface::draw(Program &program) {
     Cube::draw(program);
 }
+
+//void VolumeSurface::draw(Program &program, int mode) {
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(mode);
+//
+//    Cube::draw(program);
+//
+//    glBindVertexArray(0);
+//    glDisable(GL_CULL_FACE);
+//}

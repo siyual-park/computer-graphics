@@ -82,7 +82,7 @@ set(
 		include/voxels-reader-inc.h
 		include/cube.h
         include/volume-surface.h
-)
+        include/volume.h)
 
 add_library(
 		APPLICATION_LIB STATIC
@@ -124,6 +124,12 @@ add_custom_command(
 		${CMAKE_SOURCE_DIR}/assignment_1/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
 		COMMENT "Copying shaders" VERBATIM
 )
+add_custom_command(
+		TARGET assignment_1 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)
 
 add_custom_command(
 		TARGET assignment_1 POST_BUILD
@@ -150,6 +156,12 @@ add_custom_command(
 		TARGET assignment_2 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assignment_2/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)
+add_custom_command(
+		TARGET assignment_2 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
 		COMMENT "Copying shaders" VERBATIM
 )
 

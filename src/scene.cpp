@@ -29,6 +29,14 @@ void gl::Scene::draw(Program &program) {
     program.setMat4("view", view);
     program.setVec3("viewPos", camera.position);
 
+    program.setVec2(
+            "ScreenSize",
+            glm::vec2(
+                    (float)renderer.window.size.width,
+                    (float)renderer.window.size.height
+            )
+    );
+
     for (auto &child: children) {
         child->draw(program);
     }

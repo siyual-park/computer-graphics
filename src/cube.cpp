@@ -123,4 +123,5 @@ void Cube::draw(Program &program) {
     glDisableVertexAttribArray(0);
 
     glBindVertexArray(0);
+    glDisable(GL_CULL_FACE);
 }
