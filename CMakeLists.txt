@@ -47,6 +47,7 @@ set(
 		src/world.cpp
 		src/light.cpp
 		src/material.cpp
+		src/cube.cpp
 )
 
 set(
@@ -78,7 +79,8 @@ set(
 		include/voxels-inc.h
 		include/voxels-reader.h
 		include/voxels-reader-inc.h
-		include/cube.h src/cube.cpp)
+		include/cube.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC

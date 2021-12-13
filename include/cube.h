@@ -8,7 +8,7 @@ namespace gl {
     public:
         explicit Cube(std::string &name);
         explicit Cube(std::string &&name);
-        ~Cube();
+        virtual ~Cube();
 
         void draw(Program &program) override;
 
