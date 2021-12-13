@@ -32,7 +32,6 @@ gl::Mesh::Mesh(std::string &name, std::vector<Vertex> &vertices, std::vector<uns
     glEnableVertexAttribArray(5);
     glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, bone_ids)));
 
-
     glEnableVertexAttribArray(6);
     glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, weights)));
     glBindVertexArray(0);

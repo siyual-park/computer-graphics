@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "light.h"
 #include "material.h"
+#include "cube.h"
 
 #include <GLFW/glfw3.h>
 
@@ -30,6 +31,7 @@ public:
 
         add(light);
         add(material);
+        add(cube);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
@@ -120,4 +122,5 @@ private:
 
     gl::Light light{};
     gl::Material material{};
+    gl::Cube cube{"model"};
 };

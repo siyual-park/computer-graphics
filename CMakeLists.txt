@@ -78,7 +78,7 @@ set(
 		include/voxels-inc.h
 		include/voxels-reader.h
 		include/voxels-reader-inc.h
-)
+		include/cube.h src/cube.cpp)
 
 add_library(
 		APPLICATION_LIB STATIC
