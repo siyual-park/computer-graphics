@@ -31,6 +31,8 @@ public:
         material.specular = 1;
         material.shininess = 1;
 
+        cube.scale = glm::vec3(0.5f, 0.5f, 0.5f);
+
         add(light);
         add(material);
         add(cube);
