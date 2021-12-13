@@ -6,8 +6,8 @@
 namespace gl {
     class Cube: public Drawable {
     public:
-        explicit Cube(std::string &name);
-        explicit Cube(std::string &&name);
+        explicit Cube(std::string &name, const GLfloat *color_buffer = nullptr);
+        explicit Cube(std::string &&name, const GLfloat *color_buffer = nullptr);
         virtual ~Cube();
 
         void draw(Program &program) override;
@@ -20,10 +20,11 @@ namespace gl {
         float angle = glm::radians(0.0f);
         glm::vec3 rotate_axis = glm::vec3(1.0f, 1.0f, 1.0f);
     protected:
-        void init();
+        void init(const GLfloat *color_buffer);
 
         unsigned int VAO;
         unsigned int vertex_buffer;
+        unsigned int color_buffer;
     };
 }
 
