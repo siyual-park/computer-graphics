@@ -74,10 +74,10 @@ set(
         include/event.h
 		include/event-inc.h
 		include/window-inc.h
-		include/volume.h
-		include/volume-inc.h
-		include/volume-reader.h
-		include/volume-reader-inc.h
+		include/voxels.h
+		include/voxels-inc.h
+		include/voxels-reader.h
+		include/voxels-reader-inc.h
 )
 
 add_library(

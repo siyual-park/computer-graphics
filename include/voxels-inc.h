@@ -1,16 +1,16 @@
-#ifndef OPENGLBOILERPLATE_VOLUME_INC_H
-#define OPENGLBOILERPLATE_VOLUME_INC_H
+#ifndef OPENGLBOILERPLATE_VOXELS_INC_H
+#define OPENGLBOILERPLATE_VOXELS_INC_H
 
-#include "volume.h"
+#include "voxels.h"
 
 template<class T>
-gl::Volume<T>::Volume(Size size, Spacing spacing):
+gl::Voxels<T>::Voxels(Size size, Spacing spacing):
         size{size}, spacing{spacing} {
     data = new T[size.depth * size.height * size.width];
 }
 
 template<class T>
-gl::Volume<T>::Volume(gl::Volume<T> &other) noexcept {
+gl::Voxels<T>::Voxels(gl::Voxels<T> &other) noexcept {
     size = other.size;
     spacing = other.spacing;
 
@@ -21,7 +21,7 @@ gl::Volume<T>::Volume(gl::Volume<T> &other) noexcept {
 }
 
 template<class T>
-gl::Volume<T>::Volume(gl::Volume<T> &&other) noexcept {
+gl::Voxels<T>::Voxels(gl::Voxels<T> &&other) noexcept {
     size = other.size;
     spacing = other.spacing;
 
@@ -33,7 +33,7 @@ gl::Volume<T>::Volume(gl::Volume<T> &&other) noexcept {
 }
 
 template<class T>
-gl::Volume<T>::~Volume() {
+gl::Voxels<T>::~Voxels() {
     size = Size{0, 0, 0};
     spacing = Spacing{1.0f, 1.0f, 1.0f};
 
@@ -43,4 +43,4 @@ gl::Volume<T>::~Volume() {
     }
 }
 
-#endif //OPENGLBOILERPLATE_VOLUME_INC_H
+#endif //OPENGLBOILERPLATE_VOXELS_INC_H

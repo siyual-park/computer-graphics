@@ -1,6 +1,6 @@
 #include "initializer.h"
 #include "window.h"
-#include "volume-reader.h"
+#include "voxels-reader.h"
 
 #include "./renderer.cpp"
 
@@ -14,7 +14,7 @@ int main() {
 
     camera.zoom = 45.0f;
 
-    gl::VolumeReader<signed short> reader{"./resources/objects/sample", gl::ENDIAN_TYPE::BIG};
+    gl::VoxelsReader<signed short> reader{"./resources/objects/sample", gl::ENDIAN_TYPE::BIG};
     auto volume{std::move(reader.read())};
 
     Renderer renderer{window, camera};

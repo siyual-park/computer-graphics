@@ -1,5 +1,5 @@
-#ifndef OPENGLBOILERPLATE_VOLUME_H
-#define OPENGLBOILERPLATE_VOLUME_H
+#ifndef OPENGLBOILERPLATE_VOXELS_H
+#define OPENGLBOILERPLATE_VOXELS_H
 
 #include <string>
 
@@ -17,12 +17,12 @@ namespace gl {
     };
 
     template<class T>
-    class Volume {
+    class Voxels {
     public:
-        explicit Volume(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
-        Volume(Volume<T> &other) noexcept;
-        Volume(Volume<T> &&other) noexcept;
-        ~Volume();
+        explicit Voxels(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
+        Voxels(Voxels<T> &other) noexcept;
+        Voxels(Voxels<T> &&other) noexcept;
+        ~Voxels();
 
         T* data;
 
@@ -31,6 +31,6 @@ namespace gl {
     };
 }
 
-#include "volume-inc.h"
+#include "voxels-inc.h"
 
-#endif //OPENGLBOILERPLATE_VOLUME_H
+#endif //OPENGLBOILERPLATE_VOXELS_H
