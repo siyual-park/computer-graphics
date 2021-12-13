@@ -48,6 +48,7 @@ set(
 		src/light.cpp
 		src/material.cpp
 		src/cube.cpp
+        src/volume-surface.cpp
 )
 
 set(
@@ -80,6 +81,7 @@ set(
 		include/voxels-reader.h
 		include/voxels-reader-inc.h
 		include/cube.h
+        include/volume-surface.h
 )
 
 add_library(

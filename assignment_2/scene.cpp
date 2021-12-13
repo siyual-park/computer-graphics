@@ -4,7 +4,7 @@
 #include "camera.h"
 #include "light.h"
 #include "material.h"
-#include "cube.h"
+#include "volume-surface.h"
 
 #include <GLFW/glfw3.h>
 
@@ -70,11 +70,11 @@ public:
         material.specular = 1;
         material.shininess = 1;
 
-        cube.scale = glm::vec3(0.5f, 0.5f, 0.5f);
+        volume_surface.scale = glm::vec3(0.5f, 0.5f, 0.5f);
 
         add(light);
         add(material);
-        add(cube);
+        add(volume_surface);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
@@ -166,5 +166,5 @@ private:
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
     gl::Light light{};
     gl::Material material{};
-    gl::Cube cube{"model", color_buffer};
+    gl::VolumeSurface volume_surface{"model"};
 };
