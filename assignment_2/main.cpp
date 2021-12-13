@@ -15,7 +15,7 @@ int main() {
     camera.zoom = 45.0f;
 
     gl::VoxelsReader<signed short> reader{"./resources/objects/sample", gl::ENDIAN_TYPE::BIG};
-    auto volume{std::move(reader.read())};
+    auto voxels{std::move(reader.read())};
 
     Renderer renderer{window, camera};
 
