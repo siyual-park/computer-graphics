@@ -113,5 +113,4 @@ void gl::Volume<T>::draw_surface(gl::Program &program, int mode) {
     glDisable(GL_CULL_FACE);
 }
 
-
 #endif //OPENGLBOILERPLATE_VOLUME_INC_H
