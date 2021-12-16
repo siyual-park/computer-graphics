@@ -6,8 +6,7 @@
 template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels)
         : voxels{voxels},
-          surface{name},
-          frame_buffer{}
+          surface{name}
 {
     init();
 }
@@ -15,8 +14,7 @@ gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels)
 template<class T>
 gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
-          surface{name},
-          frame_buffer{}
+          surface{name}
 {
     init();
 }
@@ -24,8 +22,7 @@ gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels)
 template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels)
         : voxels{voxels},
-          surface{name},
-          frame_buffer{}
+          surface{name}
 {
     init();
 }
@@ -33,9 +30,7 @@ gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels)
 template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
-          surface{name},
-          frame_buffer{},
-          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA}
+          surface{name}
 {
     init();
 }
@@ -47,8 +42,6 @@ void gl::Volume<T>::init() {
 
     raycasting_vertex_shader.compile();
     raycasting_fragment_shader.compile();
-
-    frame_buffer.attach(frame_buffer_texture);
 
     surface.scale = glm::vec3(
             voxels.size.width * voxels.spacing.x,

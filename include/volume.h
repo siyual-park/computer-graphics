@@ -40,7 +40,7 @@ namespace gl {
         Voxels<T> voxels;
         VolumeSurface surface;
 
-        gl::FrameBuffer frame_buffer;
+        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
 
         gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
         gl::Texture3d<T> voxel_texture{

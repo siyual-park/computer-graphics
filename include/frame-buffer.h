@@ -8,16 +8,14 @@
 namespace gl {
     class FrameBuffer : public GLObject {
     public:
-        explicit FrameBuffer();
+        template<class T>
+        explicit FrameBuffer(Texture2d<T> *texture2d = nullptr);
         ~FrameBuffer();
 
         void check() const;
 
         void bind();
         void unbind();
-
-        template<class T>
-        void attach(Texture2d<T> &texture2d);
     private:
         GLuint depth_buffer;
 
