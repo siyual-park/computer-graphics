@@ -21,7 +21,7 @@ gl::Window* findWindow(GLFWwindow *glfw_window) {
 
 namespace gl {
     namespace internal {
-        WindowSize getWindowSize() {
+        WindowSize getWindowSizeFromViewport() {
             GLint viewport[4];
             glGetIntegerv(GL_VIEWPORT, viewport);
 

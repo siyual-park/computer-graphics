@@ -36,7 +36,7 @@ namespace gl {
         VolumeSurface surface;
 
         gl::FrameBuffer frame_buffer;
-        gl::Texture2d frame_buffer_texture;
+        gl::Texture2d<float> frame_buffer_texture;
 
         gl::VertexShader backface_vertex_shader{"./shaders/backface.vert.glsl"};
         gl::FragmentShader backface_fragment_shader{"./shaders/backface.frag.glsl"};

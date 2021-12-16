@@ -3,7 +3,7 @@
 using namespace gl;
 
 FrameBuffer::FrameBuffer() {
-    auto size = internal::getWindowSize();
+    auto size = internal::getWindowSizeFromViewport();
 
     glGenRenderbuffers(1, &depth_buffer);
     glBindRenderbuffer(GL_RENDERBUFFER, depth_buffer);
@@ -33,7 +33,7 @@ void FrameBuffer::check() const {
 }
 
 void FrameBuffer::bind() {
-    auto size = internal::getWindowSize();
+    auto size = internal::getWindowSizeFromViewport();
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
     glViewport(0, 0, size.width, size.height);
     bound = true;

@@ -8,8 +8,7 @@
 #include "event.h"
 
 namespace gl {
-    struct WindowSize
-    {
+    struct WindowSize {
         int width;
         int height;
     };
@@ -46,7 +45,7 @@ namespace gl {
     };
 
     namespace internal {
-        WindowSize getWindowSize();
+        WindowSize getWindowSizeFromViewport();
     }
 }
 

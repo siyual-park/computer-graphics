@@ -8,7 +8,7 @@ gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels)
         : voxels{voxels},
           surface{name},
           frame_buffer{},
-          frame_buffer_texture{}
+          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
 {
     init();
 }
@@ -18,7 +18,7 @@ gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
           surface{name},
           frame_buffer{},
-          frame_buffer_texture{}
+          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
 {
     init();
 }
@@ -28,7 +28,7 @@ gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels)
         : voxels{voxels},
           surface{name},
           frame_buffer{},
-          frame_buffer_texture{}
+          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
 {
     init();
 }
@@ -38,7 +38,7 @@ gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
           surface{name},
           frame_buffer{},
-          frame_buffer_texture{}
+          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
 {
     init();
 }
@@ -85,7 +85,6 @@ void gl::Volume<T>::draw(gl::Program &program) {
 
     program.use();
 
-    program.setFloat("StepSize", 0.001f);
     auto exit_points = program.getLocation("ExitPoints");
     if (exit_points >= 0) {
         glActiveTexture(GL_TEXTURE1);
@@ -96,7 +95,7 @@ void gl::Volume<T>::draw(gl::Program &program) {
     if (volume_tex >= 0) {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_3D, frame_buffer_texture.id);
-        glUniform1i(volume_tex, 1);
+        glUniform1i(volume_tex, 2);
     }
 
     draw_surface(program, GL_BACK);

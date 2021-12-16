@@ -1,19 +1,15 @@
 #include "texture2d.h"
 
-using namespace gl;
+namespace gl {
+    namespace internal {
+        Texture2dSize getTexture2dSizeFromViewport() {
+            GLint viewport[4];
+            glGetIntegerv(GL_VIEWPORT, viewport);
 
-Texture2d::Texture2d() {
-    auto size = internal::getWindowSize();
+            auto width = viewport[2] - viewport[0];
+            auto height = viewport[3] - viewport[1];
 
-    glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, size.width, size.height, 0, GL_RGBA, GL_FLOAT, nullptr);
-}
-
-Texture2d::~Texture2d() {
-    glDeleteTextures(1, &id);
+            return Texture2dSize{ .x = width, .y = height };
+        }
+    }
 }

@@ -50,7 +50,8 @@ set(
 		src/cube.cpp
         src/volume-surface.cpp
 		src/frame-buffer.cpp
-		src/texture2d.cpp)
+		src/texture2d.cpp
+)
 
 set(
 		APPLICATION_HEADERS
@@ -86,7 +87,10 @@ set(
         include/volume.h
 		include/frame-buffer.h
         include/texture2d.h
-		include/volume-inc.h)
+		include/volume-inc.h
+		include/type.h
+		include/texture2d-inc.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC
