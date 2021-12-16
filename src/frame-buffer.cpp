@@ -22,6 +22,8 @@ void FrameBuffer::bind() {
 }
 
 void FrameBuffer::unbind() {
+    auto size = internal::getWindowSizeFromViewport();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, size.width, size.height);
     bound = false;
 }
