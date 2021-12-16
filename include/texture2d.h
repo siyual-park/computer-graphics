@@ -2,7 +2,6 @@
 #define OPENGLBOILERPLATE_TEXTURE2D_H
 
 #include "gl-object.h"
-#include "window.h"
 
 namespace gl {
     struct Texture2dSize {
@@ -13,7 +12,7 @@ namespace gl {
     template <class T>
     class Texture2d : public GLObject {
     public:
-        explicit Texture2d(T *data, Texture2dSize size, int bind_type);
+        explicit Texture2d(T *data, Texture2dSize size, int internal_format, int format);
         ~Texture2d();
     };
 

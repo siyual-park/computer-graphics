@@ -43,15 +43,3 @@ void FrameBuffer::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     bound = false;
 }
-
-void FrameBuffer::attach(Texture2d &texture2d) {
-    auto origin_bound = bound;
-
-    bind();
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture2d.id, 0);
-    check();
-
-    if (!origin_bound) {
-        unbind();
-    }
-}

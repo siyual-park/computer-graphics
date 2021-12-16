@@ -16,12 +16,15 @@ namespace gl {
         void bind();
         void unbind();
 
-        void attach(Texture2d &texture2d);
+        template<class T>
+        void attach(Texture2d<T> &texture2d);
     private:
         GLuint depth_buffer;
 
         bool bound{false};
     };
 }
+
+#include "frame-buffer-inc.h"
 
 #endif //OPENGLBOILERPLATE_FRAME_BUFFER_H

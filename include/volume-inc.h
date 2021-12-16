@@ -7,8 +7,7 @@ template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels)
         : voxels{voxels},
           surface{name},
-          frame_buffer{},
-          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
+          frame_buffer{}
 {
     init();
 }
@@ -17,8 +16,7 @@ template<class T>
 gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
           surface{name},
-          frame_buffer{},
-          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
+          frame_buffer{}
 {
     init();
 }
@@ -27,8 +25,7 @@ template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels)
         : voxels{voxels},
           surface{name},
-          frame_buffer{},
-          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
+          frame_buffer{}
 {
     init();
 }
@@ -38,7 +35,7 @@ gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels)
         : voxels{voxels},
           surface{name},
           frame_buffer{},
-          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F}
+          frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA}
 {
     init();
 }
@@ -94,7 +91,7 @@ void gl::Volume<T>::draw(gl::Program &program) {
     auto volume_tex = program.getLocation("VolumeTex");
     if (volume_tex >= 0) {
         glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_3D, frame_buffer_texture.id);
+        glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
         glUniform1i(volume_tex, 2);
     }
 

@@ -5,8 +5,13 @@
 #include "volume-surface.h"
 #include "frame-buffer.h"
 #include "texture2d.h"
+#include "texture3d.h"
 
 namespace gl {
+    namespace internal {
+        int mappingTypeToRed(int type);
+    }
+
     template<class T>
     class Volume: public Drawable {
     public:
@@ -36,7 +41,14 @@ namespace gl {
         VolumeSurface surface;
 
         gl::FrameBuffer frame_buffer;
-        gl::Texture2d<float> frame_buffer_texture;
+
+        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
+        gl::Texture3d<T> voxel_texture{
+            voxels.data,
+            Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
+            getRedType<T*>(),
+            GL_RED
+        };
 
         gl::VertexShader backface_vertex_shader{"./shaders/backface.vert.glsl"};
         gl::FragmentShader backface_fragment_shader{"./shaders/backface.frag.glsl"};

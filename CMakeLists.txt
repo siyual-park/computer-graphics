@@ -90,7 +90,9 @@ set(
 		include/volume-inc.h
 		include/type.h
 		include/texture2d-inc.h
-)
+		include/texture3d.h
+		include/texture3d-inc.h
+        include/frame-buffer-inc.h)
 
 add_library(
 		APPLICATION_LIB STATIC
