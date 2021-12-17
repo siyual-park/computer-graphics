@@ -71,12 +71,12 @@ namespace gl {
 
     template <>
     constexpr int getRedType<signed short>(signed short empty) {
-        return GL_R16I;
+        return GL_R16_SNORM;
     }
 
     template <>
     constexpr int getRedType<unsigned short>(unsigned short empty) {
-        return GL_R16UI;
+        return GL_R16;
     }
 
     template <>
@@ -106,22 +106,22 @@ namespace gl {
 
     template <>
     constexpr int getRedFormat<signed short>(signed short empty) {
-        return GL_RED_INTEGER;
+        return GL_RED;
     }
 
     template <>
     constexpr int getRedFormat<unsigned short>(unsigned short empty) {
-        return GL_RED_INTEGER;
+        return GL_RED;
     }
 
     template <>
     constexpr int getRedFormat<signed int>(signed int empty) {
-        return GL_RED_INTEGER;
+        return GL_RED;
     }
 
     template <>
     constexpr int getRedFormat<unsigned int>(unsigned int empty) {
-        return GL_RED_INTEGER;
+        return GL_RED;
     }
 }
 

@@ -5,24 +5,9 @@
 
 #include <limits>
 
-namespace gl {
-    namespace internal {
-        template<class IN, class OUT>
-        Voxels<OUT> exchange_voxels_type(Voxels<IN> &input) {
-            Voxels<OUT> output{input.size, input.spacing};
-
-            for (auto i = 0; i < input.size.width * input.size.height * input.size.depth; ++i) {
-                output.data[i] = (OUT) (input.data[i] * std::numeric_limits<OUT>::max() / std::numeric_limits<IN>::max());
-            }
-
-            return output;
-        }
-    }
-}
-
 template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
-        : voxels{gl::internal::exchange_voxels_type<T, unsigned char>(voxels)},
+        : voxels{voxels},
           surface{name},
           parent{parent}
 {
@@ -31,7 +16,7 @@ gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
 
 template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels, Drawable *parent)
-        : voxels{gl::internal::exchange_voxels_type<T, unsigned char>(voxels)},
+        : voxels{voxels},
           surface{name},
           parent{parent}
 {
