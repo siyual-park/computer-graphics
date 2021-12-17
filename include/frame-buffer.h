@@ -8,21 +8,18 @@
 namespace gl {
     class FrameBuffer : public GLObject {
     public:
-        template<class T>
-        explicit FrameBuffer(Texture2d<T> *texture2d = nullptr);
+        explicit FrameBuffer();
         ~FrameBuffer();
 
         void check() const;
 
         void bind();
         void unbind();
-    private:
-        GLuint depth_buffer;
 
-        bool bound{false};
+        Texture2d<float> texture;
+    private:
+        GLuint depth_buffer{};
     };
 }
-
-#include "frame-buffer-inc.h"
 
 #endif //OPENGLBOILERPLATE_FRAME_BUFFER_H

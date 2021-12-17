@@ -15,6 +15,11 @@ namespace gl {
     public:
         explicit Texture3d(T *data, Texture3dSize size, int internal_format, int format);
         ~Texture3d();
+
+        void bind();
+        void unbind();
+
+        const Texture3dSize size;
     };
 }
 

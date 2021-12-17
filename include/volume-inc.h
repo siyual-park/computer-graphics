@@ -44,8 +44,8 @@ void gl::Volume<T>::init() {
     backface_vertex_shader.compile();
     backface_fragment_shader.compile();
 
-    raycasting_vertex_shader.compile();
-    raycasting_fragment_shader.compile();
+    ray_casting_vertex_shader.compile();
+    ray_casting_fragment_shader.compile();
 
     surface.scale = glm::vec3(
             voxels.size.width * voxels.spacing.x,
@@ -60,7 +60,12 @@ gl::Volume<T>::~Volume() = default;
 template<class T>
 void gl::Volume<T>::preDraw(gl::Program &program) {
     GL_ERROR();
+
+    glEnable(GL_DEPTH_TEST);
+
     if (cull_face == GL_FRONT) {
+        frame_buffer.texture.bind();
+        voxel_texture.bind();
         frame_buffer.bind();
 
         program.detaches(2);
@@ -70,11 +75,9 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
 
         program.use();
     } else {
-        frame_buffer.unbind();
-
         program.detaches(2);
-        program.attach(raycasting_vertex_shader);
-        program.attach(raycasting_fragment_shader);
+        program.attach(ray_casting_vertex_shader);
+        program.attach(ray_casting_fragment_shader);
         program.link();
 
         program.use();
@@ -82,14 +85,14 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
         auto exit_points = program.getLocation("ExitPoints");
         if (exit_points >= 0) {
             glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, frame_buffer_texture.id);
-            glUniform1i(exit_points, 0);
+            glBindTexture(GL_TEXTURE_2D, frame_buffer.texture.id);
+            glUniform1i(exit_points, 1);
         }
         auto volume_tex = program.getLocation("VolumeTex");
         if (volume_tex >= 0) {
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
-            glUniform1i(volume_tex, 1);
+            glUniform1i(volume_tex, 2);
         }
     }
     surface.preDraw(program);
@@ -101,7 +104,6 @@ template<class T>
 void gl::Volume<T>::draw(gl::Program &program) {
     GL_ERROR();
 
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
     glCullFace(cull_face);
@@ -120,17 +122,31 @@ void gl::Volume<T>::draw(gl::Program &program) {
 template<class T>
 void gl::Volume<T>::postDraw(gl::Program &program) {
     GL_ERROR();
+
     surface.postDraw(program);
-    program.disuse();
 
     if (cull_face == GL_FRONT) {
         cull_face = GL_BACK;
+
+        program.disuse();
+        frame_buffer.unbind();
+
         if (parent != nullptr) {
             parent->draw(program);
         }
     } else {
         cull_face = GL_FRONT;
+
+        glActiveTexture(GL_TEXTURE1);
+        frame_buffer.texture.unbind();
+        glActiveTexture(GL_TEXTURE2);
+        voxel_texture.unbind();
+
+        glActiveTexture(GL_TEXTURE0);
+
+        program.disuse();
     }
+
     GL_ERROR();
 }
 

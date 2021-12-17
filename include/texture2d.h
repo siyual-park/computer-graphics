@@ -14,6 +14,11 @@ namespace gl {
     public:
         explicit Texture2d(T *data, Texture2dSize size, int internal_format, int format);
         ~Texture2d();
+
+        void bind();
+        void unbind();
+
+        const Texture2dSize size;
     };
 
     namespace internal {

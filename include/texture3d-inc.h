@@ -5,19 +5,32 @@
 #include "type.h"
 
 template<class T>
-gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, int format) {
+gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, int format): size{size} {
     auto type = getType<T>();
 
     glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_3D, id);
+    bind();
+    glTexImage3D(GL_TEXTURE_3D, 0, internal_format, size.x, size.y, size.z, 0, format, type, data);
+
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-    glTexImage3D(GL_TEXTURE_3D, 0, internal_format, size.x, size.y, size.z, 0, format, type, data);
+
+    unbind();
 
     GL_ERROR();
+}
+
+template<class T>
+void gl::Texture3d<T>::bind() {
+    glBindTexture(GL_TEXTURE_3D, id);
+}
+
+template<class T>
+void gl::Texture3d<T>::unbind() {
+    glBindTexture(GL_TEXTURE_3D, 0);
 }
 
 template<class T>
@@ -27,6 +40,5 @@ gl::Texture3d<T>::~Texture3d() {
         id = 0;
     }
 }
-
 
 #endif //OPENGLBOILERPLATE_TEXTURE3D_INC_H

@@ -41,7 +41,6 @@ namespace gl {
         VolumeSurface surface;
         Drawable *parent;
 
-        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
         gl::Texture3d<T> voxel_texture{
                 voxels.data,
                 Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
@@ -49,13 +48,13 @@ namespace gl {
                 getRedFormat<T>()
         };
 
-        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
+        gl::FrameBuffer frame_buffer{};
 
         gl::VertexShader backface_vertex_shader{"./shaders/backface.vert.glsl"};
         gl::FragmentShader backface_fragment_shader{"./shaders/backface.frag.glsl"};
 
-        gl::VertexShader raycasting_vertex_shader{"./shaders/raycasting.vert.glsl"};
-        gl::FragmentShader raycasting_fragment_shader{"./shaders/raycasting.frag.glsl"};
+        gl::VertexShader ray_casting_vertex_shader{"./shaders/raycasting.vert.glsl"};
+        gl::FragmentShader ray_casting_fragment_shader{"./shaders/raycasting.frag.glsl"};
 
         int cull_face{GL_FRONT};
     };

@@ -7,14 +7,13 @@ out vec4 FragColor;
 
 uniform sampler2D ExitPoints;
 uniform sampler3D VolumeTex;
-//uniform sampler1D TransferFunc;
-//uniform float     StepSize;
 uniform vec2      ScreenSize;
 
 void main() {
     float StepSize = 0.001f;
 
-    vec3 exitPoint = texture(ExitPoints, gl_FragCoord.st / ScreenSize).xyz;
+    vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
+    vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
     if (EntryPoint == exitPoint) {
         discard;
     }
@@ -26,18 +25,14 @@ void main() {
     float deltaDirLen = length(deltaDir);
 
     vec3 voxelCoord = EntryPoint;
-    vec4 colorAcum = vec4(0.0);
-    float alphaAcum = 0.0;
-    float intensity;
-    float lengthAcum = 0.0;
-    vec4 colorSample;
-    float alphaSample;
-    vec4 bgColor = vec4(1.0, 1.0, 1.0, 0.0);
+    vec4 colorAcum = vec4(0.0f);
+    float lengthAcum;
+    vec4 backgoundColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
 
     while (true) {
-        float norm = 0.0f;
+        float norm = 1.0f;
 
-        intensity = texture(VolumeTex, voxelCoord).x;
+        float intensity = texture(VolumeTex, voxelCoord).x;
         if (intensity > 325) {
             norm = 1.0f;
         } else if (intensity < 119) {
@@ -46,8 +41,8 @@ void main() {
             norm = (intensity - 119) / (325 - 119);
         }
 
-        colorSample = vec4(norm);
-        if (colorSample.a > 0.0) {
+        vec4 colorSample = vec4(1.0f, 1.0f, 1.0f, norm);
+        if (colorSample.a > 0.0f) {
             colorAcum.rgb += colorSample.rgb * colorSample.a;
             colorAcum.a += colorSample.a;
         }
@@ -57,11 +52,12 @@ void main() {
 
         if (lengthAcum >= len) {
             break;
-        } else if (colorAcum.a > 1.0) {
-            colorAcum.a = 1.0;
+        } else if (colorAcum.a > 1.0f) {
+            colorAcum.a = 1.0f;
             break;
         }
     }
 
-    FragColor = colorAcum;
+//    FragColor = colorAcum;
+    FragColor = vec4(abs(dir), 1.0f);
 }

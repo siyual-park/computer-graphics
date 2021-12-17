@@ -92,7 +92,6 @@ set(
 		include/texture2d-inc.h
 		include/texture3d.h
 		include/texture3d-inc.h
-        include/frame-buffer-inc.h
 )
 
 add_library(
