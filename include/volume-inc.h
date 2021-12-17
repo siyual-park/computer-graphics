@@ -91,8 +91,6 @@ void gl::Volume<T>::draw(gl::Program &program) {
     }
 
     draw_surface(program, GL_BACK);
-
-    program.disuse();
 }
 
 template<class T>

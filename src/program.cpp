@@ -4,6 +4,7 @@
 
 gl::Program::Program(): GLObject{} {
     id = static_cast<unsigned int>(glCreateProgram());
+    GL_ERROR();
 }
 gl::Program::~Program() {
     disuse();

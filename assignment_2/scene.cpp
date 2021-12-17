@@ -37,9 +37,9 @@ public:
 
         volume.scale *= 0.001;
 
+        add(volume);
         add(light);
         add(material);
-        add(volume);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {

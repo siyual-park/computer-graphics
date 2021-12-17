@@ -40,7 +40,7 @@ namespace gl {
     }
 
     template <>
-    constexpr int getType<int>(int empty) {
+    constexpr int getType<signed int>(signed int empty) {
         return GL_INT;
     }
 
@@ -66,22 +66,22 @@ namespace gl {
 
     template <>
     constexpr int getRedType<signed short>(signed short empty) {
-        return GL_R16UI;
-    }
-
-    template <>
-    constexpr int getRedType<unsigned short>(unsigned short empty) {
         return GL_R16I;
     }
 
     template <>
-    constexpr int getRedType<int>(int empty) {
-        return GL_R32UI;
+    constexpr int getRedType<unsigned short>(unsigned short empty) {
+        return GL_R16UI;
+    }
+
+    template <>
+    constexpr int getRedType<signed int>(signed int empty) {
+        return GL_R32I;
     }
 
     template <>
     constexpr int getRedType<unsigned int>(unsigned int empty) {
-        return GL_R32I;
+        return GL_R32UI;
     }
 }
 

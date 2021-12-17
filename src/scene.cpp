@@ -15,6 +15,11 @@ gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera
 
 void gl::Scene::draw(Program &program) {
     camera.update();
+
+    for (auto &child: children) {
+        child->draw(program);
+    }
+
     world.draw(program);
 
     glm::mat4 projection = glm::perspective(
@@ -37,9 +42,7 @@ void gl::Scene::draw(Program &program) {
             )
     );
 
-    for (auto &child: children) {
-        child->draw(program);
-    }
+    program.disuse();
 }
 
 void gl::Scene::add(gl::Drawable& drawable) {

@@ -14,8 +14,9 @@ gl::FrameBuffer::FrameBuffer(Texture2d<T> *texture2d) {
 
     glGenFramebuffers(1, &id);
     glBindFramebuffer(GL_FRAMEBUFFER, id);
+
     if (texture2d != nullptr) {
-//        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture2d->id, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture2d->id, 0);
     }
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depth_buffer);
 

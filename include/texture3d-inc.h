@@ -16,6 +16,8 @@ gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, in
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTexImage3D(GL_TEXTURE_3D, 0, internal_format, size.x, size.y, size.z, 0, format, type, data);
+
+    GL_ERROR();
 }
 
 template<class T>

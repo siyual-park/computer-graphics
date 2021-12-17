@@ -51,7 +51,6 @@ set(
         src/volume-surface.cpp
 		src/frame-buffer.cpp
 		src/texture2d.cpp
-		src/type.cpp
 )
 
 set(
