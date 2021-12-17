@@ -34,7 +34,7 @@ void main() {
     float min = 119.0f / 65535.0f;
     float max = 325.0f / 65535.0f;
 
-    for (int i = 0; i < 1600; i++) {
+    for (int i = 0; i < step * 2; i++) {
         float alpha = 1.0f;
         float intensity = texture(VolumeTex, voxelCoord).x / 256.0f;
 
@@ -48,7 +48,7 @@ void main() {
 
         vec4 colorSample = vec4(1.0f, 1.0f, 1.0f, alpha);
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0f - pow(1.0f - colorSample.a, stepSize * pow(step, 1.4f));
+            colorSample.a = 1.0f - pow(1.0f - colorSample.a, stepSize * pow(step, 1.5f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }
