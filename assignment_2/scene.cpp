@@ -12,8 +12,7 @@
 class Scene: public gl::Scene {
 public:
     explicit Scene(gl::Renderer &renderer)
-            : gl::Scene{renderer, camera},
-              volume{std::move(std::string{"model"}), std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read()),this}
+            : gl::Scene{renderer, camera}
     {
         camera.zoom = 45.0f;
 
@@ -132,5 +131,6 @@ private:
     gl::Light light{};
     gl::Material material{};
 
-    gl::Volume<signed short> volume;
+    gl::Voxels<signed short> voxels{std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read())};
+    gl::Volume<signed short> volume{std::move(std::string{"model"}), voxels, this};
 };

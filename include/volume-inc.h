@@ -3,6 +3,23 @@
 
 #include "volume.h"
 
+#include <limits>
+
+namespace gl {
+    namespace internal {
+        template<class IN, class OUT>
+        Voxels<OUT> exchange_voxels_type(Voxels<IN> &input) {
+            Voxels<OUT> output{input.size, input.spacing};
+
+            for (auto i = 0; i < input.size.width * input.size.height * input.size.depth; ++i) {
+                output.data[i] = (OUT) (input.data[i] * std::numeric_limits<OUT>::max() / std::numeric_limits<IN>::max());
+            }
+
+            return output;
+        }
+    }
+}
+
 template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
         : voxels{voxels},
@@ -13,25 +30,7 @@ gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
 }
 
 template<class T>
-gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels, Drawable *parent)
-        : voxels{voxels},
-          surface{name},
-          parent{parent}
-{
-    init();
-}
-
-template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels, Drawable *parent)
-        : voxels{voxels},
-          surface{name},
-          parent{parent}
-{
-    init();
-}
-
-template<class T>
-gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels, Drawable *parent)
         : voxels{voxels},
           surface{name},
           parent{parent}
@@ -66,6 +65,7 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
     if (cull_face == GL_FRONT) {
         frame_buffer.texture.bind();
         voxel_texture.bind();
+
         frame_buffer.bind();
 
         program.detaches(2);

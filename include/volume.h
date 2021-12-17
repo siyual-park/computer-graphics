@@ -16,9 +16,7 @@ namespace gl {
     class Volume: public Drawable {
     public:
         explicit Volume(std::string &name, Voxels<T> &voxels, Drawable *parent = nullptr);
-        explicit Volume(std::string &name, Voxels<T> &&voxels, Drawable *parent = nullptr);
         explicit Volume(std::string &&name, Voxels<T> &voxels, Drawable *parent = nullptr);
-        explicit Volume(std::string &&name, Voxels<T> &&voxels, Drawable *parent = nullptr);
 
         ~Volume() override;
 
