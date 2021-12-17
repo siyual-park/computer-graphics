@@ -17,7 +17,7 @@ namespace gl {
         template <unsigned int T>
         void detach(Shader<T>& shader);
 
-        void detachAllShader();
+        void detaches(const int count);
 
         void link();
         void use();

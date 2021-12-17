@@ -40,15 +40,15 @@ namespace gl {
         Voxels<T> voxels;
         VolumeSurface surface;
 
-        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
-        gl::Texture3d<T> voxel_texture{
-                voxels.data,
-                Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
-                getRedType<T>(),
-                GL_RED_INTEGER
-        };
-
-        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
+//        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
+//        gl::Texture3d<T> voxel_texture{
+//                voxels.data,
+//                Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
+//                getRedType<T>(),
+//                GL_RED_INTEGER
+//        };
+//
+//        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
 
         gl::VertexShader backface_vertex_shader{"./shaders/backface.vert.glsl"};
         gl::FragmentShader backface_fragment_shader{"./shaders/backface.frag.glsl"};

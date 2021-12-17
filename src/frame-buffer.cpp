@@ -16,14 +16,14 @@ void FrameBuffer::check() const {
 
 void FrameBuffer::bind() {
     auto size = internal::getWindowSizeFromViewport();
-    glBindFramebuffer(GL_FRAMEBUFFER, id);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
     glViewport(0, 0, size.width, size.height);
     bound = true;
 }
 
 void FrameBuffer::unbind() {
     auto size = internal::getWindowSizeFromViewport();
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     glViewport(0, 0, size.width, size.height);
     bound = false;
 }

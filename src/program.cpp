@@ -11,8 +11,7 @@ gl::Program::~Program() {
     glDeleteProgram(getGLuint(id));
 }
 
-void gl::Program::detachAllShader() {
-    const GLsizei maxCount = 10;
+void gl::Program::detaches(const int maxCount) {
     GLsizei count;
     GLuint shaders[maxCount];
 

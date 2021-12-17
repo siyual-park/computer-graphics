@@ -2,7 +2,6 @@
 
 #include "scene.h"
 #include "camera.h"
-#include "model.h"
 #include "light.h"
 #include "material.h"
 
@@ -10,7 +9,7 @@
 
 class Scene: public gl::Scene {
 public:
-    explicit Scene(gl::Renderer &renderer, gl::Camera &camera, gl::Model &model): gl::Scene{renderer, camera}, model{model} {
+    explicit Scene(gl::Renderer &renderer, gl::Camera &camera, gl::Drawable &model): gl::Scene{renderer, camera}, model{model} {
         light.name = "light";
 
         light.position = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -120,7 +119,7 @@ private:
     bool is_mouse_enter{false};
     int enter_button{0};
 
-    gl::Model &model;
+    gl::Drawable &model;
     gl::Light light{};
     gl::Material material{};
 };

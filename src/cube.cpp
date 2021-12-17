@@ -84,6 +84,8 @@ Cube::~Cube() {
 }
 
 void Cube::draw(Program &program) {
+    GL_ERROR();
+
     glm::mat4 model = glm::mat4(1.0f);
 
     model = glm::scale(model, scale);
@@ -124,6 +126,5 @@ void Cube::draw(Program &program) {
     }
     glDisableVertexAttribArray(0);
 
-    glBindVertexArray(0);
-    glDisable(GL_CULL_FACE);
+    GL_ERROR();
 }

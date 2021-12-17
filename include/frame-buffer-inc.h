@@ -26,6 +26,7 @@ gl::FrameBuffer::FrameBuffer(Texture2d<T> *texture2d) {
 
     GL_ERROR();
 
+    bind();
     unbind();
 }
 
