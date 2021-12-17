@@ -15,14 +15,16 @@ namespace gl {
     template<class T>
     class Volume: public Drawable {
     public:
-        explicit Volume(std::string &name, Voxels<T> &voxels);
-        explicit Volume(std::string &name, Voxels<T> &&voxels);
-        explicit Volume(std::string &&name, Voxels<T> &voxels);
-        explicit Volume(std::string &&name, Voxels<T> &&voxels);
+        explicit Volume(std::string &name, Voxels<T> &voxels, Drawable *parent = nullptr);
+        explicit Volume(std::string &name, Voxels<T> &&voxels, Drawable *parent = nullptr);
+        explicit Volume(std::string &&name, Voxels<T> &voxels, Drawable *parent = nullptr);
+        explicit Volume(std::string &&name, Voxels<T> &&voxels, Drawable *parent = nullptr);
 
         ~Volume() override;
 
+        void preDraw(Program &program) override;
         void draw(Program &program) override;
+        void postDraw(Program &program) override;
 
         std::string &name = surface.name;
 
@@ -35,26 +37,27 @@ namespace gl {
     private:
         void init();
 
-        void draw_surface(Program &program, int mode);
-
         Voxels<T> voxels;
         VolumeSurface surface;
+        Drawable *parent;
 
-//        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
-//        gl::Texture3d<T> voxel_texture{
-//                voxels.data,
-//                Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
-//                getRedType<T>(),
-//                GL_RED_INTEGER
-//        };
-//
-//        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
+        gl::Texture2d<float> frame_buffer_texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA};
+        gl::Texture3d<T> voxel_texture{
+                voxels.data,
+                Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
+                getRedType<T>(),
+                GL_RED_INTEGER
+        };
+
+        gl::FrameBuffer frame_buffer{&frame_buffer_texture};
 
         gl::VertexShader backface_vertex_shader{"./shaders/backface.vert.glsl"};
         gl::FragmentShader backface_fragment_shader{"./shaders/backface.frag.glsl"};
 
         gl::VertexShader raycasting_vertex_shader{"./shaders/raycasting.vert.glsl"};
         gl::FragmentShader raycasting_fragment_shader{"./shaders/raycasting.frag.glsl"};
+
+        int cull_face{GL_FRONT};
     };
 }
 

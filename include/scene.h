@@ -58,7 +58,9 @@ namespace gl {
 
         explicit Scene(Renderer &renderer, Camera &camera);
 
-        virtual void draw(Program &program);
+        void preDraw(Program &program) override;
+        void draw(Program &program) override;
+        void postDraw(Program &program) override;
 
         void add(Drawable& drawable);
 

@@ -83,7 +83,7 @@ Cube::~Cube() {
     }
 }
 
-void Cube::draw(Program &program) {
+void Cube::preDraw(Program &program) {
     GL_ERROR();
 
     glm::mat4 model = glm::mat4(1.0f);
@@ -93,6 +93,13 @@ void Cube::draw(Program &program) {
     model = glm::translate(model, translation);
 
     program.setMat4(name, model);
+
+    GL_ERROR();
+}
+
+
+void Cube::draw(Program &program) {
+    GL_ERROR();
 
     glBindVertexArray(VAO);
 
@@ -127,4 +134,8 @@ void Cube::draw(Program &program) {
     glDisableVertexAttribArray(0);
 
     GL_ERROR();
+}
+
+void Cube::postDraw(Program &program) {
+    Drawable::postDraw(program);
 }

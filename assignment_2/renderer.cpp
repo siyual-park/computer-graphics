@@ -8,13 +8,13 @@
 class Renderer: public gl::Renderer {
 public:
     explicit Renderer(gl::Window &window): gl::Renderer{window}, scene{*this} {
-        glEnable(GL_DEPTH_TEST);
     }
 
 private:
     void render(double delta_time) override {
         glEnable(GL_DEPTH_TEST);
-        GL_ERROR();
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         scene.draw(program);
         program.use();

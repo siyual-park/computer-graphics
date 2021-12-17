@@ -13,14 +13,13 @@ gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera
     event_emitter.addListener(scene_mouse_position_offset_listener);
 }
 
-void gl::Scene::draw(Program &program) {
-    camera.update();
-
+void gl::Scene::preDraw(gl::Program &program) {
     for (auto &child: children) {
-        child->draw(program);
+        child->preDraw(program);
     }
 
-    world.draw(program);
+    camera.update();
+    world.preDraw(program);
 
     glm::mat4 projection = glm::perspective(
             glm::radians(camera.zoom),
@@ -41,6 +40,23 @@ void gl::Scene::draw(Program &program) {
                     (float)renderer.window.size.height
             )
     );
+}
+
+
+void gl::Scene::draw(Program &program) {
+    preDraw(program);
+
+    for (auto &child: children) {
+        child->draw(program);
+    }
+
+    postDraw(program);
+}
+
+void gl::Scene::postDraw(gl::Program &program) {
+    for (auto &child: children) {
+        child->postDraw(program);
+    }
 
     program.disuse();
 }

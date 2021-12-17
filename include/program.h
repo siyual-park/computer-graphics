@@ -17,11 +17,13 @@ namespace gl {
         template <unsigned int T>
         void detach(Shader<T>& shader);
 
-        void detaches(const int count);
+        void detaches(int count);
 
         void link();
         void use();
         void disuse();
+
+        void checkShaderLink();
 
         void setBool(const std::string &name, bool value) const;
         void setInt(const std::string &name, int value) const;

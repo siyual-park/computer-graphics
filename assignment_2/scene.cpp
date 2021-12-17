@@ -13,7 +13,7 @@ class Scene: public gl::Scene {
 public:
     explicit Scene(gl::Renderer &renderer)
             : gl::Scene{renderer, camera},
-              volume{std::move(std::string{"model"}), std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read())}
+              volume{std::move(std::string{"model"}), std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read()),this}
     {
         camera.zoom = 45.0f;
 

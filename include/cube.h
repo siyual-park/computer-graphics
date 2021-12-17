@@ -10,7 +10,9 @@ namespace gl {
         explicit Cube(std::string &&name, const GLfloat *color_buffer = nullptr);
         virtual ~Cube();
 
+        void preDraw(Program &program) override;
         void draw(Program &program) override;
+        void postDraw(Program &program) override;
 
         std::string name;
 

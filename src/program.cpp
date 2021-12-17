@@ -11,19 +11,24 @@ gl::Program::~Program() {
     glDeleteProgram(getGLuint(id));
 }
 
-void gl::Program::detaches(const int maxCount) {
-    GLsizei count;
+void gl::Program::detaches(int maxCount) {
+    GLsizei count{};
     GLuint shaders[maxCount];
 
     glGetAttachedShaders(getGLuint(id), maxCount, &count, shaders);
     for (int i = 0; i < count; i++) {
         glDetachShader(getGLuint(id), shaders[i]);
     }
+
+    glBindAttribLocation(getGLuint(id), 0, "VerPos");
+    glBindAttribLocation(getGLuint(id), 1, "VerClr");
+
     GL_ERROR();
 }
 
 void gl::Program::link() {
     glLinkProgram(getGLuint(id));
+    checkShaderLink();
     GL_ERROR();
 }
 void gl::Program::use() {
@@ -102,4 +107,22 @@ int gl::Program::getLocation(const std::string &name) const {
     auto location = glGetUniformLocation(getGLuint(id), name.c_str());
     GL_ERROR();
     return location;
+}
+
+void gl::Program::checkShaderLink() {
+    GLint status;
+    glGetProgramiv(getGLuint(id), GL_LINK_STATUS, &status);
+    if (GL_FALSE == status) {
+        GLint logLen;
+        glGetProgramiv(getGLuint(id), GL_INFO_LOG_LENGTH, &logLen);
+        if (logLen > 0) {
+            GLchar *log = (GLchar *)malloc(logLen);
+            GLsizei written;
+            glGetProgramInfoLog(getGLuint(id), logLen, &written, log);
+            std::string message{log};
+            free(log);
+
+            throw std::runtime_error{message};
+        }
+    }
 }

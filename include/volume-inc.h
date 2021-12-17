@@ -4,33 +4,37 @@
 #include "volume.h"
 
 template<class T>
-gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels)
+gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
         : voxels{voxels},
-          surface{name}
+          surface{name},
+          parent{parent}
 {
     init();
 }
 
 template<class T>
-gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels)
+gl::Volume<T>::Volume(std::string &name, gl::Voxels<T> &&voxels, Drawable *parent)
         : voxels{voxels},
-          surface{name}
+          surface{name},
+          parent{parent}
 {
     init();
 }
 
 template<class T>
-gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels)
+gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels, Drawable *parent)
         : voxels{voxels},
-          surface{name}
+          surface{name},
+          parent{parent}
 {
     init();
 }
 
 template<class T>
-gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels)
+gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels, Drawable *parent)
         : voxels{voxels},
-          surface{name}
+          surface{name},
+          parent{parent}
 {
     init();
 }
@@ -54,61 +58,75 @@ template<class T>
 gl::Volume<T>::~Volume() = default;
 
 template<class T>
-void gl::Volume<T>::draw(gl::Program &program) {
-    glEnable(GL_DEPTH_TEST);
+void gl::Volume<T>::preDraw(gl::Program &program) {
+    GL_ERROR();
+    if (cull_face == GL_FRONT) {
+        frame_buffer.bind();
 
-//    frame_buffer.bind();
+        program.detaches(2);
+        program.attach(backface_vertex_shader);
+        program.attach(backface_fragment_shader);
+        program.link();
 
-    program.detaches(2);
-    program.attach(backface_vertex_shader);
-    program.attach(backface_fragment_shader);
-    program.link();
+        program.use();
+    } else {
+        frame_buffer.unbind();
 
-    program.use();
-    draw_surface(program, GL_FRONT);
-//    program.disuse();
+        program.detaches(2);
+        program.attach(raycasting_vertex_shader);
+        program.attach(raycasting_fragment_shader);
+        program.link();
 
-//    frame_buffer.unbind();
-//
-//    program.detachAllShader();
-//    program.attach(raycasting_vertex_shader);
-//    program.attach(raycasting_fragment_shader);
-//    program.link();
-//
-//    program.use();
-//
-//    auto exit_points = program.getLocation("ExitPoints");
-//    if (exit_points >= 0) {
-//        glActiveTexture(GL_TEXTURE1);
-//        glBindTexture(GL_TEXTURE_2D, frame_buffer_texture.id);
-//        glUniform1i(exit_points, 1);
-//    }
-//    auto volume_tex = program.getLocation("VolumeTex");
-//    if (volume_tex >= 0) {
-//        glActiveTexture(GL_TEXTURE2);
-//        glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
-//        glUniform1i(volume_tex, 2);
-//    }
-//
-//    draw_surface(program, GL_BACK);
+        program.use();
+
+        auto exit_points = program.getLocation("ExitPoints");
+        if (exit_points >= 0) {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, frame_buffer_texture.id);
+            glUniform1i(exit_points, 1);
+        }
+        auto volume_tex = program.getLocation("VolumeTex");
+        if (volume_tex >= 0) {
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
+            glUniform1i(volume_tex, 2);
+        }
+    }
+    surface.preDraw(program);
+
+    GL_ERROR();
 }
 
 template<class T>
-void gl::Volume<T>::draw_surface(gl::Program &program, int mode) {
+void gl::Volume<T>::draw(gl::Program &program) {
     GL_ERROR();
 
-    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
-    GL_ERROR();
-
-//    glEnable(GL_CULL_FACE);
-//    glCullFace(mode);
+    glCullFace(cull_face);
 
     surface.draw(program);
 
-//    glDisable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
 
+    GL_ERROR();
+}
+
+template<class T>
+void gl::Volume<T>::postDraw(gl::Program &program) {
+    GL_ERROR();
+    surface.postDraw(program);
+    program.disuse();
+
+    if (cull_face == GL_FRONT) {
+        cull_face = GL_BACK;
+        if (parent != nullptr) {
+            parent->draw(program);
+        }
+    } else {
+        cull_face = GL_FRONT;
+    }
     GL_ERROR();
 }
 
