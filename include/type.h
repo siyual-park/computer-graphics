@@ -14,6 +14,11 @@ namespace gl {
         return 0;
     }
 
+    template <typename T>
+    constexpr int getRedFormat(T empty = (T) 0) {
+        return 0;
+    }
+
     template <>
     constexpr int getType<float>(float empty) {
         return GL_FLOAT;
@@ -82,6 +87,41 @@ namespace gl {
     template <>
     constexpr int getRedType<unsigned int>(unsigned int empty) {
         return GL_R32UI;
+    }
+
+    template <>
+    constexpr int getRedFormat<float>(float empty) {
+        return GL_RED;
+    }
+
+    template <>
+    constexpr int getRedFormat<signed char>(signed char empty) {
+        return GL_RED;
+    }
+
+    template <>
+    constexpr int getRedFormat<unsigned char>(unsigned char empty) {
+        return GL_RED;
+    }
+
+    template <>
+    constexpr int getRedFormat<signed short>(signed short empty) {
+        return GL_RED_INTEGER;
+    }
+
+    template <>
+    constexpr int getRedFormat<unsigned short>(unsigned short empty) {
+        return GL_RED_INTEGER;
+    }
+
+    template <>
+    constexpr int getRedFormat<signed int>(signed int empty) {
+        return GL_RED_INTEGER;
+    }
+
+    template <>
+    constexpr int getRedFormat<unsigned int>(unsigned int empty) {
+        return GL_RED_INTEGER;
     }
 }
 
