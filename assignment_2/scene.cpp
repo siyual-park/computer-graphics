@@ -108,6 +108,6 @@ private:
 
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
 
-    gl::Voxels<signed short> voxels{std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume"}.read())};
+    gl::Voxels<signed short> voxels{std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume", gl::ENDIAN_TYPE::BIG}.read())};
     gl::Volume<signed short> volume{std::move(std::string{"model"}), voxels, this};
 };
