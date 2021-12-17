@@ -10,7 +10,8 @@ uniform sampler3D VolumeTex;
 uniform vec2      ScreenSize;
 
 void main() {
-    float StepSize = 0.001f;
+    float step = 256.0f;
+    float stepSize = 1.0f / step;
 
     vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
@@ -22,20 +23,20 @@ void main() {
     vec3 dir = exitPoint - EntryPoint;
     float len = length(dir);
 
-    vec3 deltaDir = normalize(dir) * StepSize;
+    vec3 deltaDir = normalize(dir) * stepSize;
     float deltaDirLen = length(deltaDir);
 
     vec3 voxelCoord = EntryPoint;
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum;
-    vec4 backgoundColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
+    vec4 backgoundColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     float min = 119.0f / 65535.0f;
     float max = 325.0f / 65535.0f;
 
-    while (true) {
+    for (int i = 0; i < 1600; i++) {
         float alpha = 1.0f;
-        float intensity = texture(VolumeTex, voxelCoord).x / 255.0f;
+        float intensity = texture(VolumeTex, voxelCoord).x / 256.0f;
 
         if (intensity > max) {
             alpha = 1.0f;
@@ -47,14 +48,16 @@ void main() {
 
         vec4 colorSample = vec4(1.0f, 1.0f, 1.0f, alpha);
         if (colorSample.a > 0.0f) {
-            colorAcum.rgb += colorSample.rgb * colorSample.a;
-            colorAcum.a += colorSample.a;
+            colorSample.a = 1.0f - pow(1.0f - colorSample.a, stepSize * pow(step, 1.4f));
+            colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
+            colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }
 
         voxelCoord += deltaDir;
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
+            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a) * backgoundColor.rgb;
             break;
         } else if (colorAcum.a > 1.0f) {
             colorAcum.a = 1.0f;
