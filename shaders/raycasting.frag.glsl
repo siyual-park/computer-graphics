@@ -61,7 +61,7 @@ void main() {
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
-            //            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a) * bgColor.rgb;
+            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a) * bgColor.rgb;
             break;
         } else if (colorAcum.a > 1.0) {
             colorAcum.a = 1.0;
