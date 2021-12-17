@@ -65,6 +65,8 @@ void gl::initGLLoader() {
         return;
     }
 
+    GL_ERROR();
+
 #ifndef NDEBUG
     GLint flags;
     glGetIntegerv(GL_CONTEXT_FLAGS, &flags);

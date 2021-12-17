@@ -64,6 +64,8 @@ void Cube::init(const GLfloat *color_buffer) {
         glBindBuffer(GL_ARRAY_BUFFER, this->color_buffer);
         glBufferData(GL_ARRAY_BUFFER, getGLsizeiptr(sizeof(g_vertex_buffer)), color_buffer, GL_STATIC_DRAW);
     }
+
+    GL_ERROR();
 }
 
 Cube::~Cube() {

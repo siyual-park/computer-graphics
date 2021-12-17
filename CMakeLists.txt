@@ -51,6 +51,7 @@ set(
         src/volume-surface.cpp
 		src/frame-buffer.cpp
 		src/texture2d.cpp
+		src/type.cpp
 )
 
 set(
@@ -92,7 +93,8 @@ set(
 		include/texture2d-inc.h
 		include/texture3d.h
 		include/texture3d-inc.h
-        include/frame-buffer-inc.h)
+        include/frame-buffer-inc.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC
@@ -152,8 +154,6 @@ add_custom_command(
 add_executable(
 		assignment_2
 		assignment_2/main.cpp
-		assignment_2/renderer.cpp
-		assignment_2/scene.cpp
 )
 target_link_libraries(
 		assignment_2

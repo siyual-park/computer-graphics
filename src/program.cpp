@@ -19,16 +19,20 @@ void gl::Program::detachAllShader() {
     for (int i = 0; i < count; i++) {
         glDetachShader(getGLuint(id), shaders[i]);
     }
+    GL_ERROR();
 }
 
 void gl::Program::link() {
     glLinkProgram(getGLuint(id));
+    GL_ERROR();
 }
 void gl::Program::use() {
     glUseProgram(getGLuint(id));
+    GL_ERROR();
 }
 void gl::Program::disuse() {
     glUseProgram(0);
+    GL_ERROR();
 }
 
 void gl::Program::setBool(const std::string &name, bool value) const {
@@ -95,5 +99,7 @@ void gl::Program::setMat4(const std::string &name, const glm::mat4 &mat) const {
 }
 
 int gl::Program::getLocation(const std::string &name) const {
-    return glGetUniformLocation(getGLuint(id), name.c_str());
+    auto location = glGetUniformLocation(getGLuint(id), name.c_str());
+    GL_ERROR();
+    return location;
 }

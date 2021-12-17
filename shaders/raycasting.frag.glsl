@@ -7,12 +7,14 @@ layout (location = 0) out vec4 FragColor;
 
 uniform sampler2D ExitPoints;
 uniform sampler3D VolumeTex;
-uniform sampler1D TransferFunc;
-uniform float     StepSize;
+//uniform sampler1D TransferFunc;
+//uniform float     StepSize;
 uniform vec2      ScreenSize;
 
 void main()
 {
+    float StepSize = 0.01f;
+
     vec3 exitPoint = texture(ExitPoints, gl_FragCoord.st / ScreenSize).xyz;
     if (EntryPoint == exitPoint) {
         discard;
@@ -33,7 +35,7 @@ void main()
 
     for (int i = 0; i < 1600; i++) {
         intensity =  texture(VolumeTex, voxelCoord).x;
-        colorSample = texture(TransferFunc, intensity);
+        colorSample = vec4(1.0, 1.0, 1.0, intensity);
         if (colorSample.a > 0.0) {
             colorSample.a = 1.0 - pow(1.0 - colorSample.a, StepSize * 200.0f);
             colorAcum.rgb += (1.0 - colorAcum.a) * colorSample.rgb * colorSample.a;
@@ -42,11 +44,9 @@ void main()
         voxelCoord += deltaDir;
         lengthAcum += deltaDirLen;
         if (lengthAcum >= len) {
-            colorAcum.rgb = colorAcum.rgb*colorAcum.a + (1 - colorAcum.a)*bgColor.rgb;
+            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a)*bgColor.rgb;
             break;
-        }
-        else if (colorAcum.a > 1.0)
-        {
+        } else if (colorAcum.a > 1.0) {
             colorAcum.a = 1.0;
             break;
         }

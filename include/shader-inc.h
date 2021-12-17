@@ -35,9 +35,11 @@ template <unsigned int T>
 void init(gl::Shader<T> &shader, std::string &path) {
     shader.id = glCreateShader(shader.Type);
 
-    const std::string& shader_source{getShaderSource(shader)};
+    const std::string shader_source{std::move(getShaderSource(shader))};
     const char *p_shader_source = shader_source.data();
     glShaderSource(gl::getGLuint(shader.id), 1, &p_shader_source, nullptr);
+
+    GL_ERROR();
 }
 
 template<unsigned int T>

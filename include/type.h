@@ -5,82 +5,82 @@
 
 namespace gl {
     template <typename T>
-    constexpr int getType() {
+    constexpr int getType(T empty = (T) 0) {
         return 0;
-    }
-
-    template <float*>
-    constexpr int getType() {
-        return GL_FLOAT;
-    }
-
-    template <signed char*>
-    constexpr int getType() {
-        return GL_BYTE;
-    }
-
-    template <unsigned char*>
-    constexpr int getType() {
-        return GL_UNSIGNED_BYTE;
-    }
-
-    template <signed short*>
-    constexpr int getType() {
-        return GL_SHORT;
-    }
-
-    template <unsigned short*>
-    constexpr int getType() {
-        return GL_UNSIGNED_SHORT;
-    }
-
-    template <int*>
-    constexpr int getType() {
-        return GL_INT;
-    }
-
-    template <unsigned int*>
-    constexpr int getType() {
-        return GL_UNSIGNED_INT;
     }
 
     template <typename T>
-    constexpr int getRedType() {
+    constexpr int getRedType(T empty = (T) 0) {
         return 0;
     }
 
-    template <float*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getType<float>(float empty) {
+        return GL_FLOAT;
+    }
+
+    template <>
+    constexpr int getType<signed char>(signed char empty) {
+        return GL_BYTE;
+    }
+
+    template <>
+    constexpr int getType<unsigned char>(unsigned char empty) {
+        return GL_UNSIGNED_BYTE;
+    }
+
+    template <>
+    constexpr int getType<signed short>(signed short empty) {
+        return GL_SHORT;
+    }
+
+    template <>
+    constexpr int getType<unsigned short>(unsigned short empty) {
+        return GL_UNSIGNED_SHORT;
+    }
+
+    template <>
+    constexpr int getType<int>(int empty) {
+        return GL_INT;
+    }
+
+    template <>
+    constexpr int getType<unsigned int>(unsigned int empty) {
+        return GL_UNSIGNED_INT;
+    }
+
+    template <>
+    constexpr int getRedType<float>(float empty) {
         return GL_R16F;
     }
 
-    template <signed char*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<signed char>(signed char empty) {
         return GL_R8_SNORM;
     }
 
-    template <unsigned char*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<unsigned char>(unsigned char empty) {
         return GL_R8;
     }
 
-    template <signed short*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<signed short>(signed short empty) {
         return GL_R16UI;
     }
 
-    template <unsigned short*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<unsigned short>(unsigned short empty) {
         return GL_R16I;
     }
 
-    template <int*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<int>(int empty) {
         return GL_R32UI;
     }
 
-    template <unsigned int*>
-    constexpr int getRedType() {
+    template <>
+    constexpr int getRedType<unsigned int>(unsigned int empty) {
         return GL_R32I;
     }
 }

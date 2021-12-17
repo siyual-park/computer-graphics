@@ -55,6 +55,8 @@ gl::Volume<T>::~Volume() = default;
 
 template<class T>
 void gl::Volume<T>::draw(gl::Program &program) {
+    glEnable(GL_DEPTH_TEST);
+
     frame_buffer.bind();
 
     program.detachAllShader();

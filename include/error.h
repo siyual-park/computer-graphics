@@ -3,6 +3,8 @@
 
 #include <string>
 
+#define GL_ERROR() gl::checkForOpenGLError(__FILE__, __LINE__)
+
 namespace gl {
     enum Error {
         GLFW,
@@ -10,6 +12,7 @@ namespace gl {
         GL,
     };
 
+    void checkForOpenGLError(const char* file, int line);
     void errorHandle(int error, const std::string &description);
 }
 
