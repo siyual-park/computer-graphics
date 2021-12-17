@@ -19,7 +19,7 @@ namespace gl {
         float linear;
         float quadratic;
 
-        void draw(Program &program) override;
+        void preDraw(Program &program) override;
     };
 }
 

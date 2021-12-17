@@ -1,6 +1,6 @@
 #include "material.h"
 
-void gl::Material::draw(Program &program) {
+void gl::Material::preDraw(Program &program) {
     program.setFloat(name + ".shininess", 32.0f);
 
     if (loaded.find(&program) == loaded.end()) {

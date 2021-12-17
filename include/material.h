@@ -15,7 +15,7 @@ namespace gl {
 
         float shininess;
 
-        void draw(Program &program) override;
+        void preDraw(Program &program) override;
 
     private:
         std::set<Program*> loaded{};

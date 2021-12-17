@@ -33,35 +33,29 @@ void main() {
     vec4 colorSample;
     float alphaSample;
     vec4 bgColor = vec4(1.0, 1.0, 1.0, 0.0);
-    int acc = 0;
 
     while (true) {
-        float nor = 0.0f;
+        float norm = 0.0f;
 
         intensity = texture(VolumeTex, voxelCoord).x;
         if (intensity > 325) {
-            nor = 1.0f;
+            norm = 1.0f;
         } else if (intensity < 119) {
-            nor = 0.0f;
+            norm = 0.0f;
         } else {
-            nor = (intensity - 119) / (325 - 119);
-        }
-        if (intensity > 0) {
-            acc++;
+            norm = (intensity - 119) / (325 - 119);
         }
 
-        colorSample = vec4(nor, nor, nor, nor);
+        colorSample = vec4(norm);
         if (colorSample.a > 0.0) {
-            colorSample.a = 1.0 - pow(1.0 - colorSample.a, StepSize * 200.0f);
-            colorAcum.rgb += (1.0 - colorAcum.a) * colorSample.rgb * colorSample.a;
-            colorAcum.a += (1.0 - colorAcum.a) * colorSample.a;
+            colorAcum.rgb += colorSample.rgb * colorSample.a;
+            colorAcum.a += colorSample.a;
         }
 
         voxelCoord += deltaDir;
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
-            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a) * bgColor.rgb;
             break;
         } else if (colorAcum.a > 1.0) {
             colorAcum.a = 1.0;

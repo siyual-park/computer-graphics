@@ -83,13 +83,13 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
         if (exit_points >= 0) {
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, frame_buffer_texture.id);
-            glUniform1i(exit_points, 1);
+            glUniform1i(exit_points, 0);
         }
         auto volume_tex = program.getLocation("VolumeTex");
         if (volume_tex >= 0) {
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
-            glUniform1i(volume_tex, 2);
+            glUniform1i(volume_tex, 1);
         }
     }
     surface.preDraw(program);
@@ -106,6 +106,10 @@ void gl::Volume<T>::draw(gl::Program &program) {
 
     glCullFace(cull_face);
 
+    if (cull_face == GL_FRONT) {
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
     surface.draw(program);
 
     glDisable(GL_CULL_FACE);
