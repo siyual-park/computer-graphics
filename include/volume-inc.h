@@ -22,7 +22,7 @@ namespace gl {
 
 template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
-        : voxels{voxels},
+        : voxels{gl::internal::exchange_voxels_type<T, unsigned char>(voxels)},
           surface{name},
           parent{parent}
 {
@@ -31,7 +31,7 @@ gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
 
 template<class T>
 gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels, Drawable *parent)
-        : voxels{voxels},
+        : voxels{gl::internal::exchange_voxels_type<T, unsigned char>(voxels)},
           surface{name},
           parent{parent}
 {

@@ -35,15 +35,15 @@ namespace gl {
     private:
         void init();
 
-        Voxels<T> voxels;
+        Voxels<unsigned char> voxels;
         VolumeSurface surface;
         Drawable *parent;
 
-        gl::Texture3d<T> voxel_texture{
+        gl::Texture3d<unsigned char> voxel_texture{
                 voxels.data,
                 Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
-                getRedType<T>(),
-                getRedFormat<T>()
+                getRedType<unsigned char>(),
+                getRedFormat<unsigned char>()
         };
 
         gl::FrameBuffer frame_buffer{};

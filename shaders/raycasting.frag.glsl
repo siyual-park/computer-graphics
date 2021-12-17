@@ -35,7 +35,7 @@ void main() {
 
     while (true) {
         float alpha = 1.0f;
-        float intensity = texture(VolumeTex, voxelCoord).x;
+        float intensity = texture(VolumeTex, voxelCoord).x / 256;
 
         if (intensity > max) {
             alpha = 1.0f;
