@@ -4,7 +4,7 @@
 class TransferFunctionGen : public gl::TransferFunctionGen<signed short> {
 protected:
     glm::vec4 run(signed short value) override {
-        float alpha = 0.0f;
+        float alpha;
 
         if (value < min) {
             alpha = 0.0f;

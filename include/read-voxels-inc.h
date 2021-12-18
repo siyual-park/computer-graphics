@@ -5,7 +5,6 @@
 
 #include <fstream>
 #include <limits>
-#include <stdio.h>
 
 #include "endian-type.h"
 #include "read-raw.h"
@@ -19,7 +18,7 @@ gl::Voxels<T> gl::readVoxels(const std::string &path, ENDIAN_TYPE endian_type) {
     auto min = std::numeric_limits<T>::min();
     auto max = std::numeric_limits<T>::max();
 
-    std::size_t tf_origin_size = (max - min + 1) * 4;
+    std::size_t tf_origin_size = ((std::size_t) (max - min + 1)) * 4;
     std::size_t tf_size = 256 * 4;
 
     auto size_diff = tf_origin_size / tf_size;
@@ -32,14 +31,6 @@ gl::Voxels<T> gl::readVoxels(const std::string &path, ENDIAN_TYPE endian_type) {
         tf_buffer.get()[4 * i + 1] = tf_origin_buffer.get()[size_diff * 4 * i + 1];
         tf_buffer.get()[4 * i + 2] = tf_origin_buffer.get()[size_diff * 4 * i + 2];
         tf_buffer.get()[4 * i + 3] = tf_origin_buffer.get()[size_diff * 4 * i + 3];
-    }
-
-    for (auto i = 0; i < tf_origin_size; i++) {
-        printf("%d\n", tf_origin_buffer.get()[i]);
-    }
-
-    for (auto i = 0; i < tf_size; i++) {
-        printf("%d\n", tf_buffer.get()[i]);
     }
 
     TransferFunction transfer_function{tf_size};
