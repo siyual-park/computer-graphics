@@ -13,22 +13,32 @@ uniform vec2      ScreenSize;
 uniform vec3      VolumeSize;
 uniform vec3      VolumeSpacing;
 
-void main() {
-    float step = max(VolumeSize.x, max(VolumeSize.r, VolumeSize.s));
-    float stepSize = 1.0f / step;
+float calculate_step(vec3 normDir) {
+    float x = pow(abs(normDir.x * VolumeSize.x), 2);
+    float y = pow(abs(normDir.y * VolumeSize.y), 2);
+    float z = pow(abs(normDir.z * VolumeSize.z), 2);
 
+    return pow(x + y + z, 0.5);
+}
+
+void main() {
     vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
 
-    vec3 dir = exitPoint - EntryPoint;
-    float len = length(dir);
-
-    if (len < stepSize) {
+    if (exitPoint == EntryPoint) {
         FragColor = vec4(0.0f);
         return;
     }
 
-    vec3 deltaDir = normalize(dir) * stepSize;
+    vec3 dir = exitPoint - EntryPoint;
+    float len = length(dir);
+
+    vec3 normDir = normalize(dir);
+
+    float step = calculate_step(normDir);
+    float stepSize = 1.0f / step;
+
+    vec3 deltaDir = normDir * stepSize;
     float deltaDirLen = length(deltaDir);
 
     vec3 voxelCoord = EntryPoint;
@@ -52,7 +62,7 @@ void main() {
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
-            colorAcum.rgb = colorAcum.rgb * colorAcum.a + (1 - colorAcum.a) * backgoundColor.rgb;
+            colorAcum.rgb = colorAcum.rgb * colorAcum.a;
             break;
         } else if (colorAcum.a > 1.0f) {
             colorAcum.a = 1.0f;

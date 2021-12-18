@@ -11,7 +11,7 @@ protected:
         if (value < min) {
             alpha = alphaMin;
         } else if (value > max) {
-            alpha = 1.0f;
+            alpha = alphaMax;
         } else {
             auto width = (float) (max - min);
             alpha = alphaMin * (float) std::abs(value - max) / width + alphaMax * (float) std::abs(value - min) / width;
