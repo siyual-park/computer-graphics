@@ -13,7 +13,7 @@ namespace gl {
         explicit TransferFunctionGen();
         virtual ~TransferFunctionGen();
 
-        void generate(const std::string &path, ENDIAN_TYPE endian_type = ENDIAN_TYPE::LITTLE);
+        void generate(const std::string &path);
 
     protected:
         virtual glm::vec4 run(T value) = 0;

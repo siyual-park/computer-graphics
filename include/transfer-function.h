@@ -11,7 +11,7 @@ namespace gl {
         TransferFunction(TransferFunction &&other) noexcept;
         ~TransferFunction();
 
-        float* data{};
+        unsigned char* data{};
         std::size_t size;
     };
 }

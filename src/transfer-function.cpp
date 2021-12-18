@@ -1,13 +1,13 @@
 #include "transfer-function.h"
 
 gl::TransferFunction::TransferFunction(std::size_t size): size{size} {
-    data = new float[size];
+    data = new unsigned char[size];
 }
 
 gl::TransferFunction::TransferFunction(gl::TransferFunction &other) noexcept:
         size{other.size}
 {
-    data = new float[size];
+    data = new unsigned char[size];
     for (auto i = 0; i < size; i++) {
         data[i] = other.data[i];
     }

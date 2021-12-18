@@ -4,6 +4,7 @@
 #include "voxels.h"
 #include "volume-surface.h"
 #include "frame-buffer.h"
+#include "texture1d.h"
 #include "texture2d.h"
 #include "texture3d.h"
 
@@ -41,6 +42,12 @@ namespace gl {
         VolumeSurface surface;
         Drawable *parent;
 
+        gl::Texture1d<unsigned char> tf_texture{
+                voxels.transfer_function.data,
+                voxels.transfer_function.size / 4,
+                GL_RGBA8,
+                GL_RGBA
+        };
         gl::Texture3d<T> voxel_texture{
                 voxels.data,
                 Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},

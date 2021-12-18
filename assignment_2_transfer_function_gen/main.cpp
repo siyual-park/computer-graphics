@@ -24,6 +24,6 @@ private:
 };
 
 int main() {
-    TransferFunctionGen{}.generate("./resources/objects/volume/tf.raw", gl::ENDIAN_TYPE::BIG);
+    TransferFunctionGen{}.generate("./resources/objects/volume/tf.raw");
     return 0;
 }

@@ -51,7 +51,9 @@ set(
         src/volume-surface.cpp
 		src/frame-buffer.cpp
 		src/texture2d.cpp
-        src/read-voxels.cpp src/transfer-function.cpp)
+        src/read-voxels.cpp
+		src/transfer-function.cpp
+)
 
 set(
 		APPLICATION_HEADERS
@@ -71,7 +73,6 @@ set(
 		include/scene.h
 		include/mesh.h
 		include/model.h
-		include/stb_image.h
 		include/world.h
 		include/light.h
 		include/material.h
@@ -87,16 +88,20 @@ set(
         include/volume.h
 		include/volume-inc.h
 		include/frame-buffer.h
-        include/texture2d.h
-		include/texture2d-inc.h
 		include/type.h
+		include/texture1d.h
+		include/texture1d-inc.h
+		include/texture2d.h
+		include/texture2d-inc.h
 		include/texture3d.h
 		include/texture3d-inc.h
 		include/endian-type.h
 		include/transfer-function-gen.h
 		include/transfer-function-gen-inc.h
         include/read-raw.h
-		include/read-raw-inc.h include/transfer-function.h)
+		include/read-raw-inc.h
+		include/transfer-function.h
+		include/stb_image.h)
 
 add_library(
 		APPLICATION_LIB STATIC

@@ -18,10 +18,10 @@ gl::Voxels<T> gl::readVoxels(const std::string &path, ENDIAN_TYPE endian_type) {
     auto max = std::numeric_limits<T>::max();
 
     std::size_t tf_size = max - min + 1 * 4;
-    std::unique_ptr<float> tf_buffer{std::move(readRaw<float>(path + "/tf.raw", tf_size, endian_type))};
+    std::unique_ptr<unsigned char> tf_buffer{std::move(readRaw<unsigned char>(path + "/tf.raw", tf_size, endian_type))};
 
     TransferFunction transfer_function{tf_size};
-    gl::internal::copyData<float>(tf_buffer.get(), transfer_function.data, transfer_function.size);
+    gl::internal::copyData<unsigned char>(tf_buffer.get(), transfer_function.data, transfer_function.size);
 
     const std::size_t buffer_size = size.width * size.height * size.depth;
 

@@ -83,6 +83,12 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
 
         program.use();
 
+        auto tf_tex = program.getLocation("TransferFunc");
+        if (tf_tex >= 0) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_1D, tf_texture.id);
+            glUniform1i(tf_tex, 0);
+        }
         auto exit_points = program.getLocation("ExitPoints");
         if (exit_points >= 0) {
             glActiveTexture(GL_TEXTURE1);
@@ -144,10 +150,12 @@ void gl::Volume<T>::postDraw(gl::Program &program) {
     } else {
         cull_face = GL_FRONT;
 
-        glActiveTexture(GL_TEXTURE1);
-        frame_buffer.texture.unbind();
         glActiveTexture(GL_TEXTURE2);
         voxel_texture.unbind();
+        glActiveTexture(GL_TEXTURE1);
+        frame_buffer.texture.unbind();
+        glActiveTexture(GL_TEXTURE0);
+        tf_texture.unbind();
 
         glActiveTexture(GL_TEXTURE0);
 
