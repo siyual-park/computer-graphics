@@ -106,6 +106,10 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
                 "VolumeSize",
                 glm::vec3(voxels.size.width, voxels.size.height, voxels.size.depth)
         );
+        program.setVec3(
+                "VolumeSpacing",
+                glm::vec3(voxels.spacing.x, voxels.spacing.y, voxels.spacing.z)
+        );
     }
 
     GL_ERROR();

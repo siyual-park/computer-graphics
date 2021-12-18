@@ -1,5 +1,6 @@
 #version 330 core
 
+in vec3 FragPos;
 in vec3 EntryPoint;
 in vec4 ExitPointCoord;
 
@@ -10,6 +11,7 @@ uniform sampler2D ExitPoints;
 uniform sampler3D VolumeTex;
 uniform vec2      ScreenSize;
 uniform vec3      VolumeSize;
+uniform vec3      VolumeSpacing;
 
 void main() {
     float step = max(VolumeSize.x, max(VolumeSize.r, VolumeSize.s));
@@ -30,8 +32,10 @@ void main() {
     float deltaDirLen = length(deltaDir);
 
     vec3 voxelCoord = EntryPoint;
+
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum;
+
     vec4 backgoundColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     while (true) {
@@ -39,7 +43,7 @@ void main() {
         vec4 colorSample = texture(TransferFunc, intensity);
 
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.5f));
+            colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.2f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }

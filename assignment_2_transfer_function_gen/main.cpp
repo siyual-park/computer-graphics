@@ -2,28 +2,34 @@
 #include "transfer-function-gen.h"
 
 class TransferFunctionGen : public gl::TransferFunctionGen<signed short> {
+public:
+    TransferFunctionGen(float alphaMin, float alphaMax): alphaMin{alphaMin}, alphaMax{alphaMax} {}
 protected:
     glm::vec4 run(signed short value) override {
         float alpha;
 
         if (value < min) {
-            alpha = 0.0f;
+            alpha = alphaMin;
         } else if (value > max) {
-            alpha = 1.0f;
+            alpha = alphaMax;
         } else {
             auto width = (float) (max - min);
-            alpha = 0.0f * (float) std::abs(value - max) / width + 0.01f * (float) std::abs(value - min) / width;
+            alpha = alphaMin * (float) std::abs(value - max) / width + alphaMax * (float) std::abs(value - min) / width;
         }
 
         return glm::vec4(1.0f, 1.0f, 1.0f, alpha);
     }
 
 private:
+    const float alphaMin{0.0f};
+    const float alphaMax{1.0f};
+
     const signed short min{119};
-    const signed short max{std::numeric_limits<signed short>::max()};
+    const signed short max{325};
 };
 
+
 int main() {
-    TransferFunctionGen{}.generate("./resources/objects/volume/tf.raw");
+    TransferFunctionGen{0.0f, 0.05f}.generate("./resources/objects/volume/tf.raw");
     return 0;
 }

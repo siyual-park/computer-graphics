@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "read-voxels.h"
 #include "volume.h"
+#include "light.h"
 
 #include <GLFW/glfw3.h>
 
@@ -15,7 +16,20 @@ public:
         camera.zoom = 45.0f;
         volume.scale *= 0.001;
 
+        light.name = "light";
+
+        light.position = glm::vec3(1.0f, 1.0f, 1.0f);
+
+        light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+        light.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+        light.specular = glm::vec3(0.0f, 1.0f, 1.0f);
+
+        light.constant = 1.0f;
+        light.linear = 0.09f;
+        light.quadratic = 0.032f;
+
         add(volume);
+        add(light);
         add(camera);
         add(world);
     }
@@ -114,4 +128,6 @@ private:
         gl::readVoxels<signed short>("./resources/objects/volume", gl::ENDIAN_TYPE::BIG),
         this
     };
+
+    gl::Light light{};
 };
