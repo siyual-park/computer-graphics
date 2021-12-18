@@ -5,6 +5,7 @@
 
 #include "drawable.h"
 #include "gl-object.h"
+#include "transfer-function.h"
 
 namespace gl {
     struct Size {
@@ -22,13 +23,15 @@ namespace gl {
     template<class T>
     class Voxels {
     public:
-        explicit Voxels(Size size, Spacing spacing = {1.0f, 1.0f, 1.0f});
+        explicit Voxels(Size size, TransferFunction &transfer_function, Spacing spacing = {1.0f, 1.0f, 1.0f});
+        explicit Voxels(Size size, TransferFunction &&transfer_function, Spacing spacing = {1.0f, 1.0f, 1.0f});
         Voxels(Voxels<T> &other) noexcept;
         Voxels(Voxels<T> &&other) noexcept;
         ~Voxels();
 
         T* data;
 
+        TransferFunction transfer_function;
         Size size;
         Spacing spacing;
     };

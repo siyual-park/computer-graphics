@@ -51,7 +51,7 @@ set(
         src/volume-surface.cpp
 		src/frame-buffer.cpp
 		src/texture2d.cpp
-        src/read-voxels.cpp)
+        src/read-voxels.cpp src/transfer-function.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -96,7 +96,7 @@ set(
 		include/transfer-function-gen.h
 		include/transfer-function-gen-inc.h
         include/read-raw.h
-		include/read-raw-inc.h)
+		include/read-raw-inc.h include/transfer-function.h)
 
 add_library(
 		APPLICATION_LIB STATIC

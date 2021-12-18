@@ -9,10 +9,9 @@ namespace gl {
 
     namespace internal {
         template <class T>
-        void copyData(const unsigned char *source, T *target, std::size_t size) noexcept {
-            auto converted_buffer = reinterpret_cast<const T*>(source);
+        void copyData(const T* source, T *target, std::size_t size) noexcept {
             for (auto i = 0; i < size; ++i) {
-                target[i] = converted_buffer[i];
+                target[i] = source[i];
             }
         }
 
