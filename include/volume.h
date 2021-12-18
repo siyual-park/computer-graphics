@@ -46,7 +46,8 @@ namespace gl {
                 voxels.transfer_function.data,
                 voxels.transfer_function.size / 4,
                 GL_RGBA8,
-                GL_RGBA
+                GL_RGBA,
+                GL_LINEAR
         };
         gl::Texture3d<T> voxel_texture{
                 voxels.data,

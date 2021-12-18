@@ -6,8 +6,9 @@
 #include "error.h"
 
 template<class T>
-gl::Texture2d<T>::Texture2d(T *data, Texture2dSize size, int internal_format, int format)
-        : size{size} {
+gl::Texture2d<T>::Texture2d(T *data, Texture2dSize size, int internal_format, int format, int filter):
+        size{size}
+{
     auto type = getType<T>();
 
     glGenTextures(1, &id);
@@ -16,8 +17,8 @@ gl::Texture2d<T>::Texture2d(T *data, Texture2dSize size, int internal_format, in
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 
     unbind();
 

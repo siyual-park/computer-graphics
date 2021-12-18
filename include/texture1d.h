@@ -9,7 +9,7 @@ namespace gl {
     template <class T>
     class Texture1d : public GLObject {
     public:
-        explicit Texture1d(T *data, std::size_t size, int internal_format, int format);
+        explicit Texture1d(T *data, std::size_t size, int internal_format, int format, int filter = GL_NEAREST);
         ~Texture1d();
 
         void bind();

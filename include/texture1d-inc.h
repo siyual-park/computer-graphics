@@ -6,8 +6,9 @@
 #include "error.h"
 
 template<class T>
-gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int format)
-        : size{size} {
+gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int format, int filter):
+        size{size}
+{
     auto type = getType<T>();
 
     glGenTextures(1, &id);
@@ -15,8 +16,8 @@ gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int 
     glTexImage1D(GL_TEXTURE_1D, 0, internal_format, size, 0, format, type, data);
 
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, filter);
 
     unbind();
 

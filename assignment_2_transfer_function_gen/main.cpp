@@ -12,7 +12,7 @@ protected:
             alpha = 1.0f;
         } else {
             auto width = (float) (max - min);
-            alpha = 0.0f * (float) std::abs(value - max) / width + 1.0f * (float) std::abs(value - min) / width;
+            alpha = 0.0f * (float) std::abs(value - max) / width + 0.01f * (float) std::abs(value - min) / width;
         }
 
         return glm::vec4(1.0f, 1.0f, 1.0f, alpha);
@@ -20,7 +20,7 @@ protected:
 
 private:
     const signed short min{119};
-    const signed short max{325};
+    const signed short max{std::numeric_limits<signed short>::max()};
 };
 
 int main() {

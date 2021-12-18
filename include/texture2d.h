@@ -12,7 +12,7 @@ namespace gl {
     template <class T>
     class Texture2d : public GLObject {
     public:
-        explicit Texture2d(T *data, Texture2dSize size, int internal_format, int format);
+        explicit Texture2d(T *data, Texture2dSize size, int internal_format, int format, int filter = GL_NEAREST);
         ~Texture2d();
 
         void bind();

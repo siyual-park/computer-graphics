@@ -13,7 +13,7 @@ namespace gl {
     template <class T>
     class Texture3d : public GLObject {
     public:
-        explicit Texture3d(T *data, Texture3dSize size, int internal_format, int format);
+        explicit Texture3d(T *data, Texture3dSize size, int internal_format, int format, int filter = GL_NEAREST);
         ~Texture3d();
 
         void bind();

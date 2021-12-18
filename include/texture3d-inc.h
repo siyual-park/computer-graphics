@@ -5,7 +5,9 @@
 #include "type.h"
 
 template<class T>
-gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, int format): size{size} {
+gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, int format, int filter):
+        size{size}
+{
     auto type = getType<T>();
 
     glGenTextures(1, &id);
@@ -15,8 +17,8 @@ gl::Texture3d<T>::Texture3d(T *data, Texture3dSize size, int internal_format, in
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, filter);
 
     unbind();
 
