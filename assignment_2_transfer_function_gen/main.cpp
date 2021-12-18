@@ -11,7 +11,7 @@ protected:
         if (value < min) {
             alpha = alphaMin;
         } else if (value > max) {
-            alpha = alphaMax;
+            alpha = 1.0f;
         } else {
             auto width = (float) (max - min);
             alpha = alphaMin * (float) std::abs(value - max) / width + alphaMax * (float) std::abs(value - min) / width;
@@ -30,6 +30,6 @@ private:
 
 
 int main() {
-    TransferFunctionGen{0.0f, 0.05f}.generate("./resources/objects/volume/tf.raw");
+    TransferFunctionGen{0.0f, 0.005f}.generate("./resources/objects/volume/tf.raw");
     return 0;
 }
