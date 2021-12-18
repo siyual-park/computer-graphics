@@ -12,6 +12,7 @@ gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int 
 
     glGenTextures(1, &id);
     bind();
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage1D(GL_TEXTURE_1D, 0, internal_format, size, 0, format, type, data);
 
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);

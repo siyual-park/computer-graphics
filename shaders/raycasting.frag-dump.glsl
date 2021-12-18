@@ -5,7 +5,6 @@ in vec4 ExitPointCoord;
 
 out vec4 FragColor;
 
-uniform sampler1D TransferFunc;
 uniform sampler2D ExitPoints;
 uniform sampler3D VolumeTex;
 uniform vec2      ScreenSize;
@@ -34,10 +33,22 @@ void main() {
     float lengthAcum;
     vec4 backgoundColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-    while (true) {
-        float intensity = texture(VolumeTex, voxelCoord).x;
-        vec4 colorSample = texture(TransferFunc, intensity);
+    float min = 119.0f / 65535.0f;
+    float max = 325.0f / 65535.0f;
 
+    while (true) {
+        float alpha = 1.0f;
+        float intensity = texture(VolumeTex, voxelCoord).x / 256.0f;
+
+        if (intensity > max) {
+            alpha = 1.0f;
+        } else if (intensity < min) {
+            alpha = 0.0f;
+        } else {
+            alpha = 0.0f * abs(intensity - max) / (max - min) + 1.0f * abs(intensity - min) / (max - min);
+        }
+
+        vec4 colorSample = vec4(alpha, alpha, alpha, alpha);
         if (colorSample.a > 0.0f) {
             colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.5f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
