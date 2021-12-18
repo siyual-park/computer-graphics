@@ -2,7 +2,7 @@
 
 #include "scene.h"
 #include "camera.h"
-#include "voxels-reader.h"
+#include "read-voxels.h"
 #include "volume.h"
 
 #include <GLFW/glfw3.h>
@@ -111,8 +111,7 @@ private:
 
     gl::Volume<signed short> volume{
         std::move(std::string{"model"}),
-        gl::VoxelsReader<signed short>{"./resources/objects/volume",
-        gl::ENDIAN_TYPE::BIG}.read(),
+        gl::readVoxels<signed short>("./resources/objects/volume", gl::ENDIAN_TYPE::BIG),
         this
     };
 };

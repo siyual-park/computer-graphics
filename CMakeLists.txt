@@ -51,7 +51,7 @@ set(
         src/volume-surface.cpp
 		src/frame-buffer.cpp
 		src/texture2d.cpp
-)
+        src/read-voxels.cpp)
 
 set(
 		APPLICATION_HEADERS
@@ -80,8 +80,8 @@ set(
 		include/window-inc.h
 		include/voxels.h
 		include/voxels-inc.h
-		include/voxels-reader.h
-		include/voxels-reader-inc.h
+        include/read-voxels.h
+		include/read-voxels-inc.h
 		include/cube.h
         include/volume-surface.h
         include/volume.h
@@ -95,7 +95,8 @@ set(
 		include/endian-type.h
 		include/transfer-function-gen.h
 		include/transfer-function-gen-inc.h
-)
+        include/read-raw.h
+		include/read-raw-inc.h)
 
 add_library(
 		APPLICATION_LIB STATIC
