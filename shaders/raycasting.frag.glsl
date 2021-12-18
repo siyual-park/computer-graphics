@@ -50,7 +50,7 @@ void main() {
 
         vec4 colorSample = vec4(1.0f, 1.0f, 1.0f, alpha);
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0 - pow(1.0 - colorSample.a, pow(stepSize, 1.5f));
+            colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.5f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }
