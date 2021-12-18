@@ -9,9 +9,6 @@
 #include "texture3d.h"
 
 namespace gl {
-    namespace internal {
-        int mappingTypeToRed(int type);
-    }
 
     template<class T>
     class Volume: public Drawable {
