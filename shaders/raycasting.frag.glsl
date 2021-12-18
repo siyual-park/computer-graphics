@@ -16,13 +16,14 @@ void main() {
 
     vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
-    if (EntryPoint == exitPoint) {
-        FragColor = vec4(0.0f);
-        return;
-    }
 
     vec3 dir = exitPoint - EntryPoint;
     float len = length(dir);
+
+    if (len < stepSize) {
+        FragColor = vec4(0.0f);
+        return;
+    }
 
     vec3 deltaDir = normalize(dir) * stepSize;
     float deltaDirLen = length(deltaDir);
@@ -35,7 +36,7 @@ void main() {
     float min = 119.0f / 65535.0f;
     float max = 325.0f / 65535.0f;
 
-    for (int i = 0; i < step * 2; i++) {
+    while (true) {
         float alpha = 1.0f;
         float intensity = texture(VolumeTex, voxelCoord).x / 256.0f;
 
