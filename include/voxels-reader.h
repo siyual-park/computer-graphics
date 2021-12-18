@@ -4,13 +4,9 @@
 #include <string>
 
 #include "voxels.h"
+#include "endian-type.h"
 
 namespace gl {
-    enum class ENDIAN_TYPE {
-        LITTLE,
-        BIG
-    };
-
     template<class T>
     class VoxelsReader {
     public:

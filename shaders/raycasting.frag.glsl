@@ -45,12 +45,11 @@ void main() {
         } else if (intensity < min) {
             alpha = 0.0f;
         } else {
-            alpha = min * abs(intensity - max) / (max - min) + max * abs(intensity - min) / (max - min);
+            alpha = 0.0f * abs(intensity - max) / (max - min) + 1.0f * abs(intensity - min) / (max - min);
         }
 
         vec4 colorSample = vec4(1.0f, 1.0f, 1.0f, alpha);
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0f - pow(1.0f - colorSample.a, stepSize * pow(step, 1.5f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }

@@ -3,8 +3,6 @@
 
 #include "volume.h"
 
-#include <limits>
-
 template<class T>
 gl::Volume<T>::Volume(std::string &name, Voxels<T> &voxels, Drawable *parent)
         : voxels{voxels},

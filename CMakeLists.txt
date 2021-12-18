@@ -85,13 +85,16 @@ set(
 		include/cube.h
         include/volume-surface.h
         include/volume.h
+		include/volume-inc.h
 		include/frame-buffer.h
         include/texture2d.h
-		include/volume-inc.h
-		include/type.h
 		include/texture2d-inc.h
+		include/type.h
 		include/texture3d.h
 		include/texture3d-inc.h
+		include/endian-type.h
+		include/transfer-function-gen.h
+		include/transfer-function-gen-inc.h
 )
 
 add_library(
@@ -178,4 +181,23 @@ add_custom_command(
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assignment_2/resources $<TARGET_FILE_DIR:assignment_2>/resources
 		COMMENT "Copying resources" VERBATIM
+)
+
+# assignment_2_transfer_function_gen
+add_executable(
+		assignment_2_transfer_function_gen
+		assignment_2_transfer_function_gen/main.cpp
+)
+target_link_libraries(
+		assignment_2_transfer_function_gen
+		${ALL_LIBS}
+)
+
+set_target_properties(assignment_2_transfer_function_gen PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_2/")
+
+add_custom_command(
+		TARGET assignment_2_transfer_function_gen POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
+		COMMENT "Copying shaders" VERBATIM
 )

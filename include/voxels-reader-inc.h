@@ -4,32 +4,7 @@
 #include <fstream>
 
 #include "voxels-reader.h"
-
-namespace gl {
-    namespace internal {
-        template <class T>
-        void copyData(Voxels<T> *voxels, unsigned char *buffer) noexcept {
-            auto converted_buffer = reinterpret_cast<T*>(buffer);
-            for (auto i = 0; i < voxels->size.width * voxels->size.height * voxels->size.depth; ++i) {
-                voxels->data[i] = converted_buffer[i];
-            }
-        }
-
-        template <typename DATA>
-        void convertToBidEndian(DATA *data) noexcept {
-            union {
-                DATA f;
-                unsigned char c8[sizeof(DATA)];
-            } source, dest;
-            for (auto i = 0; i < sizeof(DATA); ++i) {
-                source.f = data[i];
-                for (auto k = 0; k < sizeof(DATA); ++k)
-                    dest.c8[k] = source.c8[sizeof(DATA) - k - 1];
-                data[i] = dest.f;
-            }
-        }
-    }
-}
+#include "endian-type.h"
 
 template<class T>
 gl::VoxelsReader<T>::VoxelsReader(std::string &path, ENDIAN_TYPE endian_type):
@@ -66,7 +41,7 @@ gl::Voxels<T> gl::VoxelsReader<T>::read() {
     }
 
     Voxels<T> voxels{size, spacing};
-    gl::internal::copyData<T>(&voxels, read_buffer.get());
+    gl::internal::copyData<T>(read_buffer.get(), voxels.data, voxels.size.width * voxels.size.height * voxels.size.depth);
 
     return voxels;
 }
