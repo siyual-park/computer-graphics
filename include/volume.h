@@ -53,7 +53,8 @@ namespace gl {
                 voxels.data,
                 Texture3dSize{.x = (int) voxels.size.width, .y = (int) voxels.size.height, .z = (int) voxels.size.depth},
                 getRedType<T>(),
-                getRedFormat<T>()
+                getRedFormat<T>(),
+                GL_LINEAR
         };
 
         gl::FrameBuffer frame_buffer{};
