@@ -8,9 +8,10 @@ out vec4 FragColor;
 uniform sampler2D ExitPoints;
 uniform sampler3D VolumeTex;
 uniform vec2      ScreenSize;
+uniform vec3      VolumeSize;
 
 void main() {
-    float step = 256.0f;
+    float step = max(VolumeSize.x, max(VolumeSize.r, VolumeSize.s));
     float stepSize = 1.0f / step;
 
     vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;

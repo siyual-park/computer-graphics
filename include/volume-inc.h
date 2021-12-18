@@ -24,6 +24,24 @@ gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &voxels, Drawable *paren
 }
 
 template<class T>
+gl::Volume<T>::Volume(std::string &name, Voxels<T> &&voxels, Drawable *parent)
+        : voxels{voxels},
+          surface{name},
+          parent{parent}
+{
+    init();
+}
+
+template<class T>
+gl::Volume<T>::Volume(std::string &&name, gl::Voxels<T> &&voxels, Drawable *parent)
+        : voxels{voxels},
+          surface{name},
+          parent{parent}
+{
+    init();
+}
+
+template<class T>
 void gl::Volume<T>::init() {
     backface_vertex_shader.compile();
     backface_fragment_shader.compile();
@@ -79,10 +97,16 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
             glBindTexture(GL_TEXTURE_3D, voxel_texture.id);
             glUniform1i(volume_tex, 2);
         }
+
+        program.setVec3(
+                "VolumeSize",
+                glm::vec3(voxels.size.width, voxels.size.height, voxels.size.depth)
+        );
     }
-    surface.preDraw(program);
 
     GL_ERROR();
+
+    surface.preDraw(program);
 }
 
 template<class T>
