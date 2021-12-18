@@ -35,11 +35,11 @@ void main() {
     vec4 backgoundColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     while (true) {
-        float intensity = texture(VolumeTex, voxelCoord).x;
+        float intensity = (texture(VolumeTex, voxelCoord).x + 1.0f) / 2.0f;
         vec4 colorSample = texture(TransferFunc, intensity);
 
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.5f));
+//            colorSample.a = 1.0 - pow(1.0 - colorSample.a, stepSize * pow(step, 1.5f));
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
         }

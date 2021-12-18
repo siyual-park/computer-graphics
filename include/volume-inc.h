@@ -85,9 +85,9 @@ void gl::Volume<T>::preDraw(gl::Program &program) {
 
         auto tf_tex = program.getLocation("TransferFunc");
         if (tf_tex >= 0) {
-            glActiveTexture(GL_TEXTURE0);
+            glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_1D, tf_texture.id);
-            glUniform1i(tf_tex, 0);
+            glUniform1i(tf_tex, 3);
         }
         auto exit_points = program.getLocation("ExitPoints");
         if (exit_points >= 0) {

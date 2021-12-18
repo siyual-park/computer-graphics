@@ -10,7 +10,7 @@ namespace gl {
     namespace internal {
         template <class T>
         void copyData(const T* source, T *target, std::size_t size) noexcept {
-            for (auto i = 0; i < size; ++i) {
+            for (auto i = 0; i < size; i++) {
                 target[i] = source[i];
             }
         }
