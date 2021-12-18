@@ -17,8 +17,10 @@ namespace gl {
         void unbind();
 
         Texture2d<float> texture;
+
     private:
         GLuint depth_buffer{};
+        WindowSize window_size;
     };
 }
 

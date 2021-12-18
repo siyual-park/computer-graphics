@@ -2,7 +2,10 @@
 
 using namespace gl;
 
-FrameBuffer::FrameBuffer(): texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA} {
+FrameBuffer::FrameBuffer()
+        : texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA},
+          window_size{internal::getWindowSizeFromViewport()}
+{
     auto size = texture.size;
 
     glGenRenderbuffers(1, &depth_buffer);
@@ -41,15 +44,16 @@ void FrameBuffer::check() const {
 }
 
 void FrameBuffer::bind() {
+    window_size = internal::getWindowSizeFromViewport();
     auto size = texture.size;
+
     glBindFramebuffer(GL_FRAMEBUFFER, id);
     glViewport(0, 0, size.x, size.y);
     GL_ERROR();
 }
 
 void FrameBuffer::unbind() {
-    auto size = internal::getWindowSizeFromViewport();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, size.width, size.height);
+    glViewport(0, 0, window_size.width, window_size.height);
     GL_ERROR();
 }
