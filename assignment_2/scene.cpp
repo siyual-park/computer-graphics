@@ -2,8 +2,6 @@
 
 #include "scene.h"
 #include "camera.h"
-#include "light.h"
-#include "material.h"
 #include "voxels-reader.h"
 #include "volume.h"
 
@@ -12,12 +10,14 @@
 class Scene: public gl::Scene {
 public:
     explicit Scene(gl::Renderer &renderer)
-            : gl::Scene{renderer, camera}
+            : gl::Scene{renderer}
     {
         camera.zoom = 45.0f;
         volume.scale *= 0.001;
 
         add(volume);
+        add(camera);
+        add(world);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
@@ -106,6 +106,7 @@ private:
     bool is_mouse_enter{false};
     int enter_button{0};
 
+    gl::World world{};
     gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
 
     gl::Voxels<signed short> voxels{std::move(gl::VoxelsReader<signed short>{"./resources/objects/volume", gl::ENDIAN_TYPE::BIG}.read())};

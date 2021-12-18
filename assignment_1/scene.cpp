@@ -4,12 +4,16 @@
 #include "camera.h"
 #include "light.h"
 #include "material.h"
+#include "model.h"
 
 #include <GLFW/glfw3.h>
 
 class Scene: public gl::Scene {
 public:
-    explicit Scene(gl::Renderer &renderer, gl::Camera &camera, gl::Drawable &model): gl::Scene{renderer, camera}, model{model} {
+    explicit Scene(gl::Renderer &renderer): gl::Scene{renderer} {
+        camera.zoom = 45.0f;
+        model.scale = glm::vec3(0.2, 0.2, 0.2);
+
         light.name = "light";
 
         light.position = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -31,6 +35,8 @@ public:
         add(model);
         add(light);
         add(material);
+        add(camera);
+        add(world);
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
@@ -119,7 +125,9 @@ private:
     bool is_mouse_enter{false};
     int enter_button{0};
 
-    gl::Drawable &model;
+    gl::Model model{"model", "./resources/objects/backpack/backpack.obj"};
+    gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
+    gl::World world{};
     gl::Light light{};
     gl::Material material{};
 };

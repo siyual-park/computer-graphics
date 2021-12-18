@@ -162,3 +162,10 @@ void gl::Window::init() {
 
     gl::initGLLoader();
 }
+
+void gl::Window::preDraw(gl::Program &program) {
+    program.setVec2(
+            "ScreenSize",
+            glm::vec2((float)size.width,(float)size.height)
+    );
+}

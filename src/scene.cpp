@@ -3,7 +3,7 @@
 #include "scene.h"
 #include <GLFW/glfw3.h>
 
-gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera{camera} {
+gl::Scene::Scene(Renderer &renderer): renderer{renderer} {
     auto &window = renderer.window;
     auto &event_emitter = window.event_emitter;
 
@@ -17,29 +17,6 @@ void gl::Scene::preDraw(gl::Program &program) {
     for (auto &child: children) {
         child->preDraw(program);
     }
-
-    camera.update();
-    world.preDraw(program);
-
-    glm::mat4 projection = glm::perspective(
-            glm::radians(camera.zoom),
-            static_cast<float>(renderer.window.size.width) / static_cast<float>(renderer.window.size.height),
-            0.1f,
-            1000.0f
-    );
-    glm::mat4 view = camera.getViewMatrix();
-
-    program.setMat4("projection", projection);
-    program.setMat4("view", view);
-    program.setVec3("viewPos", camera.position);
-
-    program.setVec2(
-            "ScreenSize",
-            glm::vec2(
-                    (float)renderer.window.size.width,
-                    (float)renderer.window.size.height
-            )
-    );
 }
 
 

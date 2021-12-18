@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "drawable.h"
 #include "mouse.h"
 #include "event.h"
 
@@ -13,14 +14,14 @@ namespace gl {
         int height;
     };
 
-    class Window {
+    class Window: public Drawable {
     public:
         Window(std::string& title, WindowSize &size);
         Window(std::string&& title, WindowSize &size);
         Window(std::string& title, WindowSize &&size);
         Window(std::string&& title, WindowSize &&size);
 
-        virtual ~Window();
+        ~Window() override;
 
         WindowSize getSize() const noexcept;
         void resize(WindowSize &size);
@@ -31,6 +32,8 @@ namespace gl {
 
         template<class T>
         void addListener(EventListener<T> listener);
+
+        void preDraw(Program &program) override;
 
         void* context{};
 
