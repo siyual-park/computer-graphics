@@ -19,14 +19,14 @@ public:
 
         light.name = "light";
 
-        light.position = glm::vec3(-5.0f, 5.0f, -5.0f);
+        light.position = glm::vec3(-15.0f, 0.0f, -5.0f);
 
         light.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
         light.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
         light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
         light.constant = 1.0f;
-        light.linear = 0.09f;
+        light.linear = 1.0f;
         light.quadratic = 0.032f;
 
         material.diffuse = 1;

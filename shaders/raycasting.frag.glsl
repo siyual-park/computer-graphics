@@ -67,12 +67,12 @@ vec4 sampling(vec3 voxelCoord) {
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float xPlus = intensity(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
-    float xMinus = intensity(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
-    float yPlus = intensity(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
-    float yMinus = intensity(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z));
-    float zPlus = intensity(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
-    float zMinus = intensity(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
+    float xPlus = sampling(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).x;
+    float xMinus = sampling(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).x;
+    float yPlus = sampling(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z)).x;
+    float yMinus = sampling(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z)).x;
+    float zPlus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z)).x;
+    float zMinus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z)).x;
 
     float xGradient = xPlus - xMinus;
     float yGradient = yPlus - yMinus;
@@ -81,8 +81,8 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     return vec3(abs(xGradient) * -1, abs(yGradient) * -1, abs(zGradient) * -1);
 }
 
-vec3 changeToWorld(vec3 local) {
-    vec3 diff = local - EntryPoint;
+vec3 changeToWorld(vec3 voxelCoord) {
+    vec3 diff = voxelCoord - EntryPoint;
     vec3 worldDiff = diff * VolumeSpacing * VolumeSize;
 
     return vec3(world * model * vec4(worldDiff, 1.0)) + FragPos;
@@ -95,16 +95,16 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
     vec3 fragCoord = changeToWorld(voxelCoord);
 
     vec3 lightDir = normalize(light.position - fragCoord);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * colorSample.rgb * colorSample.a;
+    float diff = max(dot(norm, lightDir), 0.0f);
+    vec3 diffuse = light.diffuse * diff * colorSample.rgb;
 
     vec3 viewDir = normalize(viewPos - fragCoord);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * spec * colorSample.rgb * colorSample.a;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess);
+    vec3 specular = light.specular * spec * colorSample.rgb;
 
     float distance = length(light.position - fragCoord);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+    float attenuation = colorSample.a / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
     ambient *= attenuation;
     diffuse *= attenuation;
@@ -148,8 +148,8 @@ void main() {
 
     for (int i = 0; i < step * 2; i++) {
         vec4 colorSample = sampling(voxelCoord);
-        colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
 
+        colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
         if (colorSample.a > 0.0f) {
             colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
 
