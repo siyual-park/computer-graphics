@@ -147,8 +147,8 @@ void main() {
         vec4 colorSample = sampling(voxelCoord);
 
         if (colorSample.a > 0.0f) {
-            colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
             colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
+            colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
 
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
