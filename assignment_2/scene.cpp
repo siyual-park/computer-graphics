@@ -26,12 +26,12 @@ public:
         light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
         light.constant = 1.0f;
-        light.linear = 1.0f;
-        light.quadratic = 0.032f;
+        light.linear = 0.8f;
+        light.quadratic = 0.8f;
 
         material.diffuse = 1;
         material.specular = 1;
-        material.shininess = 0.8f;
+        material.shininess = 1.0f;
 
         add(volume);
         add(light);
