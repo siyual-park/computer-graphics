@@ -41,21 +41,11 @@ uniform Material material;
 uniform Light    light;
 
 float calculateStep(vec3 normDir) {
-    float x = pow(abs(normDir.x * VolumeSize.x), 2);
-    float y = pow(abs(normDir.y * VolumeSize.y), 2);
-    float z = pow(abs(normDir.z * VolumeSize.z), 2);
-
-    return pow(x + y + z, 0.5);
+    return dot(abs(normDir), abs(VolumeSize * VolumeSpacing)) / dot(abs(normDir), abs(VolumeSpacing));
 }
 
 float calculateWeight(vec3 normDir) {
-    vec3 normSpacing = normalize(VolumeSpacing);
-
-    float x = pow(abs(normDir.x * normSpacing.x), 2);
-    float y = pow(abs(normDir.y * normSpacing.y), 2);
-    float z = pow(abs(normDir.z * normSpacing.z), 2);
-
-    return pow(x + y + z, 0.5);
+    return dot(abs(normDir), abs(normalize(VolumeSpacing)));
 }
 
 float intensity(vec3 voxelCoord) {
@@ -129,8 +119,8 @@ void main() {
 
     vec3 normDir = normalize(dir);
 
-    float step = 256;
-    float stepSize = 1.0f / step;
+    float step = calculateStep(normDir);
+    float stepSize = abs(dot(vec3(1.0f, 1.0f, 1.0f), abs(normDir))) / step;
 
     float weight = calculateWeight(normDir);
 
@@ -146,7 +136,7 @@ void main() {
 
     vec3 unitVoxelSize = 1.0f / VolumeSize;
 
-    for (int i = 0; i < step * 2; i++) {
+    while (true) {
         vec4 colorSample = sampling(voxelCoord);
 
         colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
