@@ -56,13 +56,24 @@ vec4 sampling(vec3 voxelCoord) {
     return texture(TransferFunc, intensity(voxelCoord));
 }
 
+bool isInTextureCoor(float value) {
+    return value >= 0.0f && value <= 1.0f;
+}
+
+float samplingForNormal(vec3 voxelCoord) {
+    if (!isInTextureCoor(voxelCoord.x) || !isInTextureCoor(voxelCoord.y) || !isInTextureCoor(voxelCoord.z)) {
+        return 0.0f;
+    }
+    return sampling(voxelCoord).a;
+}
+
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float xPlus = sampling(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
-    float xMinus = sampling(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
-    float yPlus = sampling(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z)).a;
-    float yMinus = sampling(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z)).a;
-    float zPlus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z)).a;
-    float zMinus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z)).a;
+    float xPlus = samplingForNormal(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
+    float xMinus = samplingForNormal(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
+    float yPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
+    float yMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z));
+    float zPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
+    float zMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
 
     float xGradient = xPlus - xMinus;
     float yGradient = yPlus - yMinus;
@@ -71,18 +82,22 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     return abs(vec3(xGradient, yGradient, zGradient));
 }
 
-vec3 changeToWorld(vec3 voxelCoord) {
-    vec3 diff = voxelCoord - EntryPoint;
-    vec3 worldDiff = diff * VolumeSpacing * VolumeSize;
+vec3 changeToWorldVector(vec3 voxelVec) {
+    return vec3(world * model * vec4(voxelVec * VolumeSpacing * VolumeSize, 1.0));
+}
 
-    return vec3(world * model * vec4(worldDiff, 1.0)) + FragPos;
+vec3 changeToWorldCoord(vec3 voxelCoord) {
+    vec3 diff = voxelCoord - EntryPoint;
+    vec3 worldDiff = changeToWorldVector(diff);
+
+    return worldDiff + FragPos;
 }
 
 vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
     vec3 ambient = light.ambient * colorSample.rgb;
 
-    vec3 norm = changeToWorld(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
-    vec3 fragCoord = changeToWorld(voxelCoord);
+    vec3 norm = changeToWorldVector(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
+    vec3 fragCoord = changeToWorldCoord(voxelCoord);
 
     vec3 lightDir = normalize(light.position - fragCoord);
     float diff = max(dot(norm, lightDir), 0.0f);
