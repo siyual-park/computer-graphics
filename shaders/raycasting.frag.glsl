@@ -67,18 +67,18 @@ vec4 sampling(vec3 voxelCoord) {
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float xPlus = sampling(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).x;
-    float xMinus = sampling(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).x;
-    float yPlus = sampling(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z)).x;
-    float yMinus = sampling(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z)).x;
-    float zPlus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z)).x;
-    float zMinus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z)).x;
+    float xPlus = sampling(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
+    float xMinus = sampling(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
+    float yPlus = sampling(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z)).a;
+    float yMinus = sampling(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z)).a;
+    float zPlus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z)).a;
+    float zMinus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z)).a;
 
     float xGradient = xPlus - xMinus;
     float yGradient = yPlus - yMinus;
     float zGradient = zPlus - zMinus;
 
-    return vec3(abs(xGradient) * -1, abs(yGradient) * -1, abs(zGradient) * -1);
+    return abs(vec3(xGradient, yGradient, zGradient));
 }
 
 vec3 changeToWorld(vec3 voxelCoord) {
