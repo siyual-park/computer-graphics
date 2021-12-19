@@ -88,9 +88,9 @@ vec3 changeToWorldVector(vec3 voxelVec) {
 
 vec3 changeToWorldCoord(vec3 voxelCoord) {
     vec3 diff = voxelCoord - EntryPoint;
-    vec3 worldDiff = changeToWorldVector(diff);
+    vec3 modelCoord = mat3(transpose(inverse(world * model))) * FragPos + (diff * VolumeSpacing * VolumeSize);
 
-    return worldDiff + FragPos;
+    return vec3(world * model * vec4(modelCoord, 1.0));
 }
 
 vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
