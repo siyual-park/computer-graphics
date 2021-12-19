@@ -92,10 +92,10 @@ void main() {
 
     vec3 normDir = normalize(dir);
 
-    float step = calculate_step(normDir);
+    float step = calculateStep(normDir);
     float stepSize = 1.0f / step;
 
-    float weight = calculate_weight(normDir);
+    float weight = calculateWeight(normDir);
 
     vec3 deltaDir = normDir * stepSize;
     float deltaDirLen = length(deltaDir);
@@ -119,7 +119,7 @@ void main() {
         if (colorSample.a > 0.0f) {
             vec3 ambient = light.ambient * colorSample.rgb;
 
-            vec3 norm = normalize(calculate_normal(voxelCoord, unitVoxelSize));
+            vec3 norm = normalize(calculateNormal(voxelCoord, unitVoxelSize));
             vec3 lightDir = normalize(light.position - fragCoord);
             float diff = max(dot(norm, lightDir), 0.0);
             vec3 diffuse = light.diffuse * diff * colorSample.rgb;
