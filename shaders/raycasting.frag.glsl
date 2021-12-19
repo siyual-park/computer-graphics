@@ -93,12 +93,12 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
 
     vec3 lightDir = normalize(light.position - fragCoord);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * colorSample.rgb;
+    vec3 diffuse = light.diffuse * diff * colorSample.rgb * colorSample.a;
 
     vec3 viewDir = normalize(viewPos - fragCoord);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * spec * colorSample.rgb;
+    vec3 specular = light.specular * spec * colorSample.rgb * colorSample.a;
 
     float distance = length(light.position - fragCoord);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
