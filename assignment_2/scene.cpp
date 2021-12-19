@@ -5,6 +5,7 @@
 #include "read-voxels.h"
 #include "volume.h"
 #include "light.h"
+#include "material.h"
 
 #include <GLFW/glfw3.h>
 
@@ -20,13 +21,17 @@ public:
 
         light.position = glm::vec3(1.0f, 1.0f, 1.0f);
 
-        light.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-        light.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-        light.specular = glm::vec3(0.0f, 1.0f, 1.0f);
+        light.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+        light.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+        light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
         light.constant = 1.0f;
         light.linear = 0.09f;
         light.quadratic = 0.032f;
+
+        material.diffuse = 1;
+        material.specular = 1;
+        material.shininess = 0.35f;
 
         add(volume);
         add(light);
@@ -130,4 +135,5 @@ private:
     };
 
     gl::Light light{};
+    gl::Material material{};
 };
