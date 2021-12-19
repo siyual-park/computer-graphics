@@ -58,18 +58,21 @@ float calculateWeight(vec3 normDir) {
     return pow(x + y + z, 0.5);
 }
 
+float intensity(vec3 voxelCoord) {
+    return (texture(VolumeTex, voxelCoord).x + 1.0f) / 2.0f;
+}
+
 vec4 sampling(vec3 voxelCoord) {
-    float intensity = (texture(VolumeTex, voxelCoord).x + 1.0f) / 2.0f;
-    return texture(TransferFunc, intensity);
+    return texture(TransferFunc, intensity(voxelCoord));
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float xPlus = sampling(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
-    float xMinus = sampling(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z)).a;
-    float yPlus = sampling(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z)).a;
-    float yMinus = sampling(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z)).a;
-    float zPlus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z)).a;
-    float zMinus = sampling(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z)).a;
+    float xPlus = intensity(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
+    float xMinus = intensity(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
+    float yPlus = intensity(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
+    float yMinus = intensity(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z));
+    float zPlus = intensity(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
+    float zMinus = intensity(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
 
     float xGradient = xPlus - xMinus;
     float yGradient = yPlus - yMinus;
@@ -80,7 +83,7 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
 
 vec3 changeToWorld(vec3 local) {
     vec3 diff = local - EntryPoint;
-    vec3 worldDiff = vec3(diff.x * VolumeSpacing.x * VolumeSize.x, diff.y * VolumeSpacing.y * VolumeSize.y, diff.z * VolumeSpacing.z * VolumeSize.z);
+    vec3 worldDiff = diff * VolumeSpacing * VolumeSize;
 
     return vec3(world * model * vec4(worldDiff, 1.0)) + FragPos;
 }
@@ -145,9 +148,9 @@ void main() {
 
     for (int i = 0; i < step * 2; i++) {
         vec4 colorSample = sampling(voxelCoord);
+        colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
 
         if (colorSample.a > 0.0f) {
-            colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
             colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
 
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
