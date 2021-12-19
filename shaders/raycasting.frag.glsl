@@ -104,7 +104,7 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
     vec3 specular = light.specular * spec * colorSample.rgb;
 
     float distance = length(light.position - fragCoord);
-    float attenuation = colorSample.a / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+    float attenuation = 1 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
     ambient *= attenuation;
     diffuse *= attenuation;
@@ -129,7 +129,7 @@ void main() {
 
     vec3 normDir = normalize(dir);
 
-    float step = calculateStep(normDir);
+    float step = 256;
     float stepSize = 1.0f / step;
 
     float weight = calculateWeight(normDir);
@@ -161,6 +161,9 @@ void main() {
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
+            if (colorAcum.a > 1.0f) {
+                colorAcum.a = 1.0f;
+            }
             colorAcum.rgb = colorAcum.rgb * colorAcum.a;
             break;
         } else if (colorAcum.a > 1.0f) {

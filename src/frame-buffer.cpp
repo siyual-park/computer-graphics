@@ -3,7 +3,7 @@
 using namespace gl;
 
 FrameBuffer::FrameBuffer()
-        : texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA},
+        : texture{nullptr, internal::getTexture2dSizeFromViewport(), GL_RGBA16F, GL_RGBA, GL_LINEAR},
           window_size{internal::getWindowSizeFromViewport()}
 {
     auto size = texture.size;

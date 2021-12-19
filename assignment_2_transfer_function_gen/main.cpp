@@ -30,6 +30,6 @@ private:
 
 
 int main() {
-    TransferFunctionGen{0.0f, 1.0f}.generate("./resources/objects/volume/tf.raw");
+    TransferFunctionGen{0.0f, 0.05f}.generate("./resources/objects/volume/tf.raw");
     return 0;
 }

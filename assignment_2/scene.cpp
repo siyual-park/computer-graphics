@@ -31,7 +31,7 @@ public:
 
         material.diffuse = 1;
         material.specular = 1;
-        material.shininess = 1.0f;
+        material.shininess = 0.8f;
 
         add(volume);
         add(light);
