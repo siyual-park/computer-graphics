@@ -85,6 +85,33 @@ vec3 changeToWorld(vec3 local) {
     return vec3(world * model * vec4(worldDiff, 1.0)) + FragPos;
 }
 
+vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
+    vec3 ambient = light.ambient * colorSample.rgb;
+
+    vec3 norm = changeToWorld(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
+    vec3 fragCoord = changeToWorld(voxelCoord);
+
+    vec3 lightDir = normalize(light.position - fragCoord);
+    float diff = max(dot(norm, lightDir), 0.0);
+    vec3 diffuse = light.diffuse * diff * colorSample.rgb;
+
+    vec3 viewDir = normalize(viewPos - fragCoord);
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.specular * spec * colorSample.rgb;
+
+    float distance = length(light.position - fragCoord);
+    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+
+    vec3 result = ambient + diffuse + specular;
+
+    return vec4(result.xyz, colorSample.a);
+}
+
 void main() {
     vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
@@ -120,30 +147,8 @@ void main() {
         vec4 colorSample = sampling(voxelCoord);
 
         if (colorSample.a > 0.0f) {
-            vec3 ambient = light.ambient * colorSample.rgb;
-
-            vec3 norm = changeToWorld(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
-            vec3 fragCoord = changeToWorld(voxelCoord);
-
-            vec3 lightDir = normalize(light.position - fragCoord);
-            float diff = max(dot(norm, lightDir), 0.0);
-            vec3 diffuse = light.diffuse * diff * colorSample.rgb;
-
-            vec3 viewDir = normalize(viewPos - fragCoord);
-            vec3 reflectDir = reflect(-lightDir, norm);
-            float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-            vec3 specular = light.specular * spec * colorSample.rgb;
-
-            float distance = length(light.position - fragCoord);
-            float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-
-            ambient *= attenuation;
-            diffuse *= attenuation;
-            specular *= attenuation;
-
-            vec3 result = ambient + diffuse + specular;
-
-            colorSample = vec4(result.xyz, 1.0 - pow(1.0 - colorSample.a, weight));
+            colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
+            colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
 
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
             colorAcum.a += (1.0f - colorAcum.a) * colorSample.a;
