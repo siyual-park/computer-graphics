@@ -75,7 +75,14 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     float yGradient = yPlus - yMinus;
     float zGradient = zPlus - zMinus;
 
-    return vec3(xGradient, yGradient, zGradient);
+    return vec3(abs(xGradient) * -1, abs(yGradient) * -1, abs(zGradient) * -1);
+}
+
+vec3 changeToWorld(vec3 local) {
+    vec3 diff = local - EntryPoint;
+    vec3 worldDiff = vec3(diff.x * VolumeSpacing.x * VolumeSize.x, diff.y * VolumeSpacing.y * VolumeSize.y, diff.z * VolumeSpacing.z * VolumeSize.z);
+
+    return vec3(world * model * vec4(worldDiff, 1.0)) + FragPos;
 }
 
 void main() {
@@ -100,11 +107,7 @@ void main() {
     vec3 deltaDir = normDir * stepSize;
     float deltaDirLen = length(deltaDir);
 
-    vec3 fragDir = vec3(deltaDir.x * VolumeSpacing.x * VolumeSize.x, deltaDir.y * VolumeSpacing.y * VolumeSize.y, deltaDir.z * VolumeSpacing.z * VolumeSize.z);
-    fragDir = vec3(world * model * vec4(fragDir, 1.0));
-
     vec3 voxelCoord = EntryPoint;
-    vec3 fragCoord = FragPos;
 
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum;
@@ -119,7 +122,9 @@ void main() {
         if (colorSample.a > 0.0f) {
             vec3 ambient = light.ambient * colorSample.rgb;
 
-            vec3 norm = normalize(calculateNormal(voxelCoord, unitVoxelSize));
+            vec3 norm = changeToWorld(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
+            vec3 fragCoord = changeToWorld(voxelCoord);
+
             vec3 lightDir = normalize(light.position - fragCoord);
             float diff = max(dot(norm, lightDir), 0.0);
             vec3 diffuse = light.diffuse * diff * colorSample.rgb;
@@ -145,7 +150,6 @@ void main() {
         }
 
         voxelCoord += deltaDir;
-        fragCoord += fragDir;
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
