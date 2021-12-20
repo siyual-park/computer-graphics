@@ -10,15 +10,12 @@ namespace gl {
     public:
         std::string name;
 
-        int diffuse;
-        int specular;
+        float diffuse;
+        float specular;
 
         float shininess;
 
         void preDraw(Program &program) override;
-
-    private:
-        std::set<Program*> loaded{};
     };
 }
 

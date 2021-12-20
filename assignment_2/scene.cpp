@@ -21,19 +21,19 @@ public:
 
         light.position = glm::vec3(3.0f, 3.0f, 3.0f);
 
-        light.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+        light.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
         light.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-        light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        light.specular = glm::vec3(0.3f, 0.3f, 0.3f);
 
-        light.constant = 0.8f;
-        light.linear = 0.1f;
-        light.quadratic = 0.052f;
+        light.constant = 1.0f;
+        light.linear = 0.09f;
+        light.quadratic = 0.032f;
 
         material.name = "material";
 
         material.diffuse = 1;
-        material.specular = 1;
-        material.shininess = 1.0f;
+        material.specular = 0.3f;
+        material.shininess = 64.0f;
 
         add(volume);
         add(light);
