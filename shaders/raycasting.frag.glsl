@@ -87,7 +87,7 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
 
 vec3 changeToWorldCoord(vec3 voxelCoord) {
     vec3 diff = voxelCoord - EntryPoint;
-    vec3 modelCoord = mat3(transpose(inverse(world * model))) * FragPos + (diff * VolumeSpacing * VolumeSize);
+    vec3 modelCoord = mat3(transpose(inverse(world * model))) * FragPos + diff;
 
     return vec3(world * model * vec4(modelCoord, 1.0));
 }

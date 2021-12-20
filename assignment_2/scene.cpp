@@ -25,9 +25,9 @@ public:
         light.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
         light.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
-        light.constant = 1.0f;
-        light.linear = 0.09f;
-        light.quadratic = 0.032f;
+        light.constant = 0.8f;
+        light.linear = 0.1f;
+        light.quadratic = 0.052f;
 
         material.name = "material";
 
