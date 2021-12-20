@@ -15,8 +15,8 @@ gl::Voxels<T> gl::readVoxels(const std::string &path, ENDIAN_TYPE endian_type) {
     gl::Size size{readSize(path + "/size.txt")};
     gl::Spacing spacing{readSpacing(path + "/spacing.txt")};
 
-    auto min = std::numeric_limits<T>::min();
-    auto max = std::numeric_limits<T>::max();
+    auto min = (std::numeric_limits<T>)::min();
+    auto max = (std::numeric_limits<T>:):max();
 
     std::size_t tf_origin_size = ((std::size_t) (max - min + 1)) * 4;
     std::size_t tf_size = 256 * 4;
