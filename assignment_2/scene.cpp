@@ -42,7 +42,7 @@ public:
     }
 
     glm::vec3 mapSphereCoordinate(gl::MousePositionEvent position) {
-        int diameter = std::min(renderer.window.size.height, renderer.window.size.width);
+        int diameter = (std::min)(renderer.window.size.height, renderer.window.size.width);
 
         glm::vec3 coord{};
 
