@@ -68,8 +68,6 @@ float samplingForNormal(vec3 voxelCoord) {
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float colorSample = samplingForNormal(voxelCoord);
-
     float xPlus = samplingForNormal(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
     float xMinus = samplingForNormal(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
     float yPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
@@ -77,9 +75,9 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     float zPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
     float zMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
 
-    float xGradient = ((xPlus - xMinus) + (xPlus - colorSample) + (colorSample - xMinus)) / 3.0f;
-    float yGradient = ((yPlus - yMinus) + (yPlus - colorSample) + (colorSample - yMinus)) / 3.0f;
-    float zGradient = ((zPlus - zMinus) + (zPlus - colorSample) + (colorSample - zMinus)) / 3.0f;
+    float xGradient = xPlus - xMinus;
+    float yGradient = yPlus - yMinus;
+    float zGradient = zPlus - zMinus;
 
     return vec3(xGradient, yGradient, zGradient);
 }
