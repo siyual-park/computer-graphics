@@ -41,7 +41,7 @@ uniform Material material;
 uniform Light    light;
 
 float calculateStep(vec3 normDir) {
-    return dot(abs(normDir), abs(VolumeSize * VolumeSpacing)) / dot(abs(normDir), abs(VolumeSpacing));
+    return dot(abs(normDir), abs(VolumeSize));
 }
 
 float calculateWeight(vec3 normDir) {
