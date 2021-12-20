@@ -49,7 +49,7 @@ float calculateWeight(vec3 normDir) {
 }
 
 float intensity(vec3 voxelCoord) {
-    return (texture(VolumeTex, voxelCoord).x + 1.0f) / 2.0f;
+    return texture(VolumeTex, voxelCoord).x;
 }
 
 bool isInTextureCoor(float value) {
@@ -61,7 +61,7 @@ vec4 sampling(vec3 voxelCoord) {
         return vec4(0.0f);
     }
 
-    return texture(TransferFunc, intensity(voxelCoord));
+    return texture(TransferFunc, (intensity(voxelCoord) + 1.0f) / 2.0f);
 }
 
 float samplingForNormal(vec3 voxelCoord) {

@@ -19,7 +19,7 @@ gl::Voxels<T> gl::readVoxels(const std::string &path, ENDIAN_TYPE endian_type) {
     auto max = (std::numeric_limits<T>::max)();
 
     std::size_t tf_origin_size = ((std::size_t) (max - min + 1)) * 4;
-    std::size_t tf_size = 256 * 4;
+    std::size_t tf_size = (std::min)((std::size_t) 256 * 4, tf_origin_size);
 
     auto size_diff = tf_origin_size / tf_size;
 
