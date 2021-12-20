@@ -52,32 +52,35 @@ float intensity(vec3 voxelCoord) {
     return (texture(VolumeTex, voxelCoord).x + 1.0f) / 2.0f;
 }
 
-vec4 sampling(vec3 voxelCoord) {
-    return texture(TransferFunc, intensity(voxelCoord));
-}
-
 bool isInTextureCoor(float value) {
     return value >= 0.0f && value <= 1.0f;
+}
+
+vec4 sampling(vec3 voxelCoord) {
+    if (!isInTextureCoor(voxelCoord.x) || !isInTextureCoor(voxelCoord.y) || !isInTextureCoor(voxelCoord.z)) {
+        return vec4(0.0f);
+    }
+
+    return texture(TransferFunc, intensity(voxelCoord));
 }
 
 float samplingForNormal(vec3 voxelCoord) {
     if (!isInTextureCoor(voxelCoord.x) || !isInTextureCoor(voxelCoord.y) || !isInTextureCoor(voxelCoord.z)) {
         return 0.0f;
     }
-    return sampling(voxelCoord).a;
+    return intensity(voxelCoord);
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
-    float xPlus = samplingForNormal(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
-    float xMinus = samplingForNormal(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
-    float yPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
-    float yMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y - unitVoxelSize.y, voxelCoord.z));
-    float zPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
-    float zMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
+    float colorSample = samplingForNormal(voxelCoord);
 
-    float xGradient = xPlus - xMinus;
-    float yGradient = yPlus - yMinus;
-    float zGradient = zPlus - zMinus;
+    float xPlus = samplingForNormal(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
+    float yPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
+    float zPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
+
+    float xGradient = xPlus - colorSample;
+    float yGradient = yPlus - colorSample;
+    float zGradient = zPlus - colorSample;
 
     return vec3(xGradient, yGradient, zGradient);
 }
