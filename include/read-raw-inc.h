@@ -2,6 +2,7 @@
 #define OPENGLBOILERPLATE_READ_RAW_INC_H
 
 #include "read-raw.h"
+#include <cstring>
 
 template<class T>
 std::unique_ptr<T> gl::readRaw(const std::string &path, std::size_t size, ENDIAN_TYPE endian_type) {

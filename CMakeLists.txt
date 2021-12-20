@@ -172,12 +172,6 @@ set_target_properties(assignment_2 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUIL
 add_custom_command(
 		TARGET assignment_2 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${CMAKE_SOURCE_DIR}/assignment_2/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
-		COMMENT "Copying shaders" VERBATIM
-)
-add_custom_command(
-		TARGET assignment_2 POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
 		COMMENT "Copying shaders" VERBATIM
 )
