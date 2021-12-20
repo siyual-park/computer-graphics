@@ -3,21 +3,27 @@
 
 #include <glm/glm.hpp>
 
-#include "base-object.h"
+#include "gl-object.h"
 #include "shader.h"
 
 namespace gl {
-
-    class Program : public BaseObject {
+    class Program : public GLObject {
     public:
         Program();
         ~Program();
 
         template <unsigned int T>
-        Program& attach(Shader<T>& shader);
+        void attach(Shader<T>& shader);
+        template <unsigned int T>
+        void detach(Shader<T>& shader);
+
+        void detaches(int count);
 
         void link();
         void use();
+        void disuse();
+
+        void checkShaderLink();
 
         void setBool(const std::string &name, bool value) const;
         void setInt(const std::string &name, int value) const;
@@ -29,6 +35,8 @@ namespace gl {
         void setMat2(const std::string &name, const glm::mat2 &mat) const;
         void setMat3(const std::string &name, const glm::mat3 &mat) const;
         void setMat4(const std::string &name, const glm::mat4 &mat) const;
+
+        int getLocation(const std::string &name) const;
     };
 }
 

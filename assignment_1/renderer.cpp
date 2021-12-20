@@ -8,7 +8,7 @@
 
 class Renderer: public gl::Renderer {
 public:
-    explicit Renderer(gl::Window &window, gl::Camera &camera, gl::Model &model): gl::Renderer{window}, scene{*this, camera, model} {
+    explicit Renderer(gl::Window &window): gl::Renderer{window}, scene{*this} {
         glEnable(GL_DEPTH_TEST);
 
         gl::VertexShader vertex_shader{"./shaders/vertex-shader.glsl"};

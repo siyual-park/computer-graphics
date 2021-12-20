@@ -6,7 +6,11 @@
 namespace gl {
     class Drawable {
     public:
+        virtual ~Drawable() = default;
+
+        virtual void preDraw(Program &program) {};
         virtual void draw(Program &program) {};
+        virtual void postDraw(Program &program) {};
     };
 }
 

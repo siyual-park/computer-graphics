@@ -1,6 +1,6 @@
 #include "light.h"
 
-void gl::Light::draw(gl::Program &program) {
+void gl::Light::preDraw(gl::Program &program) {
     program.setVec3(name + ".position", position);
     program.setVec3(name + ".ambient", ambient);
     program.setVec3(name + ".diffuse", diffuse);

@@ -3,7 +3,7 @@
 #include "scene.h"
 #include <GLFW/glfw3.h>
 
-gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera{camera} {
+gl::Scene::Scene(Renderer &renderer): renderer{renderer} {
     auto &window = renderer.window;
     auto &event_emitter = window.event_emitter;
 
@@ -13,25 +13,29 @@ gl::Scene::Scene(Renderer &renderer, Camera &camera): renderer{renderer}, camera
     event_emitter.addListener(scene_mouse_position_offset_listener);
 }
 
+void gl::Scene::preDraw(gl::Program &program) {
+    for (auto &child: children) {
+        child->preDraw(program);
+    }
+}
+
+
 void gl::Scene::draw(Program &program) {
-    camera.update();
-    world.draw(program);
-
-    glm::mat4 projection = glm::perspective(
-            glm::radians(camera.zoom),
-            static_cast<float>(renderer.window.size.width) / static_cast<float>(renderer.window.size.height),
-            0.1f,
-            1000.0f
-    );
-    glm::mat4 view = camera.getViewMatrix();
-
-    program.setMat4("projection", projection);
-    program.setMat4("view", view);
-    program.setVec3("viewPos", camera.position);
+    preDraw(program);
 
     for (auto &child: children) {
         child->draw(program);
     }
+
+    postDraw(program);
+}
+
+void gl::Scene::postDraw(gl::Program &program) {
+    for (auto &child: children) {
+        child->postDraw(program);
+    }
+
+    program.disuse();
 }
 
 void gl::Scene::add(gl::Drawable& drawable) {

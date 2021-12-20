@@ -56,9 +56,11 @@ namespace gl {
         friend SceneMouseButtonEventListener;
         friend SceneScrollEventListener;
 
-        explicit Scene(Renderer &renderer, Camera &camera);
+        explicit Scene(Renderer &renderer);
 
-        virtual void draw(Program &program);
+        void preDraw(Program &program) override;
+        void draw(Program &program) override;
+        void postDraw(Program &program) override;
 
         void add(Drawable& drawable);
 
@@ -72,9 +74,6 @@ namespace gl {
         virtual void onScroll(ScrollOffset offset) {};
 
         Renderer &renderer;
-        Camera &camera;
-        World world{};
-
         std::vector<Drawable*> children{};
 
     private:

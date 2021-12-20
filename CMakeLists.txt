@@ -37,7 +37,7 @@ set(
 		src/initializer.cpp
 		src/window.cpp
 		src/renderer.cpp
-		src/base-object.cpp
+		src/gl-object.cpp
 		src/program.cpp
 		src/mouse.cpp
 		src/camera.cpp
@@ -47,6 +47,12 @@ set(
 		src/world.cpp
 		src/light.cpp
 		src/material.cpp
+		src/cube.cpp
+        src/volume-surface.cpp
+		src/frame-buffer.cpp
+		src/texture2d.cpp
+        src/read-voxels.cpp
+		src/transfer-function.cpp
 )
 
 set(
@@ -56,7 +62,7 @@ set(
 		include/mouse.h
 		include/window.h
 		include/renderer.h
-		include/base-object.h
+		include/gl-object.h
 		include/shader.h
 		include/shader-inc.h
 		include/cast.h
@@ -67,11 +73,35 @@ set(
 		include/scene.h
 		include/mesh.h
 		include/model.h
-		include/stb_image.h
 		include/world.h
 		include/light.h
 		include/material.h
-        include/event.h include/event-inc.h include/window-inc.h)
+        include/event.h
+		include/event-inc.h
+		include/window-inc.h
+		include/voxels.h
+		include/voxels-inc.h
+        include/read-voxels.h
+		include/read-voxels-inc.h
+		include/cube.h
+        include/volume-surface.h
+        include/volume.h
+		include/volume-inc.h
+		include/frame-buffer.h
+		include/type.h
+		include/texture1d.h
+		include/texture1d-inc.h
+		include/texture2d.h
+		include/texture2d-inc.h
+		include/texture3d.h
+		include/texture3d-inc.h
+		include/endian-type.h
+		include/transfer-function-gen.h
+		include/transfer-function-gen-inc.h
+        include/read-raw.h
+		include/read-raw-inc.h
+		include/transfer-function.h
+		include/stb_image.h)
 
 add_library(
 		APPLICATION_LIB STATIC
@@ -93,6 +123,7 @@ set(
 		APPLICATION_LIB
 )
 
+# assignment_1
 add_executable(
 		assignment_1
 		assignment_1/main.cpp
@@ -112,10 +143,61 @@ add_custom_command(
 		${CMAKE_SOURCE_DIR}/assignment_1/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
 		COMMENT "Copying shaders" VERBATIM
 )
+add_custom_command(
+		TARGET assignment_1 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_1>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)
 
 add_custom_command(
 		TARGET assignment_1 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/assignment_1/resources $<TARGET_FILE_DIR:assignment_1>/resources
 		COMMENT "Copying resources" VERBATIM
+)
+
+# assignment_2
+add_executable(
+		assignment_2
+		assignment_2/main.cpp
+)
+target_link_libraries(
+		assignment_2
+		${ALL_LIBS}
+)
+
+set_target_properties(assignment_2 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_2/")
+
+add_custom_command(
+		TARGET assignment_2 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
+		COMMENT "Copying shaders" VERBATIM
+)
+
+add_custom_command(
+		TARGET assignment_2 POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/assignment_2/resources $<TARGET_FILE_DIR:assignment_2>/resources
+		COMMENT "Copying resources" VERBATIM
+)
+
+# assignment_2_transfer_function_gen
+add_executable(
+		assignment_2_transfer_function_gen
+		assignment_2_transfer_function_gen/main.cpp
+)
+target_link_libraries(
+		assignment_2_transfer_function_gen
+		${ALL_LIBS}
+)
+
+set_target_properties(assignment_2_transfer_function_gen PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/assignment_2/")
+
+add_custom_command(
+		TARGET assignment_2_transfer_function_gen POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:assignment_2>/shaders
+		COMMENT "Copying shaders" VERBATIM
 )

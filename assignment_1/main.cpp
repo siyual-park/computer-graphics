@@ -1,6 +1,7 @@
 #include "initializer.h"
 #include "window.h"
 #include "model.h"
+#include "volume-surface.h"
 
 #include "./renderer.cpp"
 
@@ -10,13 +11,7 @@ int main() {
 
     gl::Window window{"Assignment 1", { .width = 1024, .height = 768 }};
 
-    gl::Camera camera{glm::vec3(0.0f, 0.0f, 3.0f)};
-    gl::Model backpack{"model", "./resources/objects/backpack/backpack.obj"};
-
-    camera.zoom = 45.0f;
-    backpack.scale = glm::vec3(0.2, 0.2, 0.2);
-
-    Renderer renderer{window, camera, backpack};
+    Renderer renderer{window};
 
     renderer.run();
 
