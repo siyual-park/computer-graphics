@@ -46,6 +46,7 @@ set(
 		src/texture2d.cpp
         src/read-voxels.cpp
 		src/transfer-function.cpp
+        src/endian-type.cpp
 )
 
 set(
@@ -94,7 +95,8 @@ set(
         include/read-raw.h
 		include/read-raw-inc.h
 		include/transfer-function.h
-		include/stb_image.h)
+		include/stb_image.h
+)
 
 add_library(
 		APPLICATION_LIB STATIC
