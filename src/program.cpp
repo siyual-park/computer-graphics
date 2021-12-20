@@ -1,5 +1,6 @@
 #include "program.h"
 
+#include <memory>
 #include "cast.h"
 
 gl::Program::Program(): GLObject{} {
@@ -13,11 +14,11 @@ gl::Program::~Program() {
 
 void gl::Program::detaches(int maxCount) {
     GLsizei count{};
-    GLuint shaders[maxCount];
+    std::unique_ptr<GLuint> shaders{new GLuint[maxCount]};
 
-    glGetAttachedShaders(getGLuint(id), maxCount, &count, shaders);
+    glGetAttachedShaders(getGLuint(id), maxCount, &count, shaders.get());
     for (int i = 0; i < count; i++) {
-        glDetachShader(getGLuint(id), shaders[i]);
+        glDetachShader(getGLuint(id), shaders.get()[i]);
     }
 
     glBindAttribLocation(getGLuint(id), 0, "VerPos");
