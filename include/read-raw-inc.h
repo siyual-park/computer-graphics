@@ -17,8 +17,8 @@ std::unique_ptr<T> gl::readRaw(const std::string &path, std::size_t size, ENDIAN
     in_file.read(reinterpret_cast<char*>(read_buffer.get()), size * sizeof(T));
     in_file.close();
 
-    if (endian_type == ENDIAN_TYPE::BIG) {
-        gl::internal::convertToBidEndian<T>(read_buffer.get());
+    if (internal::getEndian() != endian_type) {
+        gl::internal::convertEndian<T>(read_buffer.get());
     }
 
     return read_buffer;

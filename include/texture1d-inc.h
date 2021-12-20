@@ -4,6 +4,7 @@
 #include "texture1d.h"
 #include "type.h"
 #include "error.h"
+#include "endian-type.h"
 
 template<class T>
 gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int format, int filter):
@@ -13,7 +14,9 @@ gl::Texture1d<T>::Texture1d(T *data, std::size_t size, int internal_format, int 
 
     glGenTextures(1, &id);
     bind();
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, 1);
+    if (internal::getEndian() == ENDIAN_TYPE::LITTLE) {
+        glPixelStorei(GL_UNPACK_SWAP_BYTES, 1);
+    }
     glTexImage1D(GL_TEXTURE_1D, 0, internal_format, size, 0, format, type, data);
 
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);

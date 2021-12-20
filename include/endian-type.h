@@ -1,6 +1,8 @@
 #ifndef OPENGLBOILERPLATE_ENDIAN_TYPE_H
 #define OPENGLBOILERPLATE_ENDIAN_TYPE_H
 
+#include <cstddef>
+
 namespace gl {
     enum class ENDIAN_TYPE {
         LITTLE,
@@ -16,7 +18,7 @@ namespace gl {
         }
 
         template <typename DATA>
-        void convertToBidEndian(DATA *data) noexcept {
+        void convertEndian(DATA *data) noexcept {
             union {
                 DATA f;
                 unsigned char c8[sizeof(DATA)];
@@ -28,6 +30,8 @@ namespace gl {
                 data[i] = dest.f;
             }
         }
+
+        ENDIAN_TYPE getEndian();
     }
 }
 

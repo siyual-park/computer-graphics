@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "endian-type.h"
 
 namespace gl {
     template<class T>
