@@ -15,7 +15,7 @@ public:
             : gl::Scene{renderer}
     {
         camera.zoom = 45.0f;
-        volume.scale *= 0.001;
+        volume.scale *= 0.002;
 
         light.name = "light";
 
