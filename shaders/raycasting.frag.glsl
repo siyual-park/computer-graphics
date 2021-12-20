@@ -68,6 +68,8 @@ float samplingForNormal(vec3 voxelCoord) {
 }
 
 vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
+    float colorSample = samplingForNormal(voxelCoord);
+
     float xPlus = samplingForNormal(vec3(voxelCoord.x + unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
     float xMinus = samplingForNormal(vec3(voxelCoord.x - unitVoxelSize.x, voxelCoord.y, voxelCoord.z));
     float yPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y + unitVoxelSize.y, voxelCoord.z));
@@ -75,15 +77,11 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     float zPlus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
     float zMinus = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
 
-    float xGradient = xPlus - xMinus;
-    float yGradient = yPlus - yMinus;
-    float zGradient = zPlus - zMinus;
+    float xGradient = ((xPlus - xMinus) + (xPlus - colorSample) + (colorSample - xMinus)) / 3.0f;
+    float yGradient = ((yPlus - yMinus) + (yPlus - colorSample) + (colorSample - yMinus)) / 3.0f;
+    float zGradient = ((zPlus - zMinus) + (zPlus - colorSample) + (colorSample - zMinus)) / 3.0f;
 
-    return abs(vec3(xGradient, yGradient, zGradient));
-}
-
-vec3 changeToWorldVector(vec3 voxelVec) {
-    return vec3(world * model * vec4(voxelVec * VolumeSpacing * VolumeSize, 1.0));
+    return vec3(xGradient, yGradient, zGradient);
 }
 
 vec3 changeToWorldCoord(vec3 voxelCoord) {
@@ -96,8 +94,9 @@ vec3 changeToWorldCoord(vec3 voxelCoord) {
 vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
     vec3 ambient = light.ambient * colorSample.rgb;
 
-    vec3 norm = changeToWorldVector(normalize(calculateNormal(voxelCoord, unitVoxelSize)));
     vec3 fragCoord = changeToWorldCoord(voxelCoord);
+    vec3 normCoord = normalize(calculateNormal(voxelCoord, unitVoxelSize)) + voxelCoord;
+    vec3 norm = normalize(changeToWorldCoord(normCoord) - fragCoord);
 
     vec3 lightDir = normalize(light.position - fragCoord);
     float diff = max(dot(norm, lightDir), 0.0f);
@@ -147,15 +146,13 @@ void main() {
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum;
 
-    vec4 backgoundColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
-
     vec3 unitVoxelSize = 1.0f / VolumeSize;
 
     while (true) {
         vec4 colorSample = sampling(voxelCoord);
 
-        colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
         if (colorSample.a > 0.0f) {
+            colorSample.a = 1.0 - pow(1.0 - colorSample.a, weight);
             colorSample = applyShadow(colorSample, voxelCoord, unitVoxelSize);
 
             colorAcum.rgb += (1.0f - colorAcum.a) * colorSample.rgb * colorSample.a;
@@ -166,9 +163,6 @@ void main() {
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
-            if (colorAcum.a > 1.0f) {
-                colorAcum.a = 1.0f;
-            }
             colorAcum.rgb = colorAcum.rgb * colorAcum.a;
             break;
         } else if (colorAcum.a > 1.0f) {
