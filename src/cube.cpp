@@ -81,14 +81,14 @@ Cube::~Cube() {
 void Cube::preDraw(Program &program) {
     GL_ERROR();
 
-    glm::mat4 model = glm::mat4(1.0f);
+    auto model = glm::mat4(1.0f);
+    auto adjust_position = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, -0.5f));
 
-    model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.5f));
     model = glm::scale(model, scale);
     model = glm::rotate(model, angle, rotate_axis);
     model = glm::translate(model, translation);
 
-    program.setMat4(name, model);
+    program.setMat4(name, model * adjust_position);
 
     GL_ERROR();
 }
