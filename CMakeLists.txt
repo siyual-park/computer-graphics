@@ -10,6 +10,13 @@ if (POLICY CMP0025)
 	cmake_policy(SET CMP0025 NEW)
 endif ()
 
+if (MINGW)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lole32 -loleaut32 -static-libgcc -static")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lole32 -loleaut32 -static-libgcc -static-libstdc++ -static")
+	set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS} -lole32 -loleaut32 -static-libgcc -s -static")
+	set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS} -lole32 -loleaut32 -static-libgcc -static-libstdc++ -s -static")
+endif()
+
 # Compile external dependencies
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
