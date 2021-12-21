@@ -56,20 +56,24 @@ bool isInTextureCoord(float value) {
     return value >= 0.0f && value <= 1.0f;
 }
 
-float normalizeToZeroOne(float value) {
+bool isInTextureCoord(vec3 value) {
+    return isInTextureCoord(value.x) && isInTextureCoord(value.y) && isInTextureCoord(value.z);
+}
+
+float zeroToOne(float value) {
     return max(min(value, 1.0f), 0.0f);
 }
 
 vec3 normalizeColor(vec3 color) {
-    return vec3(normalizeToZeroOne(color.x), normalizeToZeroOne(color.y), normalizeToZeroOne(color.z));
+    return vec3(zeroToOne(color.x), zeroToOne(color.y), zeroToOne(color.z));
 }
 
 vec4 normalizeColor(vec4 color) {
-    return vec4(normalizeColor(color).xyz, normalizeToZeroOne(color.a));
+    return vec4(normalizeColor(color.xyz), zeroToOne(color.a));
 }
 
 vec4 sampling(vec3 voxelCoord) {
-    if (!isInTextureCoord(voxelCoord.x) || !isInTextureCoord(voxelCoord.y) || !isInTextureCoord(voxelCoord.z)) {
+    if (!isInTextureCoord(voxelCoord)) {
         return vec4(0.0f);
     }
 
@@ -77,7 +81,7 @@ vec4 sampling(vec3 voxelCoord) {
 }
 
 float samplingForNormal(vec3 voxelCoord) {
-    if (!isInTextureCoord(voxelCoord.x) || !isInTextureCoord(voxelCoord.y) || !isInTextureCoord(voxelCoord.z)) {
+    if (!isInTextureCoord(voxelCoord)) {
         return 0.0f;
     }
     return intensity(voxelCoord);
@@ -127,7 +131,7 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
 }
 
 void main() {
-    vec2 exitFragCoord = gl_FragCoord.st / ScreenSize;
+    vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
 
     if (exitPoint == EntryPoint) {
@@ -180,5 +184,5 @@ void main() {
         }
     }
 
-    FragColor = colorAcum;
+    FragColor = normalizeColor(colorAcum);
 }

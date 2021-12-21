@@ -30,15 +30,15 @@ const GLuint g_indices[] = {
         4, 5, 1
 };
 
-Cube::Cube(std::string &&name, const GLfloat *color_buffer): name{name} {
-    init(color_buffer);
+Cube::Cube(std::string &&name): name{name} {
+    init();
 }
 
-Cube::Cube(std::string &name, const GLfloat *color_buffer): name{name} {
-    init(color_buffer);
+Cube::Cube(std::string &name): name{name} {
+    init();
 }
 
-void Cube::init(const GLfloat *color_buffer) {
+void Cube::init() {
     GL_ERROR();
 
     glGenBuffers(2, gbo);
