@@ -36,6 +36,7 @@ public:
         material.shininess = 64.0f;
 
         add(volume);
+        add(renderer.window);
         add(light);
         add(camera);
         add(world);
