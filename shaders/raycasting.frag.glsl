@@ -52,20 +52,32 @@ float intensity(vec3 voxelCoord) {
     return texture(VolumeTex, voxelCoord).x;
 }
 
-bool isInTextureCoor(float value) {
+bool isInTextureCoord(float value) {
     return value >= 0.0f && value <= 1.0f;
 }
 
+float normalizeToZeroOne(float value) {
+    return max(min(value, 1.0f), 0.0f);
+}
+
+vec3 normalizeColor(vec3 color) {
+    return vec3(normalizeToZeroOne(color.x), normalizeToZeroOne(color.y), normalizeToZeroOne(color.z));
+}
+
+vec4 normalizeColor(vec4 color) {
+    return vec4(normalizeColor(color).xyz, normalizeToZeroOne(color.a));
+}
+
 vec4 sampling(vec3 voxelCoord) {
-    if (!isInTextureCoor(voxelCoord.x) || !isInTextureCoor(voxelCoord.y) || !isInTextureCoor(voxelCoord.z)) {
+    if (!isInTextureCoord(voxelCoord.x) || !isInTextureCoord(voxelCoord.y) || !isInTextureCoord(voxelCoord.z)) {
         return vec4(0.0f);
     }
 
-    return texture(TransferFunc, (intensity(voxelCoord) + 1.0f) / 2.0f);
+    return normalizeColor(texture(TransferFunc, (intensity(voxelCoord) + 1.0f) / 2.0f));
 }
 
 float samplingForNormal(vec3 voxelCoord) {
-    if (!isInTextureCoor(voxelCoord.x) || !isInTextureCoor(voxelCoord.y) || !isInTextureCoor(voxelCoord.z)) {
+    if (!isInTextureCoord(voxelCoord.x) || !isInTextureCoord(voxelCoord.y) || !isInTextureCoord(voxelCoord.z)) {
         return 0.0f;
     }
     return intensity(voxelCoord);
@@ -109,9 +121,9 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
     diffuse *= attenuation;
     specular *= attenuation;
 
-    vec3 result = ambient + diffuse + specular;
+    vec3 result = normalizeColor(ambient) + normalizeColor(diffuse) + normalizeColor(specular);
 
-    return vec4(result.xyz, colorSample.a);
+    return normalizeColor(vec4(result.xyz, colorSample.a));
 }
 
 void main() {
@@ -138,7 +150,7 @@ void main() {
     vec3 voxelCoord = EntryPoint;
 
     vec4 colorAcum = vec4(0.0f);
-    float lengthAcum;
+    float lengthAcum = 0.0f;
 
     vec3 unitVoxelSize = 1.0f / VolumeSize;
 
