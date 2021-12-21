@@ -119,8 +119,7 @@ void main() {
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
 
     if (exitPoint == EntryPoint) {
-        FragColor = vec4(0.0f);
-        return;
+        discard;
     }
 
     vec3 dir = exitPoint - EntryPoint;
