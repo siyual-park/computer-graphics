@@ -115,7 +115,7 @@ vec4 applyShadow(vec4 colorSample, vec3 voxelCoord, vec3 unitVoxelSize) {
 }
 
 void main() {
-    vec2 exitFragCoord = (ExitPointCoord.xy / ExitPointCoord.w + 1.0f) / 2.0f;
+    vec2 exitFragCoord = gl_FragCoord.st / ScreenSize;
     vec3 exitPoint = texture(ExitPoints, exitFragCoord).xyz;
 
     if (exitPoint == EntryPoint) {
