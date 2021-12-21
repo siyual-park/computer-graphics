@@ -158,6 +158,9 @@ void main() {
         lengthAcum += deltaDirLen;
 
         if (lengthAcum >= len) {
+            if (colorAcum.a > 1.0f) {
+                colorAcum.a = 1.0f;
+            }
             colorAcum.rgb = colorAcum.rgb * colorAcum.a;
             break;
         } else if (colorAcum.a > 1.0f) {

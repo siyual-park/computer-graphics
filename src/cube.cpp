@@ -111,7 +111,7 @@ void Cube::draw(Program &program) {
             GL_FLOAT,
             GL_FALSE,
             0,
-            0
+            nullptr
     );
     if (color_buffer != 0) {
         glEnableVertexAttribArray(1);
@@ -122,7 +122,7 @@ void Cube::draw(Program &program) {
                 GL_FLOAT,
                 GL_FALSE,
                 0,
-                0
+                nullptr
         );
     }
 
