@@ -83,9 +83,9 @@ void Cube::preDraw(Program &program) {
 
     glm::mat4 model = glm::mat4(1.0f);
 
+    model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.5f));
     model = glm::scale(model, scale);
     model = glm::rotate(model, angle, rotate_axis);
-    model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.5f));
     model = glm::translate(model, translation);
 
     program.setMat4(name, model);
