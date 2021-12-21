@@ -4,43 +4,30 @@
 
 using namespace gl;
 
-const GLfloat g_vertex_buffer[] = {
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, 0.5f, 0.5f,
-        -0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f
+const GLfloat g_vertices[] = {
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 1.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 1.0f,
+        1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 1.0f
+};
+
+const GLuint g_indices[] = {
+        1, 5, 7,
+        7, 3, 1,
+        0, 2, 6,
+        6, 4, 0,
+        0, 1, 3,
+        3, 2, 0,
+        7, 5, 4,
+        4, 6, 7,
+        2, 3, 7,
+        7, 6, 2,
+        1, 0, 4,
+        4, 5, 1
 };
 
 Cube::Cube(std::string &&name, const GLfloat *color_buffer): name{name} {
@@ -52,44 +39,53 @@ Cube::Cube(std::string &name, const GLfloat *color_buffer): name{name} {
 }
 
 void Cube::init(const GLfloat *color_buffer) {
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    GL_ERROR();
 
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glBufferData(GL_ARRAY_BUFFER, getGLsizeiptr(sizeof(g_vertex_buffer)), g_vertex_buffer, GL_STATIC_DRAW);
+    glGenBuffers(2, gbo);
 
-    if (color_buffer != nullptr) {
-        glGenBuffers(1, &this->color_buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, this->color_buffer);
-        glBufferData(GL_ARRAY_BUFFER, getGLsizeiptr(sizeof(g_vertex_buffer)), color_buffer, GL_STATIC_DRAW);
-    }
+    GLuint vertexdat = gbo[0];
+    GLuint veridxdat = gbo[1];
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexdat);
+    glBufferData(GL_ARRAY_BUFFER, getGLsizeiptr(sizeof(g_vertices)), g_vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, veridxdat);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, getGLsizeiptr(sizeof(g_indices)), g_indices, GL_STATIC_DRAW);
+
+    glGenVertexArrays(1, &vao);
+
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexdat);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, veridxdat);
 
     GL_ERROR();
 }
 
 Cube::~Cube() {
-    if (vertex_buffer != 0) {
-        glDeleteBuffers(1, &vertex_buffer);
-        vertex_buffer = 0;
+    if (gbo[0] != 0 && gbo[1] != 0) {
+        glDeleteBuffers(2, gbo);
+        gbo[0] = 0;
+        gbo[1] = 0;
     }
-    if (color_buffer != 0) {
-        glDeleteBuffers(1, &vertex_buffer);
-        color_buffer = 0;
-    }
-    if (VAO != 0) {
-        glDeleteBuffers(1, &VAO);
-        VAO = 0;
+    if (vao != 0) {
+        glDeleteBuffers(1, &vao);
+        vao = 0;
     }
 }
 
 void Cube::preDraw(Program &program) {
     GL_ERROR();
 
-    glm::mat4 model = glm::mat4(0.5f);
+    glm::mat4 model = glm::mat4(1.0f);
 
     model = glm::scale(model, scale);
     model = glm::rotate(model, angle, rotate_axis);
+    model = glm::translate(model, glm::vec3(-0.5f, -0.5f, -0.5f));
     model = glm::translate(model, translation);
 
     program.setMat4(name, model);
@@ -101,37 +97,8 @@ void Cube::preDraw(Program &program) {
 void Cube::draw(Program &program) {
     GL_ERROR();
 
-    glBindVertexArray(VAO);
-
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glVertexAttribPointer(
-            0,
-            3,
-            GL_FLOAT,
-            GL_FALSE,
-            0,
-            nullptr
-    );
-    if (color_buffer != 0) {
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
-        glVertexAttribPointer(
-                1,
-                3,
-                GL_FLOAT,
-                GL_FALSE,
-                0,
-                nullptr
-        );
-    }
-
-    glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
-
-    if (color_buffer != 0) {
-        glDisableVertexAttribArray(1);
-    }
-    glDisableVertexAttribArray(0);
+    glBindVertexArray(vao);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
     GL_ERROR();
 }
