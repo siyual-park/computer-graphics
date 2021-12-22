@@ -95,7 +95,7 @@ vec3 calculateNormal(vec3 voxelCoord, vec3 unitVoxelSize) {
     float zFront = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z + unitVoxelSize.z));
     float zBack = samplingForNormal(vec3(voxelCoord.x, voxelCoord.y, voxelCoord.z - unitVoxelSize.z));
 
-    return vec3(xFront - xBack, yFront - yBack, zFront - zBack) * VolumeSpacing;
+    return vec3(xFront - xBack, yFront - yBack, zFront - zBack) / unitVoxelSize;
 }
 
 vec3 changeToWorldCoord(vec3 voxelCoord) {
@@ -156,7 +156,7 @@ void main() {
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum = 0.0f;
 
-    vec3 unitVoxelSize = 1.0f / VolumeSize;
+    vec3 unitVoxelSize = 1.0f / VolumeSize / 2.0f;
 
     while (true) {
         vec4 colorSample = sampling(voxelCoord);
