@@ -156,7 +156,7 @@ void main() {
     vec4 colorAcum = vec4(0.0f);
     float lengthAcum = 0.0f;
 
-    vec3 unitVoxelSize = 1.0f / VolumeSize / 2.0f;
+    vec3 unitVoxelSize = 1.0f / (VolumeSize * VolumeSpacing) / 2.0f;
 
     while (true) {
         vec4 colorSample = sampling(voxelCoord);
